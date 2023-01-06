@@ -44,23 +44,13 @@ $("#b03").mousedown(function(ev){
       {window.open('./b03/index.html', '_blank');}});
 //===================================
 //===================================
+/*
 $('#b04').click(function(){
-    $('#mainframe').attr('src', 'https://github.com/ericjrich/');
+    $('#mainframe').attr('src', '');
 });
 
 $("#b04").mousedown(function(ev){
       if(ev.which == 3)
-      {window.open('https://htmlpreview.github.io/?https://github.com/ericjrich/', '_blank');}});
-
-//===================================
-
-//===================================
-//$('#b0X').click(function(){
-//    $('#mainframe').attr('src', 'https://htmlpreview.github.io/?b0X/index.html');
-//});
-
-//$("#b0X").mousedown(function(ev){
-//      if(ev.which == 3)
-//      {window.open('https://htmlpreview.github.io/?b0X/index.html', '_blank');}});
-//===================================
+      {window.open('', '_blank');}});
+*/
 });
