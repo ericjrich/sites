@@ -14,7 +14,7 @@ $(function(){
   $('#r2b2').attr('title', '|SomaFM - Secret Agent| KEYS=[#-ROW: 5]-or-[#-PAD: 5]');
   $('#r2b3').attr('title', '|SomaFM - Groove Salad| KEYS=[#-ROW: 6]-or-[#-PAD: 6]');
   $('#r3b1').attr('title', '|I Love Mashup - Denmark| KEYS=[#-ROW: 7]-or-[#-PAD: 1]');
-  $('#r3b2').attr('title', '|Philly Q102.1 FM| KEYS=[#-ROW: 8]-or-[#-PAD: 2]');
+  $('#r3b2').attr('title', '|SomaFM - Defcon| KEYS=[#-ROW: 8]-or-[#-PAD: 2]');
   $('#r3b3').attr('title', '|Deep House Lounge| KEYS=[#-ROW: 9]-or-[#-PAD: 3]');
   $('#ur').attr('title', '|Visual Area| KEYS.REF= { UnMaximize=[CLICK]-or-[DOWN] }_{ Maximize=[UP] }_{ ChangeVisuals=[LEFT]-or-[RIGHT] }');
   $('#lastgif').attr('title', '|Last Visual| KEYS=[Arrow-L]');
@@ -29,7 +29,7 @@ $(function(){
   $('#r2b2').click(function(){$('#current').css('background-image','url(5.png)');$('#info').html('SomaFM - Secret Agent');$('audio').attr('src', 'http://ice1.somafm.com/secretagent-128-mp3');$('audio').load();});
   $('#r2b3').click(function(){$('#current').css('background-image','url(6.png)');$('#info').html('SomaFM - Groove Salad');$('audio').attr('src', 'http://ice1.somafm.com/groovesalad-128-mp3');$('audio').load();});
   $('#r3b1').click(function(){$('#current').css('background-image','url(7.png)');$('#info').html('I Love Mashup - Denmark');$('audio').attr('src', 'http://stream06.iloveradio.de/iloveradio5.mp3');$('audio').load();});
-  $('#r3b2').click(function(){$('#current').css('background-image','url(8.png)');$('#info').html('Philly Q102.1 FM');$('audio').attr('src', 'http://stream.revma.ihrhls.com/zc1997');$('audio').load();});
+  $('#r3b2').click(function(){$('#current').css('background-image','url(8.png)');$('#info').html('SomaFM - Defcon');$('audio').attr('src', 'http://ice6.somafm.com/defcon-128-aac');$('audio').load();});
   $('#r3b3').click(function(){$('#current').css('background-image','url(9.png)');$('#info').html('Deep House Lounge');$('audio').attr('src', 'http://198.15.94.34:8006/stream/');$('audio').load();});
   $('#ur').click(function(){$('#ur').css({'left': '40%', 'width': '60%', 'height': '80%'});});
   $('#max').click(function(){$('#ur').css({'left': '0', 'width': '100%', 'height': '100%'});});
