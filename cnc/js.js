@@ -18,6 +18,7 @@ b00= see + loc + 'cnc/b00/index.html'
 b01= see + loc + 'radio/index.html'
 b02= see + loc + 'cnc/b02/index.html'
 b03= see + loc + 'cnc/b03/index.html'
+b04= see + loc + 'index.html'
 
 $('#b00').click(function(){$('#mainframe').attr('src', b00);});
 $("#b00").mousedown(function(ev){if(ev.which == 3){window.open(b00, '_blank');}});
@@ -30,5 +31,8 @@ $("#b02").mousedown(function(ev){if(ev.which == 3){window.open(b02, '_blank');}}
 
 $('#b03').click(function(){$('#mainframe').attr('src', b03);});
 $("#b03").mousedown(function(ev){if(ev.which == 3){window.open(b03, '_blank');}});
+
+$('#b04').click(function(){window.open(b04, '_blank');});
+$("#b04").mousedown(function(ev){if(ev.which == 3){window.open(b04, '_blank');}});
 
 });
