@@ -1,4 +1,8 @@
 $(function(){
+/*SET TITLES~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+//$('#').attr('title', '');
+
+
 
  (function(d, s, id) {
   if (d.getElementById(id)) { if (window.__TOMORROW__) { window.__TOMORROW__.renderWidget(); } return; }
