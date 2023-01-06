@@ -14,10 +14,10 @@ https://github.com/ericjrich/sites/main/radio/index.html
 */
 see='https://htmlpreview.github.io/?'
 loc='https://github.com/ericjrich/sites/main/'
-b00='b00/index.html'
+b00= see + loc + 'cnc/b00/index.html'
 b01= see + loc + 'radio/index.html'
-b02='b02/index.html'
-b03='b03/index.html'
+b02= see + loc + 'cnc/b02/index.html'
+b03= see + loc + 'cnc/b03/index.html'
 
 $('#b00').click(function(){$('#mainframe').attr('src', b00);});
 $("#b00").mousedown(function(ev){if(ev.which == 3){window.open(b00, '_blank');}});
