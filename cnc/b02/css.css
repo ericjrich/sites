@@ -1,0 +1,45 @@
+/*EJR 2022/03/17 ---------------------*/
+body {position: fixed;background-color: black;top:0; left:0;width: 100%; height: 100%;margin: 0; padding: 0; border:none;}
+table {position: relative;top:5%; left:10%;width: 80%; height: 85%;}
+/*--------------------------------------*/
+body,div,table,thead,tbody,tfoot,tr,th,td,p { font-family:"Arial"; font-size:18; }
+/*--------------------------------------*/
+input {width: 50%;height:80%;}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/*--------------------------------------*/
+#col1{width: 50%;}
+#col2{width: 40%;}
+#col3{width: 10%;}
+.cols{text-align: center; vertical-align: middle; background-color:#ed2895;color:#000000;}
+/*--------------------------------------*/
+.c1r1r2{font-weight:bold;}
+.c1r1r2, .c1r3-r7{text-align: right; vertical-align: middle; background-color:#F1C232;color:#000000;}
+.c1r8-r12--c1r14-r16{text-align: right; vertical-align: middle; background-color:#0B5394;color:#FFE599;}
+.c1r13r17{text-align: right; vertical-align: middle; background-color:#0B5394;color:#FFFF00;font-weight:bold;}
+/*--------------------------------------*/
+.c2r1r2, .c2r3-r7{text-align: center;vertical-align: middle; background-color:#FFFF00;color:#000000;}
+#B01, #B02 {font-size: 25;text-align: center;font-size:25;font-weight:bold;}
+.c2r3-r7{background-color:#FFFFC2;}
+#B03, #B04, #B05, #B06, #B07{font-size: 15;text-align: center;}
+.c2r8-r12--c2r14-r16{text-align: center; vertical-align: middle; background-color:#9FC5E8;color:#000000;}
+.c2r13, .c2r17{text-align: right; vertical-align: middle;color:#FFFF00;font-weight:bold;}
+.c2r13{background-color:#0000FF;}.c2r17{background-color:#000000;}
+#B13, #B17{font-size: 25;}
+/*--------------------------------------*/
+.c3r1r2, .c3r3-r7, .c3r8-r12--c3r14-r16, .c3r13r17{text-align: center;vertical-align: middle;font-size:15;font-style: italic;}
+.c3r1r2{background-color:#FFFF00;color:#000000;}
+.c3r3-r7{background-color:#FFFFC2;color:#000000;}
+.c3r8-r12--c3r14-r16{background-color:#9FC5E8;color:#000000;}
+.c3r13r17{background-color:#0000FF;color:#000000;}
+/*--------------------------------------*/
+
+
+/*--------------------------------------*/
+
+
+
+
