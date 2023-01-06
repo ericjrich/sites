@@ -10,44 +10,44 @@ $('#ejr').hide();
 //===================================
 
 $('#b00').click(function(){
-    $('#mainframe').attr('src', 'https://htmlpreview.github.io/?https://github.com/ericjrich/ejrcnc/blob/main/b00/index.html'); 
+    $('#mainframe').attr('src', 'b00/index.html');
 });
 
 $("#b00").mousedown(function(ev){
       if(ev.which == 3)
-      {window.open('https://htmlpreview.github.io/?https://github.com/ericjrich/ejrcnc/blob/main/b00/index.html', '_blank');}});
+      {window.open('b00/index.html', '_blank');}});
 
 //===================================
 $('#b01').click(function(){
-    $('#mainframe').attr('src', 'https://htmlpreview.github.io/?https://github.com/ericjrich/ejrcnc/blob/main/b01/index.html'); 
+    $('#mainframe').attr('src', 'b01/index.html');
 });
 
 $("#b01").mousedown(function(ev){
       if(ev.which == 3)
-      {window.open('https://htmlpreview.github.io/?https://github.com/ericjrich/ejrcnc/blob/main/b01/index.html', '_blank');}});
+      {window.open('b01/index.html', '_blank');}});
 
 //===================================
 $('#b02').click(function(){
-    $('#mainframe').attr('src', 'https://htmlpreview.github.io/?https://github.com/ericjrich/ejrcnc/blob/main/b02/index.html'); 
+    $('#mainframe').attr('src', 'b02/index.html');
 });
 
 $("#b02").mousedown(function(ev){
       if(ev.which == 3)
-      {window.open('https://htmlpreview.github.io/?https://github.com/ericjrich/ejrcnc/blob/main/b02/index.html', '_blank');}});
+      {window.open('b02/index.html', '_blank');}});
 //===================================
 $('#b03').click(function(){
-    $('#mainframe').attr('src', 'https://htmlpreview.github.io/?https://github.com/ericjrich/ejrcnc/blob/main/b03/index.html'); 
+    $('#mainframe').attr('src', 'b03/index.html');
 });
 
 $("#b03").mousedown(function(ev){
       if(ev.which == 3)
-      {window.open('https://htmlpreview.github.io/?https://github.com/ericjrich/ejrcnc/blob/main/b03/index.html', '_blank');}});
+      {window.open('b03/index.html', '_blank');}});
 //===================================
 //===================================
 $('#b04').click(function(){
-    $('#mainframe').attr('src', 'https://htmlpreview.github.io/?https://github.com/ericjrich/e-apps/blob/main/index.html'); 
+    $('#mainframe').attr('src', 'https://htmlpreview.github.io/?https://github.com/ericjrich/e-apps/blob/main/index.html');
 });
-	
+
 $("#b04").mousedown(function(ev){
       if(ev.which == 3)
       {window.open('https://htmlpreview.github.io/?https://github.com/ericjrich/e-apps/blob/main/index.html', '_blank');}});
@@ -56,7 +56,7 @@ $("#b04").mousedown(function(ev){
 
 //===================================
 //$('#b0X').click(function(){
-//    $('#mainframe').attr('src', 'b0X/index.html'); 
+//    $('#mainframe').attr('src', 'b0X/index.html');
 //});
 
 //$("#b0X").mousedown(function(ev){
