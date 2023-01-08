@@ -3,7 +3,7 @@
    h1					  {font-size: 72px;  background: -webkit-linear-gradient(#ba3535, #f1f2ea);  -webkit-background-clip: text;  -webkit-text-fill-color: transparent;}
    h2					  {font-size: 30px;  background: -webkit-linear-gradient(#5a7da8, #f1f2ea);  -webkit-background-clip: text;  -webkit-text-fill-color: transparent;}
   #ur					  {z-index: 1;  background-image:url(v1.png);  background-size:100% 100%;  position: fixed;  top:0;  left:10%;  width: 80%;  height: 80%;  margin: 0;  padding: 0;  border:none;}
-  #lr					  {background-color: black;  position: fixed;  top:85%;  left:10%;  width:80%;  height:15%;  margin:0;  padding: 0;  border:none;}
-   #max				  {background-image:url('max.png');  background-size:100% 100%;  position: absolute;  top:0;  left:30%;  width:40%;  height:100%;  margin: 0;  padding: 0;  border:none;}
-   #nextpng		  {background-image:url('next.png');  background-size:100% 100%;  position: absolute;  top:0;  left:70%;  width:30%;  height:100%;  margin: 0;  padding: 0;  border:none;}
-   #lastpng		  {background-image:url('last.png');  background-size:100% 100%;  position: absolute;  top:0;  left:0;  width:30%;  height:100%;  margin: 0;  padding: 0;  border:none;}
+  #lr					  {background-color: black;  position: fixed;  top:85%;  left:10%;  width:80%;  height:10%;  margin:0;  padding: 0;  border:none;}
+   #lastpng		  {background-image:url('last.png');  background-size:100% 100%;  position: absolute;  top:0;  left:0;  width:20%;  height:100%;  margin: 0;  padding: 0;  border:none;}
+   #max				  {background-image:url('max.png');  background-size:100% 100%;  position: absolute;  top:0;  left:40%;  width:20%;  height:100%;  margin: 0;  padding: 0;  border:none;}
+   #nextpng		  {background-image:url('next.png');  background-size:100% 100%;  position: absolute;  top:0;  left:80%;  width:20%;  height:100%;  margin: 0;  padding: 0;  border:none;}
