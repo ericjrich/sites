@@ -1,7 +1,7 @@
 $(function(){
   /*SET VARIABLES*/
   x = 1;
-  pngs=3;
+  pngs=17;
   /*INTRO~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
   $('#ejr').hide();$('#ul').hide();$('#ur').hide();$('#ll').hide();$('#lr').hide();
   $('#ejr').fadeIn(500).delay(2000).fadeOut(500);
