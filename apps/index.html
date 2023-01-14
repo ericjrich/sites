@@ -1,18 +1,27 @@
 <html>
-<head>
- <!--__________MY-CSS-FILE____________&_______JQUERY-LIBRARY___________&______MY-JS-FILE__________-->
- <link rel="stylesheet" href="css.css"><script src="jquery.js"></script><script src="js.js"></script>
-</head>
-<!--=========================================================-->
-<body><div id="page"><!-- html: main page -->
-<!--============================================================================================================================================-->
-<form id="google" action="https://www.google.com/search" method="get" target="_blank"><input type="text" name="q" placeholder="Search Google">
-<input type="submit" value="Google Search">
-</form>
-<!--============================================================================================================================================-->
-<!--============================================================================================================================================-->
+<head><link rel="stylesheet" href="css.css"><script src="jquery.js"></script><script src="js.js"></script>
+</head><body><div id="page">
 
-<div class="fx" id="pd1"><!--==============================================================================================================================-->
+<!--===================================================================================================================================================================-->
+<div id="tb">
+ <div class="tbs" id="tbs"><img src='icons/tbs.png' /></div>
+ <form id="tbg" action="https://www.google.com/search" method="get" target="_blank"><input type="text" name="q" placeholder="Search Google"><input type="submit" value="Google Search"></form>
+ <div id='tbt'><p><span id="time"></span></p></div>
+ <div class="tbw" id="tbw"><img src='icons/weather.png' /></div>
+</div><!--tb-->
+<!--===================================================================================================================================================================-->
+<div id="tbsmenu">
+  <table>
+    <tr class='tbsi' id='tbsmenu1'><td><div class="btn"><img src="icons/tbsmenu1.png" /></a></div></td><td><h1>Google Stuff</h1></td></tr>
+    <tr class='tbsi' id='tbsmenu2'><td><div class="btn"><img src="icons/tbsmenu2.png" /></a></div></td><td><h1>Online Tools</h1></td></tr>
+    <tr class='tbsi' id='tbsmenu3'><td><div class="btn"><img src="icons/tbsmenu3.png" /></a></div></td><td><h1>Audio</h1></td></tr>
+    <tr class='tbsi' id='tbsmenu4'><td><div class="btn"><img src="icons/tbsmenu4.png" /></a></div></td><td><h1>Video</h1></td></tr>
+    <tr class='tbsi' id='tbsmenu5'><td><div class="btn"><img src="icons/tbsmenu5.png" /></a></div></td><td><h1>Misc</h1></td></tr>
+  </table>
+</div>
+<!--===================================================================================================================================================================-->
+
+<div class="tbsx flexrow" id="tbs1">
 <div class="btn"><a href=	"https://mail.google.com/" target="popup" onclick="window.open(
 							'https://mail.google.com/',
 							'popup101','top=50,left=30,width=1300,height=650'); return false;">
@@ -73,8 +82,8 @@
 							<img src="icons/gdocs.png" /></a></div>
 
 </div>
-<div class="fx" id="pd2"><!--==============================================================================================================================-->
-
+<!--===================================================================================================================================================================-->
+<div class="tbsx flexrow" id="tbs2">
 <div class="btn"><a href=	"https://messages.textfree.us/conversation" target="popup" onclick="window.open(
 							'https://messages.textfree.us/conversation',
               'popup201','top=50,left=30,width=1300,height=650'); return false;">
@@ -94,10 +103,26 @@
 							'https://www.printfriendly.com/',
 							'popup204','top=50,left=30,width=1300,height=650'); return false;">
 							<img src="icons/pdf.png" /></a></div>
-
 </div>
-<div class="fx" id="pd3"><!--==============================================================================================================================-->
+<!--===================================================================================================================================================================-->
+<div class="tbsx flexrow" id="tbs3">
+<div class="btn"><a href=	"https://mynoise.net/NoiseMachines/audioJammerNoiseGenerator.php?l=30303030303030303030&title=Audio%20Jammer&c=1" target="popup" onclick="window.open(
+							'https://mynoise.net/NoiseMachines/audioJammerNoiseGenerator.php?l=30303030303030303030&title=Audio%20Jammer&c=1',
+              'popup401','top=100,left=350,width=600,height=350'); return false;">
+							<img src="icons/mynoise.png" /></a></div>
 
+<div class="btn"><a href=	"https://somafm.com/player/#/all-stations" target="popup" onclick="window.open(
+							'https://somafm.com/player/#/all-stations',
+              'popup402','top=50,left=400,width=500,height=650'); return false;">
+							<img src="icons/somafm.png" /></a></div>
+
+<div class="btn"><a href=	"https://open.spotify.com/" target="popup" onclick="window.open(
+							'https://open.spotify.com/',
+							'popup403','top=50,left=30,width=1300,height=650'); return false;">
+							<img src="icons/spotify.png" /></a></div>
+</div>
+<!--===================================================================================================================================================================-->
+<div class="tbsx flexrow" id="tbs4">
 <div class="btn"><a href=	"https://ustvgo.tv/" target="popup" onclick="window.open(
 							'https://ustvgo.tv/',
 							'popup301','top=50,left=30,width=1300,height=650'); return false;">
@@ -122,28 +147,9 @@
 							'https://www.youtube.com/',
 							'popup305','top=50,left=30,width=1300,height=650'); return false;">
 							<img src="icons/yt.png" /></a></div>
-
 </div>
-<div class="fx" id="pd4"><!--==============================================================================================================================-->
-
-<div class="btn"><a href=	"https://mynoise.net/NoiseMachines/audioJammerNoiseGenerator.php?l=30303030303030303030&title=Audio%20Jammer&c=1" target="popup" onclick="window.open(
-							'https://mynoise.net/NoiseMachines/audioJammerNoiseGenerator.php?l=30303030303030303030&title=Audio%20Jammer&c=1',
-              'popup401','top=100,left=350,width=600,height=350'); return false;">
-							<img src="icons/mynoise.png" /></a></div>
-
-<div class="btn"><a href=	"https://somafm.com/player/#/all-stations" target="popup" onclick="window.open(
-							'https://somafm.com/player/#/all-stations',
-              'popup402','top=50,left=400,width=500,height=650'); return false;">
-							<img src="icons/somafm.png" /></a></div>
-
-<div class="btn"><a href=	"https://open.spotify.com/" target="popup" onclick="window.open(
-							'https://open.spotify.com/',
-							'popup403','top=50,left=30,width=1300,height=650'); return false;">
-							<img src="icons/spotify.png" /></a></div>
-
-</div>
-<div class="fx" id="pd5"><!--==============================================================================================================================-->
-
+<!--===================================================================================================================================================================-->
+<div class="tbsx flexrow" id="tbs5">
 <div class="btn"><a href=	"https://www.w3schools.com/" target="popup" onclick="window.open(
 							'https://www.w3schools.com/',
 							'popup501','top=50,left=30,width=1300,height=650'); return false;">
@@ -164,9 +170,6 @@
 							'popup504','top=50,left=30,width=1300,height=650'); return false;">
 							<img src="icons/git.png" /></a></div>
 
-</div>
-<div class="fx" id="pd6"><!--==============================================================================================================================-->
-
 <div class="btn"><a href=	"https://htmlpreview.github.io/?https://github.com/ericjrich/sites/blob/main/index.html" target="popup" onclick="window.open(
 							'https://htmlpreview.github.io/?https://github.com/ericjrich/sites/blob/main/index.html',
               'popup601','top=50,left=30,width=1300,height=650'); return false;">
@@ -182,22 +185,24 @@
               'popup603','top=50,left=30,width=1300,height=650'); return false;">
 							<img src="icons/cnc.png" /></a></div>
 
-<div class="btn"><a href="https://htmlpreview.github.io/?https://github.com/ericjrich/sites/blob/main/os/index.html" target="_blank"><img src="icons/portal.png" /></a></div>
+
 
 <div class="btn"><a href=	"https://htmlpreview.github.io/?https://github.com/ericjrich/sites/main/lilymrich/index.html" target="popup" onclick="window.open(
 							'https://htmlpreview.github.io/?https://github.com/ericjrich/sites/main/lilymrich/index.html',
               'popup604','top=50,left=400,width=500,height=650'); return false;">
 							<img src="icons/lmr.png" /></a></div>
-
 </div>
-
-<!--============================================================================================================================================-->
-<!--============================================================================================================================================-->
-<div id="pd9">
+<!--===================================================================================================================================================================-->
+<!--
+<div class="spc"><img src="icons/spacer.png" /></div>
+-->
+<!--===================================================================================================================================================================-->
+<div class="tbw1" id="tbw1">
  <a class="weatherwidget-io" href="https://forecast7.com/en/40d10n75d15/glenside/?unit=us" data-label_1="GLENSIDE" data-label_2="WEATHER" data-font="Ubuntu" data-icons="Climacons Animated" data-theme="random_grey" >GLENSIDE WEATHER</a>
  <script>
   !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
  </script>
 </div><!--tbw1-->
-<!--============================================================================================================================================-->
+<!--===================================================================================================================================================================-->
+
 </div><!--#page--></body></html>
