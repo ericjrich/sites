@@ -3,10 +3,10 @@ body      {background-color:black;color:white;}
 #page     {top:0;     left:0;     width:100%; height:100%;  position:fixed;background: url('icons/wallpaper.jpg');background-repeat: no-repeat;background-size: 100% 100%;}
 
 /*=======================================================================================================================================*/
-img       {top:0;     left:0;     width:100%; height:100%;  position:relative;}
+img       {width:100%; height:100%;  position:relative;}
+.tbsmenuimg {width:100%; height:100%;  position:relative;}
 a         {position:relative;width:100%;height:100%;}
-table     {position:relative;top:0;left:0;width:100%;height:100%;}
-
+table     {position:relative;top:5%;left:5%;width:90%;height:90%;}
 /*=======================================================================================================================================*/
 .flexrow  {display:flex;flex-flow:row wrap;   align-items:center;align-content:center space-around;justify-content:center;}
 .flexcol  {display:flex;flex-flow:column wrap;align-content:center space-around;justify-content:center;}
@@ -19,11 +19,17 @@ table     {position:relative;top:0;left:0;width:100%;height:100%;}
   #tbw      {top:96%;   left:97%;   width:3%;   height:4%;    position:fixed;   background-color:gray;   }
     #tbw1     {opacity:.80;top:-50%;    left:20%;   width:60%;  height:20%;   position:absolute;}
   #tbs      {top:96%;   left:0;     width:3%;   height:4%;    position:fixed;   background-color:gray;   }
-    #tbsmenu  {opacity:.80; top:40%;   left:-30%;     width:20%;  height:55%;   position:absolute;background-color:gray;}
-    .tbsi:hover {background-color: #667fa3b5;color:black;}
-      #tbs1     {opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
-      #tbs2     {opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
-      #tbs3     {opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
-      #tbs4     {opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
-      #tbs5     {opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
+    #tbsmenu  {border-radius: 2vh;opacity:.80; top:20%;   left:-30%;     width:20%;  height:75%;   position:absolute;background-color:gray;}
+    .tbsmenuimg {width:6vh; height:6vh; position:relative; padding:1%;}
+    tr:hover {background-color: #667fa3b5;color:black;}
+      #tbs0     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
+      #tbs1     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
+      #tbs2     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
+      #tbs3     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
+      #tbs4     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
+      #tbs5     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
+      #tbs6     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
+      #tbs7     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
+      #tbs8     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
+      #tbs9     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
 /*=======================================================================================================================================*/
