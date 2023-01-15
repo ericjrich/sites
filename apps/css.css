@@ -4,6 +4,8 @@ body      {background-color:black;color:white;}
 /*=======================================================================================================================================*/
 img       {top:0;     left:0;     width:100%; height:100%;  position:relative;}
 a         {position:relative;width:100%;height:100%;}
+table     {position:relative;top:0;left:0;width:100%;height:100%;}
+
 /*=======================================================================================================================================*/
 .flexrow  {display:flex;flex-flow:row wrap;   align-items:center;align-content:center space-around;justify-content:center;}
 .flexcol  {display:flex;flex-flow:column wrap;align-content:center space-around;justify-content:center;}
@@ -17,7 +19,7 @@ a         {position:relative;width:100%;height:100%;}
     #tbw1     {top:-50%;    left:20%;   width:60%;  height:20%;   position:absolute;}
   #tbs      {top:96%;   left:0;     width:3%;   height:4%;    position:fixed;   background-color:gray;   }
     #tbsmenu  {top:40%;   left:-30%;     width:20%;  height:55%;   position:absolute;background-color:gray;}
-    .tbsi:hover {background-color: yellow;color:black;}
+    .tbsi:hover {background-color: #667fa3b5;color:black;}
       #tbs1     {top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
       #tbs2     {top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
       #tbs3     {top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
