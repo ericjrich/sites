@@ -31,6 +31,8 @@ $(document).mouseup(function(e){var container = $("#tbs7");if(!container.is(e.ta
 $(document).mouseup(function(e){var container = $("#tbs8");if(!container.is(e.target) && container.has(e.target).length === 0){container.fadeOut();}});
 $(document).mouseup(function(e){var container = $("#tbs9");if(!container.is(e.target) && container.has(e.target).length === 0){container.fadeOut();}});
 
+
+
 /*=====weather==============================================*/
 $('#tbw').click(function(){ $('#tbw1').animate({top: '5%'}); });
 $('#tbw').mouseenter(function(){ $('#tbw1').animate({top: '-50%'}); });
