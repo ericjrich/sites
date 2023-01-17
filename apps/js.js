@@ -1,42 +1,24 @@
 $(function(){
-
-
 /*========== hide the start meny widnows ================*/
-$('#tbs0,#tbs1,#tbs2,#tbs3,#tbs4,#tbs5,#tbs6,#tbs7,#tbs8,#tbs9').hide();
+$('#d3,.d4,#d5').hide();
+
 /*========== start menu ==================================================*/
-$('#tbs').click(function(){ $('#tbsmenu').animate({left: '0'}); });
-$("#tbsmenu").mouseleave(function(){$(this).animate({left: '-30%'});});
+$('#d2-1').click(function(){ $('#d3').slideDown();});
+$("#d3").mouseleave(function(){$(this).slideUp();});
 
 /*======== start menu windows =====================================*/
-$(".tbsx").mouseleave(function(){$(this).fadeOut();});
-
-$('#tbsmenu0').click(function(){ $('#tbs0').fadeToggle();$('#tbs1,#tbs2,#tbs3,#tbs4,#tbs5,#tbs6,#tbs7,#tbs8,#tbs9').hide();});
-$('#tbsmenu1').click(function(){ $('#tbs1').fadeToggle();$('#tbs0,#tbs2,#tbs3,#tbs4,#tbs5,#tbs6,#tbs7,#tbs8,#tbs9').hide();});
-$('#tbsmenu2').click(function(){ $('#tbs2').fadeToggle();$('#tbs0,#tbs1,#tbs3,#tbs4,#tbs5,#tbs6,#tbs7,#tbs8,#tbs9').hide();});
-$('#tbsmenu3').click(function(){ $('#tbs3').fadeToggle();$('#tbs0,#tbs1,#tbs2,#tbs4,#tbs5,#tbs6,#tbs7,#tbs8,#tbs9').hide();});
-$('#tbsmenu4').click(function(){ $('#tbs4').fadeToggle();$('#tbs0,#tbs1,#tbs2,#tbs3,#tbs5,#tbs6,#tbs7,#tbs8,#tbs9').hide();});
-$('#tbsmenu5').click(function(){ $('#tbs5').fadeToggle();$('#tbs0,#tbs1,#tbs2,#tbs3,#tbs4,#tbs6,#tbs7,#tbs8,#tbs9').hide();});
-$('#tbsmenu6').click(function(){ $('#tbs6').fadeToggle();$('#tbs0,#tbs1,#tbs2,#tbs3,#tbs4,#tbs5,#tbs7,#tbs8,#tbs9').hide();});
-$('#tbsmenu7').click(function(){ $('#tbs7').fadeToggle();$('#tbs0,#tbs1,#tbs2,#tbs3,#tbs4,#tbs5,#tbs6,#tbs8,#tbs9').hide();});
-$('#tbsmenu8').click(function(){ $('#tbs8').fadeToggle();$('#tbs0,#tbs1,#tbs2,#tbs3,#tbs4,#tbs5,#tbs6,#tbs7,#tbs9').hide();});
-$('#tbsmenu9').click(function(){ $('#tbs9').fadeToggle();$('#tbs0,#tbs1,#tbs2,#tbs3,#tbs4,#tbs5,#tbs6,#tbs7,#tbs8').hide();});
-
-$(document).mouseup(function(e){var container = $("#tbs0");if(!container.is(e.target) && container.has(e.target).length === 0){container.fadeOut();}});
-$(document).mouseup(function(e){var container = $("#tbs1");if(!container.is(e.target) && container.has(e.target).length === 0){container.fadeOut();}});
-$(document).mouseup(function(e){var container = $("#tbs2");if(!container.is(e.target) && container.has(e.target).length === 0){container.fadeOut();}});
-$(document).mouseup(function(e){var container = $("#tbs3");if(!container.is(e.target) && container.has(e.target).length === 0){container.fadeOut();}});
-$(document).mouseup(function(e){var container = $("#tbs4");if(!container.is(e.target) && container.has(e.target).length === 0){container.fadeOut();}});
-$(document).mouseup(function(e){var container = $("#tbs5");if(!container.is(e.target) && container.has(e.target).length === 0){container.fadeOut();}});
-$(document).mouseup(function(e){var container = $("#tbs6");if(!container.is(e.target) && container.has(e.target).length === 0){container.fadeOut();}});
-$(document).mouseup(function(e){var container = $("#tbs7");if(!container.is(e.target) && container.has(e.target).length === 0){container.fadeOut();}});
-$(document).mouseup(function(e){var container = $("#tbs8");if(!container.is(e.target) && container.has(e.target).length === 0){container.fadeOut();}});
-$(document).mouseup(function(e){var container = $("#tbs9");if(!container.is(e.target) && container.has(e.target).length === 0){container.fadeOut();}});
+$(".d4").mouseleave(function(){$(this).fadeOut();});
 
 
+$('#d3-1').click(function(){ $('.d4').hide();$('#d4-1').fadeToggle(500);});
+$('#d3-2').click(function(){ $('.d4').hide();$('#d4-2').fadeToggle(500);});
+$('#d3-3').click(function(){ $('.d4').hide();$('#d4-3').fadeToggle(500);});
+$('#d3-4').click(function(){ $('.d4').hide();$('#d4-4').fadeToggle(500);});
+$('#d3-5').click(function(){ $('.d4').hide();$('#d4-5').fadeToggle(500);});
+$('#d3-6').click(function(){ $('.d4').hide();$('#d4-6').fadeToggle(500);});
 
 /*=====weather==============================================*/
-$('#tbw').click(function(){ $('#tbw1').animate({top: '5%'}); });
-$('#tbw').mouseenter(function(){ $('#tbw1').animate({top: '-50%'}); });
+$('#d2-6').click(function(){ $('#d5').fadeToggle('1000');});
 
 /*======= clock =========================================================*/
 function formatAMPM() {

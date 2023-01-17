@@ -1,42 +1,43 @@
-/*=======================================================================================================================================*/
-body      {background-color:black;color:white;}
-#page     {top:0;     left:0;     width:100%; height:100%;  position:fixed;background: url('icons/wallpaper.jpg');background-repeat: no-repeat;background-size: 100% 100%;}
+/*============================================================================================*/
 
-/*=======================================================================================================================================*/
-img       {width:100%; height:100%;  position:relative;}
-.tbsmenuimg {width:100%; height:100%;  position:relative;}
-a         {position:relative;width:100%;height:100%; text-decoration: none;}
-table     {position:relative;top:5%;left:5%;width:90%;height:90%;}
-/*=======================================================================================================================================*/
-.flexrow  {display:flex;flex-flow:row wrap;   align-items:center;align-content:center space-around;justify-content:center;}
-.flexcol  {display:flex;flex-flow:column wrap;align-content:center space-around;justify-content:center;}
-.btn      {                       width:10vh;   height:10vh;  position:relative;                                          padding:1%;}
-.spc      {                       width:10vh;   height:10vh;  position:relative;                                          padding:1%;}
-/*=======================================================================================================================================*/
-#tb       {top:96%;   left:0;     width:100%; height:4%;    position:fixed;   background-color:#44444d;}
-  #tba {opacity:70%;top:96.25%; left:5%;width:12%;height:4%;position:fixed;background-color:#44444d;}
-  audio {zoom:80%;position:relative;width:90%;height:90%;}
-  #tbg      {opacity:50%;top:96.5%; left:40%;   width:30%;  height:2%;    position:fixed;   background-color:#44444d;}
-  #tbc      {opacity:90%;top:96.25%; left:93%;   width:2%;  height:3.5%;    position:fixed;   background-color:#44444d;}
-    #tbc:hover {background-color:gray;color:black;}
-  #tbt      {opacity:60%;text-align:center;border:solid #80adb6cc 1px;top:97%;   left:80%;   width:12%;  height:2%;    position:fixed;}
-    #tbt:hover {background-color:gray;color:black;}
-  #tbw      {top:96%;   left:97%;   width:3%;   height:4%;    position:fixed;   background-color:#667fa3b5;}
-    #tbw1     {opacity:.80;top:-50%;    left:20%;   width:60%;  height:20%;   position:absolute;}
-    #tbw:hover {background-color:gray;color:black;}
-  #tbs      {top:96%;   left:0;     width:3%;   height:4%;    position:fixed;   background-color:#667fa3b5;}
-    #tbs:hover {background-color:gray;color:black;}
-    #tbsmenu  {border-radius: 2vh;opacity:.80; top:20%;   left:-30%;     width:20%;  height:75%;   position:absolute;background-color:gray;}
-    .tbsmenuimg {width:6vh; height:6vh; position:relative; padding:1%;}
-    tr:hover {background-color: #667fa3b5;color:black;}
-      #tbs0     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
-      #tbs1     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
-      #tbs2     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
-      #tbs3     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
-      #tbs4     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
-      #tbs5     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
-      #tbs6     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
-      #tbs7     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
-      #tbs8     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
-      #tbs9     {border-radius: 2vh;opacity:.80;top:25%;   left:25%;   width:50%;  height:50%;   position:absolute;background-color:#44444d;}
-/*=======================================================================================================================================*/
+img			{position:absolute;width:100%;height:100%;}
+a				{position:absolute;width:100%;height:100%;text-decoration: none;}
+table		{position:absolute;width:90%;height:90%;top:5%;left:5%;}
+.fill		{position:absolute;width:100%;height:100%;}
+.flex		{display:flex;flex-flow:wrap;align-content:space-around;justify-content:center;}
+
+/*============================================================================================*/
+
+body {position:fixed;inset:0;background-color:black;color:white;}
+	#d0			{position:fixed;inset:0;}/*whole page*/
+  #d1			{position:absolute;inset:0 0 4% 0;}/*wallpaper*/
+	#d2			{position:absolute;inset:96% 0 0 0;background-color:#44444d;}/*toolbar*/
+		/*--ToolBar:START -----*/
+		#d2-1				{position:absolute;inset:0 97% 0 0;background-color:#667fa3b5;}
+  	#d2-1:hover	{background-color:gray;color:black;}
+ 		/*--ToolBar:MUSIC -----*/
+ 		#d2-2				{position:absolute;inset:1% 84% 1% 4%;background-color:#44444d;opacity:70%;}
+  		audio				{position:absolute;width:90%;height:90%;zoom:75%;}
+ 		/*--ToolBar:GOOGLE ----*/
+ 		#d2-3				{position:absolute;inset:12% 35% 0 38%;background-color:#44444d;opacity:50%;}
+ 		/*--ToolBar:TIME ------*/
+ 		#d2-4				{position:absolute;inset:20% 7% 20% 80%;text-align:center;border:solid #80adb6cc 1px;opacity:60%;}
+  	#d2-4:hover	{background-color:gray;color:black;}
+ 		/*--ToolBar:LIKE ------*/
+ 		#d2-5				{position:absolute;inset:0 4% 0 94%;background-color:#44444d;opacity:90%;}
+  	#d2-5:hover	{background-color:gray;color:black;}
+ 		/*--ToolBar:WEATHER ---*/
+ 		#d2-6				{position:absolute;inset:0 0 0 97%;background-color:#667fa3b5;}
+  	#d2-6:hover	{background-color:gray;color:black;}
+	/*--Box:START MENU ----*/
+	#d3				{position:absolute;width:20%;height:75%;bottom:4%;left:0;background-color:gray;border-radius:2vh;opacity:.80;}
+	.d3:hover	{background-color:#667fa3b5;color:black;}
+		.d3 td div			{position:relative;width:6vh;height:6vh;padding:1%;}
+    .d3 > td + td 			{font-size:2em;}
+	/*--Box:APP WINDOW ----*/
+	.d4				{position:absolute;inset:25%;background-color:#44444d;border-radius:2vh;opacity:.80;}
+  	.d4 > div 	{position:relative;width:10vh;height:10vh;margin:1%;}
+	/*--Box:WEATHER -------*/
+	#d5				{position:absolute;inset:5% 20% 80% 20%;opacity:.70;}
+
+/*============================================================================================*/
