@@ -26,7 +26,7 @@ $(".entered").change(function(){
 	D = parseFloat($("#d").val()); E = parseFloat($("#e").val()); F = parseFloat($("#f").val()); G = parseFloat($("#g").val());
 
 	/*calculations with variables*/
-  E = C * 2; G = 60 * (E / E1) + E1; F = (D - E * C1) / (G / 60);
+  E = C * 2; G = 60 * (E / E1) + G1; F = (D - E * C1) / (G / 60);
 
 	/*clock1*/
 	function FZDB() {
