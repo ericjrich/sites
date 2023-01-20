@@ -1,0 +1,16 @@
+/*EJR 2022/03/17 ---------------------*/
+body 	{position: fixed;inset:0;}
+/*--------------------------------------*/
+#d0  			{position:fixed;background-color: black;inset:0;}
+#titlebar	{color:white;position:absolute;inset:1% 35% 90.5% 35%;text-align:center;vertical-align: middle;border:solid #525091 2px;}
+#d1  			{position:absolute;inset:10% 30% 5% 30%;border:solid #525091 2px;}
+table 		{position:absolute;width:100%;height:100%;}
+/*--------------------------------------*/
+input {left:45%;width:50%;height:80%;background-color:#1d1940;color:#d9d99a;font-family:"Arial";font-size:28;text-align:center;border:none;}
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+/*--------------------------------------*/
+.c		{font-family:"Arial"; font-size:32;text-align: center; vertical-align: middle; background-color:#1d1940;color:#73d1c1;}
+.c1		{font-family:"Arial"; font-size:24;width: 20%;text-align: center; vertical-align: middle; background-color:#1d1940;color:#73d1c1;}
+.c2		{font-family:"Arial"; font-size:18;width: 20%;text-align: center;vertical-align: middle; background-color:#1d1940;color:#d9d99a;}
+span 	{font-size:28;background-color:black;color:yellow;}
+/*--------------------------------------*/
