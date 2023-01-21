@@ -10,6 +10,7 @@ table		{position:absolute;width:90%;height:90%;top:5%;left:5%;}
 #d2, #d3, .d4				{background-color:#2c2c33;}
 #d2, #d2-1 					{border:solid #3b3b4a 1px;}
 
+
 /*============================================================================================*/
 
 body 		{position:fixed;inset:0;background-color:black;color:white;}
@@ -17,26 +18,28 @@ body 		{position:fixed;inset:0;background-color:black;color:white;}
   #d1				{position:absolute;inset:0 0 4% 0;}/*wallpaper*/
 	#d2				{position:absolute;inset:96% 0 0 0;}/*toolbar*/
 		/*--ToolBar:START -----*/
-		#d2-1					{position:absolute;inset:0 97% 0 0;cursor:pointer;}
+		#d2-1						{position:absolute;inset:0 97% 0 0;cursor:pointer;}
  		/*--ToolBar:MUSIC -----*/
- 		#d2-2					{position:absolute;inset:8% 75% 1% 10%;opacity:70%;}
-  		audio				{position:absolute;width:90%;height:90%;zoom:75%;}
+ 		#d2-2						{position:absolute;inset:8% 75% 1% 10%;opacity:70%;}
+  		audio					{position:absolute;width:90%;height:90%;zoom:75%;}
  		/*--ToolBar:GOOGLE ----*/
- 		#d2-3					{position:absolute;inset:12% 32% 0 41%;opacity:50%;}
+ 		#d2-3						{position:absolute;inset:12% 32% 0 41%;opacity:50%;}
  		/*--ToolBar:TIME ------*/
- 		#d2-4					{position:absolute;inset:20% 6% 20% 81%;text-align:center;opacity:60%;cursor:wait;}
+ 		#d2-4						{position:absolute;inset:20% 6% 20% 81%;text-align:center;opacity:60%;cursor:wait;}
  		/*--ToolBar:LIKE ------*/
- 		#d2-5					{position:absolute;inset:5% 3% 5% 95%;opacity:90%;}
+ 		#d2-5						{position:absolute;inset:5% 3% 5% 95%;opacity:90%;}
  		/*--ToolBar:WEATHER ---*/
- 		#d2-6					{position:absolute;inset:5% .5% 5% 97.5%;cursor:pointer;}
+ 		#d2-6						{position:absolute;inset:5% .5% 5% 97.5%;cursor:pointer;}
 	/*--Box:START MENU ----*/
 	#d3				{position:absolute;width:20%;height:75%;bottom:4%;left:0;border-radius:2vh;opacity:.80;}
-		.d3						{cursor:pointer;}
-		.d3 td div		{position:relative;width:6vh;height:6vh;padding:1%;}
-    .d3 > td + td {font-size:2em;}
+		.d3							{cursor:pointer;}
+  	.d3:hover				{opacity:50%;}
+		.d3 td div			{position:relative;width:6vh;height:6vh;padding:1%;}
+    .d3 > td + td 	{font-size:2em;}
 	/*--Box:APP WINDOW ----*/
 	.d4				{position:absolute;inset:25%;border-radius:2vh;opacity:.80;}
-  	.d4 > div			{position:relative;width:10vh;height:10vh;margin:1%;}
+  	.d4 > div				{position:relative;width:10vh;height:10vh;margin:1%;}
+  	.d4 > div:hover	{opacity:50%;}
 	/*--Box:WEATHER -------*/
 	#d5				{position:absolute;inset:5% 20% 80% 20%;opacity:.70;}
 
