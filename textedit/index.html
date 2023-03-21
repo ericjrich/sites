@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      #editor {
+        width: 500px;
+        height: 300px;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="editor"></textarea>
+    <br>
+    <input type="file" id="fileInput">
+    <button id="loadFile">Load File</button>
+    <button id="saveFile">Save File</button>
+    <script>
+      const editor = document.getElementById("editor");
+      const fileInput = document.getElementById("fileInput");
+      const loadFileButton = document.getElementById("loadFile");
+      const saveFileButton = document.getElementById("saveFile");
+
+      loadFileButton.addEventListener("click", () => {
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+          editor.value = reader.result;
+        });
+        reader.readAsText(file);
+      });
+
+      saveFileButton.addEventListener("click", () => {
+        const file = new Blob([editor.value], { type: "text/plain" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(file);
+        a.download = "text.txt";
+        a.click();
+      });
+    </script>
+  </body>
+</html>

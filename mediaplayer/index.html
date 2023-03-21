@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>Local Media Player</title>
+    <style>
+      body		{position:fixed;top:0; left:0;width:100%;height:100%;background-color: black;color: white;}
+      #titlediv {position:fixed;top:0;left:40%;width:40%;height:8%;}
+      #viddiv {position:fixed;top:10%;left:10%;width:80%;height:80%;}
+			video		{position:absolute;top:0;left:0;width:100%;height:100%;}
+      #seldiv {position:fixed;top:91%;left:10%;width:30%;height:8%;}
+    </style>
+  </head>
+  <body>
+
+		<div id='titlediv'>
+    	<h1>Local Media Player</h1>
+		</div>
+
+		<div id='viddiv'>
+    	<video controls id="mediaPlayer">Your browser does not support the video tag.</video>
+		</div>
+
+		<div id='seldiv'>
+			<input type="file" id="fileInput">
+		</div>
+
+    <script>
+      const mediaPlayer = document.getElementById("mediaPlayer");
+      const fileInput = document.getElementById("fileInput");
+
+      fileInput.addEventListener("change", function() {
+        const file = fileInput.files[0];
+
+        mediaPlayer.src = URL.createObjectURL(file);
+      });
+    </script>
+  </body>
+</html>
