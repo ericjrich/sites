@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>My Page</title>
+	<style>
+		body 		{position:fixed;inset:0;background-color:black;color:white;}
+		#d0			{position:fixed;inset:0;}/*whole page*/
+		#chat 	{height: 90vh;width: 100%;border: none;}
+		#notes	{position:absolute;inset:85% 0 0 0;box-sizing: border-box;padding: 20px;}
+		.note		{position:absolute;border: solid #296e3b 1px;outline: none;padding: 0;margin: 0;font-family: monospace;font-size: 12px;line-height: 1.5;background-color: #001b33;color: #ffee80;}
+		#n1			{inset:0 66.66% 0 0;}
+		#n2			{inset:0 33.33% 0 33.33%;}
+		#n3			{inset:0 0 0 66.66%;}
+	</style>
+</head>
+
+<body><div id='d0'>
+	<div id="notes">
+		<div class='note' id='n1' contenteditable></div>
+		<div class='note' id='n2' contenteditable></div>
+		<div class='note' id='n3' contenteditable></div>
+	</div>
+  <iframe id="chat" src="https://chat.openai.com/"></iframe>
+</div></body>
+
+</html>
