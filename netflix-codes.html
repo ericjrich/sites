@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>NetFlix Codes</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            text-align: left;
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+    <h1>NetFlix Codes</h1>
+    <input type="text" id="search" onkeyup="searchTable()" placeholder="Search...">
+    <table id="netflix-table">
+        <thead>
+            <tr>
+                <th>Genre</th>
+                <th>Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Action & adventure</td>
+                <td>1365</td>
+            </tr>
+            <tr>
+                <td>Action comedies</td>
+                <td>43040</td>
+            </tr>
+            <tr>
+                <td>Action SciFi & fantasy</td>
+                <td>1568</td>
+            </tr>
+            <tr>
+                <td>Action thrillers</td>
+                <td>43048</td>
+            </tr>
+            <tr>
+                <td>Adult Animation</td>
+                <td>11881</td>
+            </tr>
+            <tr>
+                <td>Adventures</td>
+                <td>7442</td>
+            </tr>
+            <tr>
+                <td>African Movies</td>
+                <td>3761</td>
+            </tr>
+            <tr>
+                <td>Alien Sci - Fi</td>
+                <td>3327</td>
+            </tr>
+            <tr>
+                <td>All movies</td>
+                <td>34399</td>
+            </tr>
+            <tr>
+                <td>Animal Tales</td>
+                <td>5507</td>
+            </tr>
+            <tr>
+                <td>Anime</td>
+                <td>7424</td>
+            </tr>
+            <tr>
+                <td>Anime Action</td>
+                <td>2653</td>
+            </tr>
+            <tr>
+                <td>Anime comedies</td>
+                <td>9302</td>
+            </tr>
+            <tr>
+                <td>Anime Dantasy</td>
+                <td>11146</td>
+            </tr>
+            <tr>
+                <td>Anime Dramas</td>
+                <td>452</td>
+            </tr>
+            <tr>
+                <td>Anime Features</td>
+                <td>3063</td>
+            </tr>
+            <tr>
+                <td>Anime Horror</td>
+                <td>10695</td>
+            </tr>
+            <tr>
+                <td>Anime SciFi</td>
+                <td>2729</td>
+            </tr>
+            <tr>
+                <td>Animes comedies</td>
+                <td>9302</td>
+            </tr>
+            <tr>
+                <td>Anime series</td>
+                <td>6721</td>
+            </tr>
+            <tr>
+                <td>Army dramas</td>
+                <td>11</td>
+            </tr>
+            <tr>
+                <td>Art House Movies</td>
+                <td>29764</td>
+            </tr>
+            <tr>
+                <td>Asian action movies</td>
+                <td>77232</td>
+            </tr>
+            <tr>
+                <td>Australian movies</td>
+                <td>5230</td>
+            </tr>
+            <tr>
+                <td>Baseball movies</td>
+                <td>12339</td>
+            </tr>
+            <tr>
+                <td>Basketball movies</td>
+                <td>12762</td>
+            </tr>
+            <tr>
+                <td>Belgian movies</td>
+                <td>262</td>
+            </tr>
+            <tr>
+                <td>Biographical documentaries</td>
+                <td>3652</td>
+            </tr>
+            <tr>
+                <td>Biographical dramas</td>
+                <td>3179</td>
+            </tr>
+            <tr>
+                <td>Boxing movies</td>
+                <td>12443</td>
+            </tr>
+            <tr>
+                <td>British christmas children & family films</td>
+                <td>1527064</td>
+            </tr>
+            <tr>
+                <td>British movies</td>
+                <td>10757</td>
+            </tr>
+            <tr>
+                <td>British TV Shows</td>
+                <td>52117</td>
+            </tr>
+            <tr>
+                <td>Canadian christmas children & family films</td>
+                <td>1721544</td>
+            </tr>
+            <tr>
+                <td>Children & family movies</td>
+                <td>783</td>
+            </tr>
+            <tr>
+                <td>Chinese movies</td>
+                <td>3960</td>
+            </tr>
+            <tr>
+                <td>Christmas children & family films</td>
+                <td>1474017</td>
+            </tr>
+            <tr>
+                <td>Christmas children & family films for ages 11 to 12</td>
+                <td>1477206</td>
+            </tr>
+            <tr>
+                <td>Christmas children & family films for ages 5 to 7</td>
+                <td>1477201</td>
+            </tr>
+            <tr>
+                <td>Christmas children & family films for ages 8 to 10</td>
+                <td>1477204</td>
+            </tr>
+            <tr>
+                <td>Christmas children & family films from the 1990s</td>
+                <td>1476024</td>
+            </tr>
+            <tr>
+                <td>Classic Action & Adventure</td>
+                <td>46576</td>
+            </tr>
+            <tr>
+                <td>Classic comedies</td>
+                <td>31694</td>
+            </tr>
+            <tr>
+                <td>Classic dramas</td>
+                <td>29809</td>
+            </tr>
+            <tr>
+                <td>Classic Foreign Movies</td>
+                <td>32473</td>
+            </tr>
+            <tr>
+                <td>Classic Movies</td>
+                <td>31574</td>
+            </tr>
+            <tr>
+                <td>Classic musicals</td>
+                <td>32392</td>
+            </tr>
+            <tr>
+                <td>Classic romantic movies</td>
+                <td>31273</td>
+            </tr>
+            <tr>
+                <td>Classic Sci - Fi & fantasy</td>
+                <td>47147</td>
+            </tr>
+            <tr>
+                <td>Classic thrillers</td>
+                <td>46588</td>
+            </tr>
+            <tr>
+                <td>Classic TV shows</td>
+                <td>46553</td>
+            </tr>
+            <tr>
+                <td>Classic war movies</td>
+                <td>48744</td>
+            </tr>
+            <tr>
+                <td>Classic westerns</td>
+                <td>47465</td>
+            </tr>
+            <tr>
+                <td>Comedies</td>
+                <td>6548</td>
+            </tr>
+            <tr>
+                <td>Comic book and superhero movies</td>
+                <td>10118</td>
+            </tr>
+            <tr>
+                <td>Country & western/folk</td>
+                <td>1105</td>
+            </tr>
+            <tr>
+                <td>Crime action & adventure</td>
+                <td>9584</td>
+            </tr>
+            <tr>
+                <td>Crime documentaries</td>
+                <td>9875</td>
+            </tr>
+            <tr>
+                <td>Crime dramas</td>
+                <td>6889</td>
+            </tr>
+            <tr>
+                <td>Crime thrillers</td>
+                <td>10499</td>
+            </tr>
+            <tr>
+                <td>Crime TV shows</td>
+                <td>26146</td>
+            </tr>
+            <tr>
+                <td>Cult horror movies</td>
+                <td>10944</td>
+            </tr>
+            <tr>
+                <td>Cult Sci - Fi & fantasy</td>
+                <td>4734</td>
+            </tr>
+            <tr>
+                <td>Cult TV shows</td>
+                <td>74652</td>
+            </tr>
+            <tr>
+                <td>Dark comedies</td>
+                <td>869</td>
+            </tr>
+            <tr>
+                <td>Deep sea horror movies</td>
+                <td>45028</td>
+            </tr>
+            <tr>
+                <td>Disney</td>
+                <td>67673</td>
+            </tr>
+            <tr>
+                <td>Disney musicals</td>
+                <td>59433</td>
+            </tr>
+            <tr>
+                <td>Documentaries</td>
+                <td>6839</td>
+            </tr>
+            <tr>
+                <td>Dramas</td>
+                <td>5763</td>
+            </tr>
+            <tr>
+                <td>Dramas based on books</td>
+                <td>4961</td>
+            </tr>
+            <tr>
+                <td>Dramas based on real life</td>
+                <td>3653</td>
+            </tr>
+            <tr>
+                <td>Dutch movies</td>
+                <td>10606</td>
+            </tr>
+            <tr>
+                <td>Eastern European movies</td>
+                <td>5254</td>
+            </tr>
+            <tr>
+                <td>Education for kids</td>
+                <td>10659</td>
+            </tr>
+            <tr>
+                <td>Epics</td>
+                <td>52858</td>
+            </tr>
+            <tr>
+                <td>European christmas children & family films</td>
+                <td>1527063</td>
+            </tr>
+            <tr>
+                <td>Experimental movies</td>
+                <td>11079</td>
+            </tr>
+            <tr>
+                <td>Faith & spirituality movies</td>
+                <td>52804</td>
+            </tr>
+            <tr>
+                <td>Family features</td>
+                <td>51056</td>
+            </tr>
+            <tr>
+                <td>Family-friendly christmas films</td>
+                <td>1394522</td>
+            </tr>
+            <tr>
+                <td>Fantasy movies</td>
+                <td>9744</td>
+            </tr>
+            <tr>
+                <td>Feel-good christmas children & family films</td>
+                <td>1475066</td>
+            </tr>
+            <tr>
+                <td>Film Noir</td>
+                <td>7687</td>
+            </tr>
+            <tr>
+                <td>Food & travel</td>
+                <td>72436</td>
+            </tr>
+            <tr>
+                <td>Football movies</td>
+                <td>12803</td>
+            </tr>
+            <tr>
+                <td>Foreign action & adventure</td>
+                <td>11828</td>
+            </tr>
+            <tr>
+                <td>Foreign Comedies</td>
+                <td>4426</td>
+            </tr>
+            <tr>
+                <td>Foreign Documentaries</td>
+                <td>5161</td>
+            </tr>
+            <tr>
+                <td>Foreign dramas</td>
+                <td>2150</td>
+            </tr>
+            <tr>
+                <td>Foreign gay & lesbian movies</td>
+                <td>8243</td>
+            </tr>
+            <tr>
+                <td>Foreign horror movies</td>
+                <td>8654</td>
+            </tr>
+            <tr>
+                <td>Foreign movies</td>
+                <td>78367</td>
+            </tr>
+            <tr>
+                <td>Foreign SciFi & Fantasy</td>
+                <td>6485</td>
+            </tr>
+            <tr>
+                <td>Foreign thrillers</td>
+                <td>10306</td>
+            </tr>
+            <tr>
+                <td>French movies</td>
+                <td>58807</td>
+            </tr>
+            <tr>
+                <td>Gangster movies</td>
+                <td>31851</td>
+            </tr>
+            <tr>
+                <td>Gay & Lesbian Comedies</td>
+                <td>7120</td>
+            </tr>
+            <tr>
+                <td>Gay & Lesbian Documentaries</td>
+                <td>4720</td>
+            </tr>
+            <tr>
+                <td>Gay & Lesbian Dramas</td>
+                <td>500</td>
+            </tr>
+            <tr>
+                <td>Gay & Lesbian TV Shows</td>
+                <td>65263</td>
+            </tr>
+            <tr>
+                <td>German movies</td>
+                <td>58886</td>
+            </tr>
+            <tr>
+                <td>Goofy christmas children & family films</td>
+                <td>1475071</td>
+            </tr>
+            <tr>
+                <td>Greek movies</td>
+                <td>61115</td>
+            </tr>
+            <tr>
+                <td>Hijacking movies</td>
+                <td>20541</td>
+            </tr>
+            <tr>
+                <td>Historical documentaries</td>
+                <td>5349</td>
+            </tr>
+            <tr>
+                <td>Horror comedy</td>
+                <td>89585</td>
+            </tr>
+            <tr>
+                <td>Horror movies</td>
+                <td>8711</td>
+            </tr>
+            <tr>
+                <td>Independent action & adventure</td>
+                <td>11804</td>
+            </tr>
+            <tr>
+                <td>Independent comedies</td>
+                <td>4195</td>
+            </tr>
+            <tr>
+                <td>Independent dramas</td>
+                <td>384</td>
+            </tr>
+            <tr>
+                <td>Independent movies</td>
+                <td>7077</td>
+            </tr>
+            <tr>
+                <td>Independent thrillers</td>
+                <td>3269</td>
+            </tr>
+            <tr>
+                <td>Indian movies</td>
+                <td>10463</td>
+            </tr>
+            <tr>
+                <td>Irish movies</td>
+                <td>58750</td>
+            </tr>
+            <tr>
+                <td>Italian Movies</td>
+                <td>8221</td>
+            </tr>
+            <tr>
+                <td>Japanese movies</td>
+                <td>10398</td>
+            </tr>
+            <tr>
+                <td>Jazz & easy listening</td>
+                <td>10271</td>
+            </tr>
+            <tr>
+                <td>Kids Music</td>
+                <td>52843</td>
+            </tr>
+            <tr>
+                <td>Kids' TV</td>
+                <td>27346</td>
+            </tr>
+            <tr>
+                <td>Korean movies</td>
+                <td>5685</td>
+            </tr>
+            <tr>
+                <td>Korean TV shows</td>
+                <td>67879</td>
+            </tr>
+            <tr>
+                <td>Late Night Comedies</td>
+                <td>1402</td>
+            </tr>
+            <tr>
+                <td>Latin american movies</td>
+                <td>1613</td>
+            </tr>
+            <tr>
+                <td>Latin music</td>
+                <td>10741</td>
+            </tr>
+            <tr>
+                <td>LGBT Dramas</td>
+                <td>500</td>
+            </tr>
+            <tr>
+                <td>LGBTQ</td>
+                <td>5977</td>
+            </tr>
+            <tr>
+                <td>Martial arts</td>
+                <td> boxing & wrestling,6695</td>
+            </tr>
+            <tr>
+                <td>Martial arts movies</td>
+                <td>8985</td>
+            </tr>
+            <tr>
+                <td>Middle Eastern movies</td>
+                <td>5875</td>
+            </tr>
+            <tr>
+                <td>Military action & adventure</td>
+                <td>2125</td>
+            </tr>
+            <tr>
+                <td>Military documentaries</td>
+                <td>4006</td>
+            </tr>
+            <tr>
+                <td>Military TV shows</td>
+                <td>25804</td>
+            </tr>
+            <tr>
+                <td>Miniseries</td>
+                <td>4814</td>
+            </tr>
+            <tr>
+                <td>Mockumentaries</td>
+                <td>26</td>
+            </tr>
+            <tr>
+                <td>Monster movies</td>
+                <td>947</td>
+            </tr>
+            <tr>
+                <td>Movies based on children's books</td>
+                <td>10056</td>
+            </tr>
+            <tr>
+                <td>Movies for ages 0 to 2</td>
+                <td>6796</td>
+            </tr>
+            <tr>
+                <td>Movies for ages 11 to 12</td>
+                <td>6962</td>
+            </tr>
+            <tr>
+                <td>Movies for ages 2 to 4</td>
+                <td>6218</td>
+            </tr>
+            <tr>
+                <td>Movies for ages 5 to 7</td>
+                <td>5455</td>
+            </tr>
+            <tr>
+                <td>Movies for ages 8 to 10</td>
+                <td>561</td>
+            </tr>
+            <tr>
+                <td>Music</td>
+                <td>1701</td>
+            </tr>
+            <tr>
+                <td>Musicals</td>
+                <td>13335</td>
+            </tr>
+            <tr>
+                <td>Music & concert documentaries</td>
+                <td>90361</td>
+            </tr>
+            <tr>
+                <td>Mysteries</td>
+                <td>9994</td>
+            </tr>
+            <tr>
+                <td>New Zealand movies</td>
+                <td>63782</td>
+            </tr>
+            <tr>
+                <td>Only on Netflix</td>
+                <td>839338</td>
+            </tr>
+            <tr>
+                <td>Political comedies</td>
+                <td>2700</td>
+            </tr>
+            <tr>
+                <td>Political documentaries</td>
+                <td>7018</td>
+            </tr>
+            <tr>
+                <td>Political Dramas</td>
+                <td>6616</td>
+            </tr>
+            <tr>
+                <td>Political thrillers</td>
+                <td>10504</td>
+            </tr>
+            <tr>
+                <td>Psychological thrillers</td>
+                <td>5505</td>
+            </tr>
+            <tr>
+                <td>Quirky romance</td>
+                <td>36103</td>
+            </tr>
+            <tr>
+                <td>Reality TV</td>
+                <td>9833</td>
+            </tr>
+            <tr>
+                <td>Religious documentaries</td>
+                <td>10005</td>
+            </tr>
+            <tr>
+                <td>Rock & pop concerts</td>
+                <td>3278</td>
+            </tr>
+            <tr>
+                <td>Romantical dramas</td>
+                <td>1255</td>
+            </tr>
+            <tr>
+                <td>Romantic christmas films</td>
+                <td>1394527</td>
+            </tr>
+            <tr>
+                <td>Romantic Comedies</td>
+                <td>5475</td>
+            </tr>
+            <tr>
+                <td>Romantic dramas</td>
+                <td>1255</td>
+            </tr>
+            <tr>
+                <td>Romantic favorites</td>
+                <td>502675</td>
+            </tr>
+            <tr>
+                <td>Romantic foreign movies</td>
+                <td>7153</td>
+            </tr>
+            <tr>
+                <td>Romantic Gay & Lesbian Movies</td>
+                <td>3329</td>
+            </tr>
+            <tr>
+                <td>Romantic independent movies</td>
+                <td>9916</td>
+            </tr>
+            <tr>
+                <td>Romantic movies</td>
+                <td>8883</td>
+            </tr>
+            <tr>
+                <td>Russian movies</td>
+                <td>11567</td>
+            </tr>
+            <tr>
+                <td>Satanic stories</td>
+                <td>6998</td>
+            </tr>
+            <tr>
+                <td>Satires</td>
+                <td>4922</td>
+            </tr>
+            <tr>
+                <td>Scandinavian movies</td>
+                <td>9292</td>
+            </tr>
+            <tr>
+                <td>Science & nature</td>
+                <td>52780</td>
+            </tr>
+            <tr>
+                <td>Science & navature documentaries</td>
+                <td>2595</td>
+            </tr>
+            <tr>
+                <td>Sci - Fi adventure</td>
+                <td>6926</td>
+            </tr>
+            <tr>
+                <td>Sci - Fi dramas</td>
+                <td>3916</td>
+            </tr>
+            <tr>
+                <td>Sci - Fi & Fantasy</td>
+                <td>1492</td>
+            </tr>
+            <tr>
+                <td>Sci - Fi horror movies</td>
+                <td>1694</td>
+            </tr>
+            <tr>
+                <td>SciFi Thrillers</td>
+                <td>11014</td>
+            </tr>
+            <tr>
+                <td>Screwball Comedies</td>
+                <td>9702</td>
+            </tr>
+            <tr>
+                <td>Showbiz dramas</td>
+                <td>5012</td>
+            </tr>
+            <tr>
+                <td>Showbiz musicals</td>
+                <td>13573</td>
+            </tr>
+            <tr>
+                <td>Silent Movies</td>
+                <td>53310</td>
+            </tr>
+            <tr>
+                <td>Slapstick comedies</td>
+                <td>10256</td>
+            </tr>
+            <tr>
+                <td>Slasher and serial killer movies</td>
+                <td>8646</td>
+            </tr>
+            <tr>
+                <td>Soccer movies</td>
+                <td>12549</td>
+            </tr>
+            <tr>
+                <td>Social & cultural documentaries</td>
+                <td>3675</td>
+            </tr>
+            <tr>
+                <td>Social issues dramas</td>
+                <td>3947</td>
+            </tr>
+            <tr>
+                <td>Southeast Asian Movies</td>
+                <td>9196</td>
+            </tr>
+            <tr>
+                <td>Spanish movies</td>
+                <td>58741</td>
+            </tr>
+            <tr>
+                <td>Spirituality documentaries</td>
+                <td>2760</td>
+            </tr>
+            <tr>
+                <td>Sports comedies</td>
+                <td>5286</td>
+            </tr>
+            <tr>
+                <td>Sports documentaries</td>
+                <td>180</td>
+            </tr>
+            <tr>
+                <td>Sports dramas</td>
+                <td>7243</td>
+            </tr>
+            <tr>
+                <td>Sports & Fitness</td>
+                <td>9327</td>
+            </tr>
+            <tr>
+                <td>Sports movies</td>
+                <td>4370</td>
+            </tr>
+            <tr>
+                <td>Spy action & adventure</td>
+                <td>10702</td>
+            </tr>
+            <tr>
+                <td>Spy thrillers</td>
+                <td>9147</td>
+            </tr>
+            <tr>
+                <td>Stage musicals</td>
+                <td>55774</td>
+            </tr>
+            <tr>
+                <td>Stand-up Comedy</td>
+                <td>11559</td>
+            </tr>
+            <tr>
+                <td>Steamy romantic movies</td>
+                <td>35800</td>
+            </tr>
+            <tr>
+                <td>Steamy thrillers</td>
+                <td>972</td>
+            </tr>
+            <tr>
+                <td>Supernatural horror movies</td>
+                <td>42023</td>
+            </tr>
+            <tr>
+                <td>Supernatural thrillers</td>
+                <td>11140</td>
+            </tr>
+            <tr>
+                <td>Taiwanese movies</td>
+                <td>434295</td>
+            </tr>
+            <tr>
+                <td>Teen Comedies</td>
+                <td>3519</td>
+            </tr>
+            <tr>
+                <td>Teen dramas</td>
+                <td>9299</td>
+            </tr>
+            <tr>
+                <td>Teen screams</td>
+                <td>52147</td>
+            </tr>
+            <tr>
+                <td>Teen TV shows</td>
+                <td>60951</td>
+            </tr>
+            <tr>
+                <td>Thai Movies & TV</td>
+                <td>107570</td>
+            </tr>
+            <tr>
+                <td>Thrillers</td>
+                <td>8933</td>
+            </tr>
+            <tr>
+                <td>Travel & adventure documentaries</td>
+                <td>1159</td>
+            </tr>
+            <tr>
+                <td>Turkish movies</td>
+                <td>1133133</td>
+            </tr>
+            <tr>
+                <td>TV action & adventure</td>
+                <td>10673</td>
+            </tr>
+            <tr>
+                <td>TV cartoons</td>
+                <td>11177</td>
+            </tr>
+            <tr>
+                <td>TV comedies</td>
+                <td>10375</td>
+            </tr>
+            <tr>
+                <td>TV documentaries</td>
+                <td>10105</td>
+            </tr>
+            <tr>
+                <td>TV dramas</td>
+                <td>11714</td>
+            </tr>
+            <tr>
+                <td>TV horror</td>
+                <td>83059</td>
+            </tr>
+            <tr>
+                <td>TV mysteries</td>
+                <td>4366</td>
+            </tr>
+            <tr>
+                <td>TV Sci-Fi & fantasy</td>
+                <td>1372</td>
+            </tr>
+            <tr>
+                <td>TV Show</td>
+                <td>83</td>
+            </tr>
+            <tr>
+                <td>Urban & dance concerts</td>
+                <td>9472</td>
+            </tr>
+            <tr>
+                <td>Vampire horror movies</td>
+                <td>75804</td>
+            </tr>
+            <tr>
+                <td>Werewolf horror movies</td>
+                <td>75930</td>
+            </tr>
+            <tr>
+                <td>Westerns</td>
+                <td>7700</td>
+            </tr>
+            <tr>
+                <td>World music concerts</td>
+                <td>2856</td>
+            </tr>
+            <tr>
+                <td>Zombie horror movies</td>
+                <td>75405</td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+        function searchTable() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("search");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("netflix-table");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                tds = tr[i].getElementsByTagName("td");
+                for (j = 0; j < tds.length; j++) {
+                    td = tds[j];
+                    if (td) {
+                        txtValue = td.textContent || td.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
