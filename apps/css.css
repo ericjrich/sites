@@ -25,7 +25,9 @@ body 		{position:fixed;inset:0;background-color:black;color:white;}
  		/*--ToolBar:GOOGLE ----*/
  		#d2-3						{position:absolute;inset:12% 32% 0 41%;opacity:50%;}
  		/*--ToolBar:hire/upwork  ------*/
- 		#d2-5z					{position:absolute;inset:5% 18% 5% 80%;opacity:90%;}
+ 		#d2-5z					{position:absolute;inset:5% 20% 5% 78%;opacity:90%;}
+ 		/*--ToolBar:hire/upwork  ------*/
+ 		#d2-5c					{position:absolute;inset:5% 18% 5% 80%;opacity:90%;}
  		/*--ToolBar:cashapp ----*/
  		#d2-5b					{position:absolute;inset:5% 16% 5% 82%;opacity:90%;}
  		/*--ToolBar:venmo ------*/
