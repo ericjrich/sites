@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>basex (EJRCNC)</title>
+    <style>
+				body  { color:#ffffff;background-color:#021930;}
+				#thead {color:#e6e600;background-color:#004d99;}
+        table {
+            border-collapse: collapse;width: 100%;}
+        th, td {text-align: left;padding: 8px;border-bottom: 1px solid #ddd;}
+        tr:hover {font-weight:bold;background-color:#043362;}
+    </style>
+</head>
+<body>
+    <h1>basex (EJRCNC)</h1>
+    <input type="text" id="search" onkeyup="searchTable()" placeholder="Search...">
+    <table id="basex-table">
+        <thead>
+            <tr id='thead'>
+                <th>B10</th>
+                <th>Bin</th>
+                <th>B16</th>
+                <th>B58</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>0</td>
+                <td>000000</td>
+                <td>0</td>
+                <td>1</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>000001</td>
+                <td>1</td>
+                <td>2</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>000010</td>
+                <td>2</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>000011</td>
+                <td>3</td>
+                <td>4</td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>000100</td>
+                <td>4</td>
+                <td>5</td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>000101</td>
+                <td>5</td>
+                <td>6</td>
+            </tr>
+            <tr>
+                <td>6</td>
+                <td>000110</td>
+                <td>6</td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>7</td>
+                <td>000111</td>
+                <td>7</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>8</td>
+                <td>001000</td>
+                <td>8</td>
+                <td>9</td>
+            </tr>
+            <tr>
+                <td>9</td>
+                <td>001001</td>
+                <td>9</td>
+                <td>A</td>
+            </tr>
+            <tr>
+                <td>10</td>
+                <td>001010</td>
+                <td>A</td>
+                <td>B</td>
+            </tr>
+            <tr>
+                <td>11</td>
+                <td>001011</td>
+                <td>B</td>
+                <td>C</td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>001100</td>
+                <td>C</td>
+                <td>D</td>
+            </tr>
+            <tr>
+                <td>13</td>
+                <td>001101</td>
+                <td>D</td>
+                <td>E</td>
+            </tr>
+            <tr>
+                <td>14</td>
+                <td>001110</td>
+                <td>E</td>
+                <td>F</td>
+            </tr>
+            <tr>
+                <td>15</td>
+                <td>001111</td>
+                <td>F</td>
+                <td>G</td>
+            </tr>
+            <tr>
+                <td>16</td>
+                <td>010000</td>
+                <td>10</td>
+                <td>H</td>
+            </tr>
+            <tr>
+                <td>17</td>
+                <td>010001</td>
+                <td>11</td>
+                <td>J</td>
+            </tr>
+            <tr>
+                <td>18</td>
+                <td>010010</td>
+                <td>12</td>
+                <td>K</td>
+            </tr>
+            <tr>
+                <td>19</td>
+                <td>010011</td>
+                <td>13</td>
+                <td>L</td>
+            </tr>
+            <tr>
+                <td>20</td>
+                <td>010100</td>
+                <td>14</td>
+                <td>M</td>
+            </tr>
+            <tr>
+                <td>21</td>
+                <td>010101</td>
+                <td>15</td>
+                <td>N</td>
+            </tr>
+            <tr>
+                <td>22</td>
+                <td>010110</td>
+                <td>16</td>
+                <td>P</td>
+            </tr>
+            <tr>
+                <td>23</td>
+                <td>010111</td>
+                <td>17</td>
+                <td>Q</td>
+            </tr>
+            <tr>
+                <td>24</td>
+                <td>011000</td>
+                <td>18</td>
+                <td>R</td>
+            </tr>
+            <tr>
+                <td>25</td>
+                <td>011001</td>
+                <td>19</td>
+                <td>S</td>
+            </tr>
+            <tr>
+                <td>26</td>
+                <td>011010</td>
+                <td>1A</td>
+                <td>T</td>
+            </tr>
+            <tr>
+                <td>27</td>
+                <td>011011</td>
+                <td>1B</td>
+                <td>U</td>
+            </tr>
+            <tr>
+                <td>28</td>
+                <td>011100</td>
+                <td>1C</td>
+                <td>V</td>
+            </tr>
+            <tr>
+                <td>29</td>
+                <td>011101</td>
+                <td>1D</td>
+                <td>W</td>
+            </tr>
+            <tr>
+                <td>30</td>
+                <td>011110</td>
+                <td>1E</td>
+                <td>X</td>
+            </tr>
+            <tr>
+                <td>31</td>
+                <td>011111</td>
+                <td>1F</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>32</td>
+                <td>100000</td>
+                <td>20</td>
+                <td>Z</td>
+            </tr>
+            <tr>
+                <td>33</td>
+                <td>100001</td>
+                <td>21</td>
+                <td>a</td>
+            </tr>
+            <tr>
+                <td>34</td>
+                <td>100010</td>
+                <td>22</td>
+                <td>b</td>
+            </tr>
+            <tr>
+                <td>35</td>
+                <td>100011</td>
+                <td>23</td>
+                <td>c</td>
+            </tr>
+            <tr>
+                <td>36</td>
+                <td>100100</td>
+                <td>24</td>
+                <td>d</td>
+            </tr>
+            <tr>
+                <td>37</td>
+                <td>100101</td>
+                <td>25</td>
+                <td>e</td>
+            </tr>
+            <tr>
+                <td>38</td>
+                <td>100110</td>
+                <td>26</td>
+                <td>f</td>
+            </tr>
+            <tr>
+                <td>39</td>
+                <td>100111</td>
+                <td>27</td>
+                <td>g</td>
+            </tr>
+            <tr>
+                <td>40</td>
+                <td>101000</td>
+                <td>28</td>
+                <td>h</td>
+            </tr>
+            <tr>
+                <td>41</td>
+                <td>101001</td>
+                <td>29</td>
+                <td>i</td>
+            </tr>
+            <tr>
+                <td>42</td>
+                <td>101010</td>
+                <td>2A</td>
+                <td>j</td>
+            </tr>
+            <tr>
+                <td>43</td>
+                <td>101011</td>
+                <td>2B</td>
+                <td>k</td>
+            </tr>
+            <tr>
+                <td>44</td>
+                <td>101100</td>
+                <td>2C</td>
+                <td>m</td>
+            </tr>
+            <tr>
+                <td>45</td>
+                <td>101101</td>
+                <td>2D</td>
+                <td>n</td>
+            </tr>
+            <tr>
+                <td>46</td>
+                <td>101110</td>
+                <td>2E</td>
+                <td>o</td>
+            </tr>
+            <tr>
+                <td>47</td>
+                <td>101111</td>
+                <td>2F</td>
+                <td>p</td>
+            </tr>
+            <tr>
+                <td>48</td>
+                <td>110000</td>
+                <td>30</td>
+                <td>q</td>
+            </tr>
+            <tr>
+                <td>49</td>
+                <td>110001</td>
+                <td>31</td>
+                <td>r</td>
+            </tr>
+            <tr>
+                <td>50</td>
+                <td>110010</td>
+                <td>32</td>
+                <td>s</td>
+            </tr>
+            <tr>
+                <td>51</td>
+                <td>110011</td>
+                <td>33</td>
+                <td>t</td>
+            </tr>
+            <tr>
+                <td>52</td>
+                <td>110100</td>
+                <td>34</td>
+                <td>u</td>
+            </tr>
+            <tr>
+                <td>53</td>
+                <td>110101</td>
+                <td>35</td>
+                <td>v</td>
+            </tr>
+            <tr>
+                <td>54</td>
+                <td>110110</td>
+                <td>36</td>
+                <td>w</td>
+            </tr>
+            <tr>
+                <td>55</td>
+                <td>110111</td>
+                <td>37</td>
+                <td>x</td>
+            </tr>
+            <tr>
+                <td>56</td>
+                <td>111000</td>
+                <td>38</td>
+                <td>y</td>
+            </tr>
+            <tr>
+                <td>57</td>
+                <td>111001</td>
+                <td>39</td>
+                <td>z</td>
+            </tr>
+        </tbody>
+    </table>
+    <script>
+
+function searchTable() {
+    var input, filter, table, tr, td, i, j, txtValue;
+    input = document.getElementById("search");
+    filter = input.value;
+
+    table = document.getElementById("basex-table");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 1; i < tr.length; i++) { // Start from index 1 to skip the header row
+        var found = false;
+        tds = tr[i].getElementsByTagName("td");
+        for (j = 0; j < tds.length; j++) {
+            td = tds[j];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.includes(filter)) {
+                    found = true;
+                    break;
+                }
+            }
+        }
+        if (found) {
+            tr[i].style.display = "";
+        } else {
+            tr[i].style.display = "none";
+        }
+    }
+}
+
+
+    </script>
+</body>
+</html>
