@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {background-color: #01080f;}
+      #editor {
+        width: 100%;
+        height: 90vh;
+        border: 1px solid black;
+        font-family: monospace;font-size: 16px;line-height: 1.5;background-color: #001b33;color: #ffee80;
+      }
+    </style>
+  </head>
+  <body>
+    <textarea id="editor"></textarea>
+    <br>
+    <input type="file" id="fileInput">
+    <button id="saveFile">Save File</button>
+    <script>
+      const editor = document.getElementById("editor");
+      const fileInput = document.getElementById("fileInput");
+      const saveFileButton = document.getElementById("saveFile");
+      let openedFileName = ""; // To remember the opened file name
+      let openedFilePath = ""; // To remember the opened file path
+
+      fileInput.addEventListener("change", () => {
+        const file = fileInput.files[0];
+        openedFileName = file.name; // Store the opened file name
+        openedFilePath = fileInput.value; // Store the full path of the opened file
+        const reader = new FileReader();
+        reader.addEventListener("load", () => {
+          editor.value = reader.result;
+        });
+        reader.readAsText(file);
+      });
+
+      saveFileButton.addEventListener("click", () => {
+        const fileContent = editor.value;
+        const file = new Blob([fileContent], { type: "text/plain" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(file);
+        a.download = openedFileName || "text.txt"; // Use the opened file name for saving, or just use "text.txt"
+        a.setAttribute("download", a.download);
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      });
+
+      editor.addEventListener("keydown", (event) => {
+        if (event.altKey && (event.key === "ArrowUp" || event.key === "ArrowDown")) {
+          event.preventDefault(); // Prevent the default behavior
+          const lines = editor.value.split("\n");
+          const caretPosition = editor.selectionStart;
+          const currentLineIndex = editor.value.substr(0, caretPosition).split("\n").length - 1;
+
+          if (event.key === "ArrowUp" && currentLineIndex > 0) {
+            const temp = lines[currentLineIndex];
+            lines[currentLineIndex] = lines[currentLineIndex - 1];
+            lines[currentLineIndex - 1] = temp;
+            editor.value = lines.join("\n");
+            editor.selectionStart = caretPosition - lines[currentLineIndex].length - 1;
+            editor.selectionEnd = caretPosition - lines[currentLineIndex].length - 1;
+          } else if (event.key === "ArrowDown" && currentLineIndex < lines.length - 1) {
+            const temp = lines[currentLineIndex];
+            lines[currentLineIndex] = lines[currentLineIndex + 1];
+            lines[currentLineIndex + 1] = temp;
+            editor.value = lines.join("\n");
+            editor.selectionStart = caretPosition + lines[currentLineIndex].length + 1;
+            editor.selectionEnd = caretPosition + lines[currentLineIndex].length + 1;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
