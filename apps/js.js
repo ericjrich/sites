@@ -28,7 +28,7 @@ $(function(){
 		  hours = d.getHours().toString().length == 1 ? '0'+d.getHours() : d.getHours(),
 		  months = ['01','02','03','04','05','06','07','08','09','10','11','12'],
 		  days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
-  	return d.getFullYear()+' '+months[d.getMonth()]+' '+d.getDate()+' '+hours+':'+minutes+' '+days[d.getDay()];
+  	return d.getFullYear()+'/'+months[d.getMonth()]+'/'+d.getDate()+' '+hours+':'+minutes+' '+days[d.getDay()];
 	}
 	document.getElementById('time').innerHTML= ztime();
 /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
