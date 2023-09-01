@@ -3,7 +3,7 @@ $(function(){
 /*#### HIDE STUFF #####*/
 	$('#d3,.d4,#d5').hide();
 /*#### START MENU #####*/
-	$('#d2-1').click(function(){ $('#d3').slideDown();});
+	$('#d2-l0').click(function(){ $('#d3').slideDown();});
 	$("#d3").mouseleave(function(){$(this).slideUp();});
 /**/
 	$(".d4").mouseleave(function(){$(this).fadeOut();});
@@ -17,7 +17,7 @@ $(function(){
 	$('#d3-2').click(function(){ $('.d4').hide();$('#d4-2').fadeToggle(500);});
 	$('#d3-1').click(function(){ $('.d4').hide();$('#d4-1').fadeToggle(500);});
 /*#### WEATHER BOX ####*/
-	$('#d2-6').click(function(){ $('#d5').fadeToggle('1000');});
+	$('#d2-r1').click(function(){ $('#d5').fadeToggle('1000');});
 /*#### DATE & TIME ####*/
 	function ztime() {
 		var d = new Date(),
@@ -26,7 +26,7 @@ $(function(){
 		months = ['01','02','03','04','05','06','07','08','09','10','11','12'],
 		days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 		// Update the title attribute of the div with the formatted date
-			$('#d2-4').attr('title', d.getFullYear()+'/'+months[d.getMonth()]+'/'+d.getDate());
+			$('#d2-r0').attr('title', d.getFullYear()+'/'+months[d.getMonth()]+'/'+d.getDate());
 		// Update the #time div with the formatted time
 			$('#time').html(hours + ':' + minutes);
 	}
