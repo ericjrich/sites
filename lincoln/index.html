@@ -4,13 +4,12 @@
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Eric Rich</title></head>
 <!--================================================================================================================-->
 <style>
-  .oval-profile-pic {border-radius: 50%;width: 200px;height: 200px;object-fit: cover;}
 	body {font-family: Arial, sans-serif; margin: 0; padding: 0;}
-		header {background-color: #0077B5; color: white; display: flex; align-items: center; justify-content: space-between; padding: 1em;}
+		header {background-color: #0077B5; color: white; display: flex; align-items: center; justify-content: space-between; padding: 1px;}
 			#dh1 {display: flex; align-items: center;margin-left: 3em;}
 				#mypic {border-radius: 50%; width: 200px; height: 200px; margin-right: 3em;}
 			#dh2 {display: flex; align-items: center;margin-right: 7em;}
-		main {width: 90%; height: 30em;margin: 20px auto; padding: 20px; border: 1px solid #ddd; background-color: white;}
+		main {width: 90%; height: 500px;margin: 20px auto; padding: 20px; border: 1px solid #ddd; background-color: white;}
 </style>
 <!--================================================================================================================-->
 <body>
@@ -35,7 +34,9 @@
 	<!---------------------------------------------------------------------------->
 	<!--https://htmlpreview.github.io/?-->
   <main>
-		<embed src="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/lincoln/resume.pdf" width="100%" height="100%">
+    <object data="resume.pdf" type="application/pdf" width="100%" height="100%">
+        <p>It appears you don't have a PDF plugin for this browser. You can <a href="your-pdf-file.pdf">download the PDF file here.</a></p>
+    </object>
   </main>
 	<!---------------------------------------------------------------------------->
 </body>
