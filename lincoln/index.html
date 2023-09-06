@@ -1,42 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<!--================================================================================================================-->
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Eric Rich</title></head>
-<!--================================================================================================================-->
-<style>
-	body {font-family: Arial, sans-serif; margin: 0; padding: 0;}
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Eric Rich</title>
+	<style>
+		body {font-family: Arial, sans-serif; margin: 0; padding: 0;}
 		header {background-color: #0077B5; color: white; display: flex; align-items: center; justify-content: space-between; padding: 1px;}
-			#dh1 {display: flex; align-items: center;margin-left: 3em;}
-				#mypic {border-radius: 50%; width: 200px; height: 200px; margin-right: 3em;}
-			#dh2 {display: flex; align-items: center;margin-right: 7em;}
+		#dh1 {display: flex; align-items: center;margin-left: 3em;}
+		#mypic {border-radius: 50%; width: 200px; height: 200px; margin-right: 3em;}
+		#dh2 {display: flex; align-items: center;margin-right: 7em;}
 		main {width: 90%; height: 500px;margin: 20px auto; padding: 20px; border: 1px solid #ddd; background-color: white;}
-</style>
-<!--================================================================================================================-->
+		iframe {width:100%; height: 100%;}
+	</style>
+</head>
 <body>
-	<header>
+  <header>
 		<div id='dh1'>
-			<img id='mypic' src="user.png">
-			<div>
-	  		<h1>Eric Rich</h1><h3>TechCraftsman</h3>
-				<p>Delivering Tailored Solutions</p>
-			</div>
+		  <img id='mypic' src="user.png">
+		  	<div>
+		      <h1>Eric Rich</h1><h3>TechCraftsman</h3>
+		      <p>Delivering Tailored Solutions</p>
+		    </div>
 		</div>
 		<div id='dh2'>
-			<pre><h3>
-				My_Email:	<a href='mailto:ericjrich@gmail.com?subject=ProfileVisitor' target='popup' onclick="window.open('mailto:ericjrich@gmail.com?subject=ProfileVisitor','pw-myemail','top=50,left=30,width=1300,height=650'); return false;">ericjrich@gmail.com</a>
-
-				My_Site:	<a href='https://htmlpreview.github.io/?https://github.com/ericjrich/sites/main/apps/index.html' target='popup' onclick="window.open('https://htmlpreview.github.io/?https://github.com/ericjrich/sites/main/apps/index.html','pw-mysite','top=50,left=30,width=1300,height=650'); return false;">ericjrich.com</a>
-
-				My_Upwork:	<a href='https://www.upwork.com/freelancers/~01ac5a8efd95d321a7' target='popup' onclick="window.open('https://www.upwork.com/freelancers/~01ac5a8efd95d321a7','popupwork','top=50,left=30,width=1300,height=650'); return false;">Upwork Profile</a></p>
+	    <pre><h3>
+        My_Email:  <a href='mailto:ericjrich@gmail.com?subject=ProfileVisitor' target='popup' onclick="window.open('mailto:ericjrich@gmail.com?subject=ProfileVisitor','pw-myemail','top=50,left=30,width=1300,height=650'); return false;">ericjrich@gmail.com</a>
+        My_Site:   <a href='https://htmlpreview.github.io/?https://github.com/ericjrich/sites/main/apps/index.html' target='popup' onclick="window.open('https://htmlpreview.github.io/?https://github.com/ericjrich/sites/main/apps/index.html','pw-mysite','top=50,left=30,width=1300,height=650'); return false;">ericjrich.com</a>
+        My_Upwork: <a href='https://www.upwork.com/freelancers/~01ac5a8efd95d321a7' target='popup' onclick="window.open('https://www.upwork.com/freelancers/~01ac5a8efd95d321a7','popupwork','top=50,left=30,width=1300,height=650'); return false;">Upwork Profile</a></p>
 			</h3></pre>
 		</div>
 	</header>
-	<!---------------------------------------------------------------------------->
-	<!--https://htmlpreview.github.io/?-->
-  <main>
-    <embed src="resume.pdf" width="100%" height="100%" />
-  </main>
-	<!---------------------------------------------------------------------------->
+	<main>
+		<iframe id="myIframe" src="https://docs.google.com/viewer?url=https://raw.githubusercontent.com/ericjrich/sites/main/lincoln/resume.pdf&embedded=true" frameborder="0"></iframe>
+	</main>
+	<script>
+		const iframe = document.getElementById("myIframe");
+		// Function to reload the iframe
+		function reloadIframe() {
+			iframe.src = iframe.src; // Reloads the iframe by setting its source to itself
+		}
+		// Add an event listener to check for iframe load failure
+		iframe.addEventListener("load", function() {
+			// The iframe loaded successfully
+			console.log("Iframe loaded successfully.");
+		});
+		iframe.addEventListener("error", function() {
+			// The iframe failed to load
+			console.log("Iframe failed to load. Reloading...");
+			reloadIframe(); // Reload the iframe
+		});
+	</script>
 </body>
-<!--================================================================================================================-->
 </html>
