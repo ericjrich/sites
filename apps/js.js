@@ -1,7 +1,16 @@
 $(function(){
-/*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
+//## cam #########################################################################
+  async function getLocalVideo() {
+    try {const localVideo = document.getElementById('localVideo');const stream = localVideo.srcObject;
+      if (stream) {const tracks = stream.getTracks();tracks.forEach(track => track.stop());localVideo.srcObject = null;}
+      else {const newStream = await navigator.mediaDevices.getUserMedia({ video: true });localVideo.srcObject = newStream;}
+    } catch (error) {console.error('Error accessing webcam:', error);}
+  }
+//################################################################################
+
 /*#### HIDE STUFF #####*/
-	$('#d3,.d4,#d5').hide();
+	$('#d3,.d4,#d5,#d6').hide();
 /*#### START MENU #####*/
 	$('#d2-l0').click(function(){ $('#d3').slideDown();});
 	$("#d3").mouseleave(function(){$(this).slideUp();});
@@ -18,6 +27,10 @@ $(function(){
 	$('#d3-1').click(function(){ $('.d4').hide();$('#d4-1').fadeToggle(500);});
 /*#### WEATHER BOX ####*/
 	$('#d2-r1').click(function(){ $('#d5').fadeToggle('1000');});
+//## cam #########################################################################
+  $('#d2-r8').click(function(){ $('#d6').fadeToggle('1000');getLocalVideo();}); // When #d2-r8 is clicked, toggle #d6 and the video
+//################################################################################
+
 /*#### DATE & TIME ####*/
 	function ztime() {
 		var d = new Date(),
@@ -35,4 +48,5 @@ $(function(){
 		setInterval(ztime, 1000);
 
 /*XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX*/
+
 });
