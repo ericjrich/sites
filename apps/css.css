@@ -53,3 +53,14 @@ body 		{position:fixed;inset:0;background-color:black;color:white;}
 /*
 resize:both;overflow:auto;
 */
+@keyframes jiggle {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(-15deg); }
+  50% { transform: rotate(0deg); }
+  75% { transform: rotate(15deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.jiggle-icon {
+  animation: jiggle 2s ease infinite; /* Adjust the duration as needed */
+}
