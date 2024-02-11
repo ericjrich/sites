@@ -1,0 +1,29 @@
+"Get The White Cross On Top"
+step01a.png step01b.png
+  White/Cross/EdgeFlip:         F   U'  R   U                   (flip over your edge Pc)
+
+"Complete White Side While Creating The T's"
+step02a.png step02b.png
+  White/CornerRot:              R'  D'  R   D                   (bring pc up to white and orient too)
+
+"Flip For Top As Yellow Now & Finish Middle Layer"
+step03lefta.png step03leftb.png
+  Yellow/Mid/Left:              U'  L'  U   L   U   F   U'  F'  (Pc from top edge to mid left)
+step03righta.png step03rightb.png
+  Yellow/Mid/Right:             U   R   U'  R'  U'  F'  U   F   (Pc from top edge to mid right)
+
+"Get Yellow Cross (Location Doesn't Matter)"
+step04a.png
+  Yellow/CrossRough:            F   R   U   R'  U'  F'          (get the yellow cross in any config)
+
+"Yellow Cross (Fix Locations)"
+step05a.png step05b.png
+  Yellow/Cross/EdgeShuf:        R   U   R'  U   R   U2  R'  U   (your edge with one to the left side)
+
+"Corners Into Correct Spots (They can be spun wrong)"
+step06a.png step06b.png
+  Yellow/Cross/CornerShuf:      U   R   U'  L'  U   R'  U'  L   (front right corner don't move)
+
+"Finish Spinning The Corners Right Way Round Now"
+step07a.png step07b.png
+  Yellow/CornerFlip:            R'  D'  R   D                   (if good rotate top to next corner)
