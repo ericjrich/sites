@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WASINO JJ-1 Troubleshooting and Parameter Transfer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        .section {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        ul, ol {
+            margin: 0;
+            padding: 0 0 0 20px;
+        }
+        li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>WASINO JJ-1 Troubleshooting Guide</h1>
+
+    <div class="section">
+        <h2>1. Verify Parameter Settings for New Servo Amplifier</h2>
+        <ol>
+            <li><strong>Locate Required Parameter Information:</strong>
+                <ul>
+                    <li>Check the <strong>machine’s maintenance manual</strong> for the parameter tables (#1800–#1820, #1020, #3701).</li>
+                    <li>Consult <strong>amplifier model specifications</strong> (A06B-6114-H206) to verify compatibility.</li>
+                    <li>If available, use backed-up parameter data from the original amplifier as a reference.</li>
+                </ul>
+            </li>
+            <li><strong>Check Parameters #1800–#1820 for Compatibility:</strong>
+                <ul>
+                    <li>Access the parameter screen on the controller.</li>
+                    <li>Verify each setting in the #1800–#1820 range, confirming they align with the original amplifier settings.</li>
+                </ul>
+            </li>
+            <li><strong>Confirm Servo Communication and Spindle Settings:</strong>
+                <ul>
+                    <li>Verify serial link settings in parameter #1020.</li>
+                    <li>Check spindle-specific parameters (especially #3701, bit 4 for secondary spindle settings).</li>
+                </ul>
+            </li>
+            <li><strong>Verify Axis-Specific Parameters with APZ Settings:</strong>
+                <ul>
+                    <li>Ensure parameter 1815 (APZ) is set to 1 for each re-taught axis.</li>
+                    <li>Power down and restart to confirm the APZ settings have saved correctly.</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>2. Diagnostic Display Check (No. 409)</h2>
+        <ul>
+            <li>Access <strong>Diagnostic Display No. 409</strong> on the controller.</li>
+            <li>Observe the flags:
+                <ul>
+                    <li><strong>#3 (SPE)</strong>: Should be 0. If 1, it indicates spindle parameter mismatches.</li>
+                    <li><strong>#2 (S2E)</strong>: Should be 0. If 1, a fault with the second spindle.</li>
+                    <li><strong>#1 (S1E)</strong>: Should be 0. If 1, a fault with the first spindle.</li>
+                    <li><strong>#0 (SHE)</strong>: Should be 0. If 1, a serial communications module fault.</li>
+                </ul>
+            </li>
+            <li>Take notes on any flags set to 1 for further troubleshooting.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>3. Confirm APZ Re-Teach Settings</h2>
+        <ul>
+            <li>Verify parameter 1815 on the controller to confirm each axis has APZ set to 1.</li>
+            <li>Power down and restart to finalize settings.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>4. Inspect Optical Cables and Connections</h2>
+        <ul>
+            <li>Visually inspect optical cables and re-seat each connector.</li>
+            <li>Test continuity if possible; replace cables if any faults are detected.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>5. Check and Re-home Robot Arm (Parts Picker and Loader)</h2>
+        <ul>
+            <li>In manual jog mode, test the robot arm’s movement and re-home if needed.</li>
+            <li>Ensure it is clear of the spindle operational range.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>6. Gather Reference Data from a Similar WASINO Machine</h2>
+        <ol>
+            <li><strong>Check Parameter Settings:</strong>
+                <ul>
+                    <li>On a similar WASINO machine, go to parameter ranges #1800–#1820 and #1020, and note each setting.</li>
+                    <li>Look for any differences or potential misalignments with your target machine.</li>
+                </ul>
+            </li>
+            <li><strong>Observe Diagnostic Display (No. 409):</strong>
+                <ul>
+                    <li>Review Diagnostic No. 409 for normal flags. This will serve as a baseline for troubleshooting on the problem machine.</li>
+                </ul>
+            </li>
+            <li><strong>Check Amplifier and Hardware Configuration:</strong>
+                <ul>
+                    <li>Verify that both machines use the same amplifier model (A06B-6114-H206).</li>
+                    <li>Document any hardware or firmware version differences between the machines, as they may impact compatibility.</li>
+                </ul>
+            </li>
+            <li><strong>Capture Reference Photos:</strong>
+                <ul>
+                    <li>Take photos or screenshots of the parameter lists, diagnostic screens, and error logs (if allowed).</li>
+                    <li>Use these images as a reference during troubleshooting.</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>Card Reader Instructions: Writing and Loading Parameters</h2>
+        <h3>Writing Parameters to a Memory Card</h3>
+        <ol>
+            <li>Insert a memory card into the card reader, then insert the reader into the machine.</li>
+            <li>Set the <strong>I/O Channel</strong> to 4 in the controller settings.</li>
+            <li>Go to the <strong>SYSTEM</strong> menu &gt; <strong>PARAMETER</strong> section, then choose <strong>WRITE</strong> or <strong>OUTPUT</strong> to save parameters to the card.</li>
+            <li>Confirm the operation, then remove and verify the file on a computer if needed.</li>
+        </ol>
+
+        <h3>Loading Parameters from a Memory Card</h3>
+        <ol>
+            <li>Insert the card into the target machine’s card reader.</li>
+            <li>Set the <strong>I/O Channel</strong> to 4 in the settings.</li>
+            <li>Go to <strong>SYSTEM &gt; PARAMETER</strong> and select <strong>LOAD</strong> or <strong>INPUT</strong> to import parameters.</li>
+            <li>Check key parameters after loading to ensure correct values.</li>
+        </ol>
+    </div>
+
+</body>
+</html>
