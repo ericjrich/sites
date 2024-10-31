@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecno Wasino JJ-1 Axis Home Teaching Procedure - FANUC 18i-TB</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        .section {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        ul, ol {
+            margin: 0;
+            padding: 0 0 0 20px;
+        }
+        li {
+            margin: 10px 0;
+        }
+        .note {
+            font-weight: bold;
+            color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tecno Wasino JJ-1 Axis Home Teaching Procedure - FANUC 18i-TB</h1>
+    <div class="section">
+        <h2>Procedure Overview</h2>
+        <p>This procedure will guide you through re-teaching the home position for each axis (LX, LZ, RX, RZ, B, and Y) individually on the Tecno Wasino JJ-1 using <strong>Parameter 1815 (APZ)</strong>. Follow these steps sequentially for each axis, rebooting only the controller after each home setting.</p>
+    </div>
+
+    <div class="section">
+        <h2>Steps</h2>
+        <ol>
+            <li><strong>Initial Full Power Cycle</strong>:
+                <ul>
+                    <li>Begin with a full shutdown at both the control panel and the main power switch.</li>
+                    <li>Wait at least 30 seconds, then power on the machine to reset all systems.</li>
+                </ul>
+            </li>
+
+            <li><strong>Switch to Manual Mode</strong>:
+                <ul>
+                    <li>Set the operation mode selector to <strong>JOG</strong> or <strong>HANDLE</strong> mode to enable manual axis movement.</li>
+                    <li>Confirm that the Emergency Stop is released and that all safety checks are cleared.</li>
+                </ul>
+            </li>
+
+            <li><strong>Select the First Axis and Prepare for Re-Teaching</strong>:
+                <ul>
+                    <li>Choose the first axis (e.g., <strong>LX</strong>) that you need to re-teach.</li>
+                    <li>Check <strong>Parameter 1815 (APZ)</strong> for this axis:
+                        <ul>
+                            <li>If APZ is set to <strong>1</strong> (indicating it is already established), set it to <strong>0</strong> to clear the current home setting.</li>
+                            <li>If APZ is already <strong>0</strong>, leave it as is and proceed.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li><strong>Jog the Axis</strong>:
+                <ul>
+                    <li>Use the jog wheel to rotate the selected axis several full rotations to ensure position data is reset.</li>
+                    <li>Then, slowly bring the axis to the exact spot where you want to set the new home position.</li>
+                </ul>
+            </li>
+
+            <li><strong>Set the APZ Parameter</strong>:
+                <ul>
+                    <li>Access <strong>Parameter 1815</strong> for the selected axis.</li>
+                    <li>Set <strong>APZ to 1</strong> to establish the new home position.</li>
+                    <li>Press <strong>INPUT</strong> to save the setting.</li>
+                </ul>
+            </li>
+
+            <li><strong>Reboot the Controller to Finalize the Home Position for This Axis</strong>:
+                <ul>
+                    <li>Perform a shutdown at the controller only (no need to power off the main switch).</li>
+                    <li>Wait a few seconds, then restart the controller to lock in the new home position.</li>
+                </ul>
+            </li>
+
+            <li><strong>Verify the Home Position for the Axis</strong>:
+                <ul>
+                    <li>Switch to <strong>JOG</strong> or <strong>HANDLE</strong> mode.</li>
+                    <li>Use the <strong>Reference Point Return</strong> button to confirm the axis returns to the newly set home position without errors.</li>
+                    <li>Check on the <strong>POS</strong> screen or <strong>PMC SIGNAL STATUS</strong> that the axis reads zero at the home position.</li>
+                </ul>
+            </li>
+
+            <li><strong>Repeat Steps 3-7 for Each Remaining Axis (LZ, RX, RZ, B, and Y)</strong>:
+                <ul>
+                    <li>Follow the same steps for each of the remaining axes individually.</li>
+                    <li>Reboot the controller after setting each axis, without a full power cycle.</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <p class="note">Note: This process will require six controller reboots (one per axis) without powering down the main switch. This ensures each axis is accurately set to its new home position with minimal downtime.</p>
+    </div>
+</body>
+</html>
