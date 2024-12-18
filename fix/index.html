@@ -19,6 +19,19 @@
       window.open(url, name, 'top=50,left=30,width=900,height=600');
       return false;
     }
+
+    // Function to toggle submenu on click
+    document.addEventListener("DOMContentLoaded", function() {
+      const items = document.querySelectorAll("li > ul");
+      items.forEach(submenu => {
+        submenu.parentElement.addEventListener("click", function(event) {
+          event.stopPropagation(); // Prevent triggering any link within
+          const isVisible = submenu.style.display === "block";
+          items.forEach(s => s.style.display = "none"); // Close other submenus
+          submenu.style.display = isVisible ? "none" : "block";
+        });
+      });
+    });
   </script>
 </head>
 <body>
@@ -26,34 +39,35 @@
   <ul>
     <li>Robodrill
       <ul class="submenu">
-        <li><a href="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/pdfs/FANUC_Series_30i-MODEL_B-Maintenance_Manual.pdf" target="_blank" onclick="return openPopup(this.href, 'popup09');">FANUC Series 30i-MODEL B Maintenance Manual</a></li>
-        <li><a href="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/pdfs/FANUC_Series_30i-MODEL_B-Operations_Manual.pdf" target="_blank" onclick="return openPopup(this.href, 'popup10');">FANUC Series 30i-MODEL B Operations Manual</a></li>
-        <li><a href="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/pdfs/FANUC_Series_30i-MODEL_B-Params_Manual.pdf" target="_blank" onclick="return openPopup(this.href, 'popup11');">FANUC Series 30i-MODEL B Params Manual</a></li>
+        <li><a href="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/fix/pdfs/FANUC_Series_30i-MODEL_B-Maintenance_Manual.pdf" target="_blank" onclick="return openPopup(this.href, 'popup09');">FANUC Series 30i-MODEL B Maintenance Manual</a></li>
+        <li><a href="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/fix/pdfs/FANUC_Series_30i-MODEL_B-Operations_Manual.pdf" target="_blank" onclick="return openPopup(this.href, 'popup10');">FANUC Series 30i-MODEL B Operations Manual</a></li>
+        <li><a href="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/fix/pdfs/FANUC_Series_30i-MODEL_B-Params_Manual.pdf" target="_blank" onclick="return openPopup(this.href, 'popup11');">FANUC Series 30i-MODEL B Params Manual</a></li>
       </ul>
     </li>
     <li>Fanuc
       <ul class="submenu">
         <li><a href="https://cncmanual.com/" target="_blank" onclick="return openPopup(this.href, 'popup08');">Fanuc Manuals and Resources</a></li>
+
       </ul>
     </li>
     <li>Calcs
       <ul class="submenu">
-        <li><a href="https://htmlpreview.github.io/?https://github.com/ericjrich/sites/blob/main/hold/trig.html" target="_blank" onclick="return openPopup(this.href, 'popup05');">Calc: Trig</a></li>
-        <li><a href="https://htmlpreview.github.io/?https://github.com/ericjrich/sites/blob/main/taperpin.html" target="_blank" onclick="return openPopup(this.href, 'popup06');">Calc: Taper Pin</a></li>
+        <li><a href="https://htmlpreview.github.io/?https://github.com/ericjrich/sites/blob/main/fix/trig.html" target="_blank" onclick="return openPopup(this.href, 'popup05');">Calc: Trig</a></li>
+        <li><a href="https://htmlpreview.github.io/?https://github.com/ericjrich/sites/blob/main/fix/taperpin.html" target="_blank" onclick="return openPopup(this.href, 'popup06');">Calc: Taper Pin</a></li>
       </ul>
     </li>
     <li>Notes
       <ul class="submenu">
-        <li><a href="https://raw.githubusercontent.com/ericjrich/sites/main/pics/fuji-prox.png" target="_blank" onclick="return openPopup(this.href, 'popup07');">Fugi Basic Prox. Switch Specs</a></li>
-        <li><a href="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/pdfs/Tecno_Wasino_JJ-1_Axis_Home_Teaching_Procedure_-_FANUC_18i-TB.pdf" target="_blank" onclick="return openPopup(this.href, 'popup03');">Tecno Wasino JJ-1 Axis Home Teaching Procedure</a></li>
-        <li><a href="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/pdfs/Tecno_Wasino_JJ-1_Turret_Zero_Point_Setting_Procedure_-_FANUC_18i-TB.pdf" target="_blank" onclick="return openPopup(this.href, 'popup04');">Tecno Wasino JJ-1 Turret Zero Point Setting Procedure</a></li>
+        <li><a href="https://raw.githubusercontent.com/ericjrich/sites/refs/heads/main/fix/pics/fuji-prox.png" target="_blank" onclick="return openPopup(this.href, 'popup07');">Fugi Basic Prox. Switch Specs</a></li>
+        <li><a href="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/fix/pdfs/Tecno_Wasino_JJ-1_Axis_Home_Teaching_Procedure_-_FANUC_18i-TB.pdf" target="_blank" onclick="return openPopup(this.href, 'popup03');">Tecno Wasino JJ-1 Axis Home Teaching Procedure - FANUC 18i-TB</a></li>
+        <li><a href="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/fix/pdfs/Tecno_Wasino_JJ-1_Turret_Zero_Point_Setting_Procedure_-_FANUC_18i-TB.pdf" target="_blank" onclick="return openPopup(this.href, 'popup04');">Tecno Wasino JJ-1 Turret Zero Point Setting Procedure - FANUC 18i-TB</a></li>
       </ul>
     </li>
     <li>Toshiba Manuals
       <ul class="submenu">
-        <li><a href="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/pdfs/Toshiba_Inverter_AS1-Instruction_Manual_230V-460V.PDF" target="_blank" onclick="return openPopup(this.href, 'popup00');">Toshiba Inverter AS1 Instruction Manual 230V-460V</a></li>
-        <li><a href="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/pdfs/Toshiba_Inverter_AS1-My_Function_Instruction_Manual.pdf" target="_blank" onclick="return openPopup(this.href, 'popup01');">Toshiba Inverter AS1 My Function Manual</a></li>
-        <li><a href="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/pdfs/Toshiba_Inverter_AS1-RS485_Communication_Manual.pdf" target="_blank" onclick="return openPopup(this.href, 'popup02');">Toshiba Inverter AS1 RS485 Communication Manual</a></li>
+        <li><a href="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/fix/pdfs/Toshiba_Inverter_AS1-Instruction_Manual_230V-460V.PDF" target="_blank" onclick="return openPopup(this.href, 'popup00');">Toshiba Inverter AS1 Instruction Manual 230V-460V</a></li>
+        <li><a href="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/fix/pdfs/Toshiba_Inverter_AS1-My_Function_Instruction_Manual.pdf" target="_blank" onclick="return openPopup(this.href, 'popup01');">Toshiba Inverter AS1 My Function Instruction Manual</a></li>
+        <li><a href="https://drive.google.com/viewerng/viewer?embedded=true&url=https://raw.githubusercontent.com/ericjrich/sites/main/fix/pdfs/Toshiba_Inverter_AS1-RS485_Communication_Manual.pdf" target="_blank" onclick="return openPopup(this.href, 'popup02');">Toshiba Inverter AS1 RS485 Communication Manual</a></li>
       </ul>
     </li>
   </ul>
