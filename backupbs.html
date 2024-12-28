@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Backup in Progress</title>
+    <style>
+        body {
+            font-family: "Courier New", Courier, monospace;
+            background-color: #121212;
+            color: #00ff00;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        .progress-container {
+            width: 80%;
+            background-color: #333;
+            border: 1px solid #00ff00;
+            margin-top: 20px;
+        }
+        .progress-bar {
+            height: 20px;
+            background-color: #00ff00;
+            width: 0;
+        }
+        .log {
+            width: 80%;
+            height: 300px;
+            background-color: #000;
+            border: 1px solid #00ff00;
+            margin-top: 20px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        .blinker {
+            animation: blink 1s step-start infinite;
+        }
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Backup Utility v3.1</h1>
+    <p>Scanning and backing up critical system files... Please wait<span class="blinker">_</span></p>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+
+    <div class="log" id="log">
+        <!-- Dynamic log entries will appear here -->
+    </div>
+
+    <script>
+        const progressBar = document.getElementById('progress-bar');
+        const log = document.getElementById('log');
+
+        let progress = 0;
+
+        function updateProgress() {
+            progress += Math.random() * 2;
+            if (progress >= 100) {
+                progress = 0; // Reset progress to create the illusion of continuous work
+            }
+            progressBar.style.width = progress + '%';
+
+            const logEntry = document.createElement('div');
+            logEntry.textContent = `[${new Date().toLocaleTimeString()}] Scanning file ${Math.floor(Math.random() * 10000)}.dat... OK`;
+            log.appendChild(logEntry);
+
+            log.scrollTop = log.scrollHeight; // Scroll to the bottom
+
+            setTimeout(updateProgress, Math.random() * 500);
+        }
+
+        updateProgress();
+    </script>
+</body>
+</html>
