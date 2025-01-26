@@ -5,46 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EJRNOTES</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f9; color: #333; text-align: center; }
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #121212; color: #E0E0E0; text-align: center; }
     h1 { font-size: 1.8em; color: #4A90E2; margin: 1em 0; }
     ul { list-style: none; padding: 0; }
-    li { background-color: #ffffff; margin: 0.5em auto; padding: 1em; width: 90%; max-width: 600px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); cursor: pointer; }
-    li > ul { display: none; padding: 0; }
-    .submenu { background-color: #e0e0e0; padding: 0.5em; border-radius: 5px; margin-top: 0.5em; }
-    a { text-decoration: none; color: #4A90E2; font-weight: bold; font-size: 1.1em; }
-    a:hover { color: #333; }
+    li { background: #1E1E1E; margin: 0.5em auto; padding: 1em; width: 90%; max-width: 600px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3); cursor: pointer; transition: background 0.3s, transform 0.2s; }
+    li:hover { background: #292929; transform: scale(1.02); }
+    .submenu { background: #292929; padding: 0.5em; border-radius: 5px; margin-top: 0.5em; display: none; }
+    a { text-decoration: none; color: #4A90E2; font-weight: bold; font-size: 1.1em; transition: color 0.3s; }
+    a:hover { color: #E0E0E0; }
+    .submenu a {
+      display: block;
+      width: 100%;
+      padding: 1em;
+      box-sizing: border-box;
+    }
   </style>
   <script>
-    function openPopup(url, name) {
-      if (url.endsWith('.pdf')) {
+    function openPopup(url) {
+      // Generate a random name for each popup:
+      const randomName = 'popup_' + Math.random().toString(36).substring(2, 10);
+
+      // Check for PDF case-insensitively
+      if (url.toLowerCase().endsWith('.pdf')) {
         const mozillaViewer = `https://mozilla.github.io/pdf.js/web/viewer.html?file=${encodeURIComponent(url)}`;
-        const googleViewer = `https://drive.google.com/viewerng/viewer?embedded=true&url=${encodeURIComponent(url)}`;
+        const googleViewer  = `https://drive.google.com/viewerng/viewer?embedded=true&url=${encodeURIComponent(url)}`;
 
-        const popup = window.open(mozillaViewer, name, 'top=50,left=30,width=900,height=600');
+        // Attempt PDF.js first
+        const popup = window.open(mozillaViewer, randomName, 'top=50,left=30,width=900,height=600');
 
+        // Fallback to Google Viewer if that fails
         setTimeout(() => {
           if (!popup || popup.closed || popup.innerHeight === 0) {
-            window.open(googleViewer, name, 'top=50,left=30,width=900,height=600');
+            window.open(googleViewer, randomName, 'top=50,left=30,width=900,height=600');
           }
         }, 3000);
       } else {
-        window.open(url, name, 'top=50,left=30,width=900,height=600');
+        // Everything else: open in a popup with that random name
+        window.open(url, randomName, 'top=50,left=30,width=900,height=600');
       }
       return false;
     }
 
     document.addEventListener("DOMContentLoaded", function() {
+      // Toggle submenus on li click
       const listItems = document.querySelectorAll("li");
-
       listItems.forEach(item => {
         item.addEventListener("click", function(event) {
-          // Prevent submenu from closing when clicking a link
           if (event.target.tagName === "A") return;
-
           const submenu = this.querySelector("ul");
           if (submenu) {
-            submenu.style.display = submenu.style.display === "block" ? "none" : "block";
+            submenu.style.display = (submenu.style.display === "block") ? "none" : "block";
           }
+        });
+      });
+
+      // Force every link to open in a popup
+      const allLinks = document.querySelectorAll("a");
+      allLinks.forEach(link => {
+        link.addEventListener("click", function(e) {
+          e.preventDefault();
+          openPopup(this.href);
         });
       });
     });
@@ -63,15 +83,15 @@
 <ul>
   <li>DMMs
     <ul class="submenu">
-      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/fluke11x-manual.pdf', 'popupfdmm110x');">Fluke 11x DMM</a></li>
-      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/fluke11x-cal-manual.pdf', 'popupfdmm110xcal');">Fluke 11x DMM Calibration</a></li>
+      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/fluke11x-manual.pdf');">Fluke 11x DMM</a></li>
+      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/fluke11x-cal-manual.pdf');">Fluke 11x DMM Calibration</a></li>
     </ul>
   </li>
   <li>Robodrill
     <ul class="submenu">
-      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/FANUC_Series_30i-MODEL_B-Maintenance_Manual.pdf', 'popup00');">FANUC Series 30i-MODEL B Maintenance Manual</a></li>
-      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/FANUC_Series_30i-MODEL_B-Operations_Manual.pdf', 'popup01');">FANUC Series 30i-MODEL B Operations Manual</a></li>
-      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/FANUC_Series_30i-MODEL_B-Params_Manual.pdf', 'popup02');">FANUC Series 30i-MODEL B Params Manual</a></li>
+      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/FANUC_Series_30i-MODEL_B-Maintenance_Manual.pdf');">FANUC Series 30i-MODEL B Maintenance Manual</a></li>
+      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/FANUC_Series_30i-MODEL_B-Operations_Manual.pdf');">FANUC Series 30i-MODEL B Operations Manual</a></li>
+      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/FANUC_Series_30i-MODEL_B-Params_Manual.pdf');">FANUC Series 30i-MODEL B Params Manual</a></li>
     </ul>
   </li>
   <li>Fanuc
@@ -87,23 +107,23 @@
   </li>
   <li>Notes
     <ul class="submenu">
-      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/prox.pdf', 'popup06');">Prox Info</a></li>
-      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/fuji-prox.png', 'popup006');">Fuji Basic Prox. Switch Specs</a></li>
-      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/PATRIOT-SERIES-338551-revision-10-New-Covers-2021.pdf', 'popup0006');">Patriot 338 Barfeeder</a></li>
+      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/prox.pdf');">Prox Info</a></li>
+      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/fuji-prox.png');">Fuji Basic Prox. Switch Specs</a></li>
+      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/PATRIOT-SERIES-338551-revision-10-New-Covers-2021.pdf');">Patriot 338 Barfeeder</a></li>
     </ul>
   </li>
   <li>Wasino
     <ul class="submenu">
-      <li><a href="#" onclick="return openPopup('https://htmlpreview.github.io/?https://github.com/ericjrich/sites/blob/main/fix/tecnowasinojj1-turret.html', 'popup08');">Tecno Wasino JJ-1 Turret Zero Point Setting Procedure - FANUC 18i-TB</a></li>
-      <li><a href="#" onclick="return openPopup('https://htmlpreview.github.io/?https://github.com/ericjrich/sites/blob/main/fix/tecnowasinojj1-axis.html', 'popup07');">Tecno Wasino JJ-1 Axis Zero Point Setting Procedure - FANUC 18i-TB</a></li>
-      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/jj3_Turret_para.jpg', 'popup09');">Wasino JJ3's Turret Params</a></li>
+      <li><a href="#" onclick="return openPopup('https://htmlpreview.github.io/?https://github.com/ericjrich/sites/blob/main/fix/tecnowasinojj1-turret.html');">Tecno Wasino JJ-1 Turret Zero Point Setting Procedure - FANUC 18i-TB</a></li>
+      <li><a href="#" onclick="return openPopup('https://htmlpreview.github.io/?https://github.com/ericjrich/sites/blob/main/fix/tecnowasinojj1-axis.html');">Tecno Wasino JJ-1 Axis Zero Point Setting Procedure - FANUC 18i-TB</a></li>
+      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/jj3_Turret_para.jpg's Turret Params</a></li>
     </ul>
   </li>
   <li>Toshiba Manuals
     <ul class="submenu">
-      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/Toshiba_Inverter_AS1-Instruction_Manual_230V-460V.PDF', 'popup10');">Toshiba Inverter AS1 Instruction Manual 230V-460V</a></li>
-      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/Toshiba_Inverter_AS1-My_Function_Instruction_Manual.pdf', 'popup11');">Toshiba Inverter AS1 My Function Instruction Manual</a></li>
-      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/Toshiba_Inverter_AS1-RS485_Communication_Manual.pdf', 'popup12');">Toshiba Inverter AS1 RS485 Communication Manual</a></li>
+      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/Toshiba_Inverter_AS1-Instruction_Manual_230V-460V.PDF');">Toshiba Inverter AS1 Instruction Manual 230V-460V</a></li>
+      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/Toshiba_Inverter_AS1-My_Function_Instruction_Manual.pdf');">Toshiba Inverter AS1 My Function Instruction Manual</a></li>
+      <li><a href="#" onclick="return openPopup('https://raw.githubusercontent.com/ericjrich/sites/main/fix/src/Toshiba_Inverter_AS1-RS485_Communication_Manual.pdf');">Toshiba Inverter AS1 RS485 Communication Manual</a></li>
     </ul>
   </li>
 </ul>
