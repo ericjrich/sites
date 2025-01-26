@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Right Triangle Calculator</title>
+    <style>
+        /* Mobile-friendly styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            max-width: 500px;
+            margin: auto;
+            background-color: #f4f4f9;
+        }
+        h2 {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .triangle-legend {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .triangle-legend img {
+            max-width: 80%;
+        }
+        label {
+            font-size: 1.1em;
+            display: block;
+            margin-top: 10px;
+            color: #333;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+            margin-top: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2em;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        h3 {
+            margin-top: 30px;
+            font-size: 1.3em;
+            color: #333;
+        }
+        p {
+            font-size: 1.1em;
+            color: #555;
+            padding: 8px 0;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+<h2>Right Triangle Calculator</h2>
+
+<div class="triangle-legend" style="text-align: center;">
+<pre style="font-family: monospace; font-size: 1em; display: inline-block; text-align: left;">
+  A
+  |\
+  | \
+  |  \
+  |   \
+b |    \ c
+  |     \
+  |      \
+  |       \
+  |________\
+ C    a     B
+</pre>
+</div>
+
+
+
+<label for="a">Enter side a:</label>
+<input type="number" id="a" step="0.01" placeholder="e.g., 3">
+
+<label for="b">Enter side b:</label>
+<input type="number" id="b" step="0.01" placeholder="e.g., 4">
+
+<label for="c">Enter hypotenuse (side c):</label>
+<input type="number" id="c" step="0.01" placeholder="e.g., 5">
+
+<label for="angleA">Enter angle A (in degrees):</label>
+<input type="number" id="angleA" step="0.01" placeholder="e.g., 30">
+
+<label for="angleB">Enter angle B (in degrees):</label>
+<input type="number" id="angleB" step="0.01" placeholder="e.g., 60">
+
+
+<button onclick="calculateTriangle()">Calculate</button>
+
+<h3>Results:</h3>
+<p id="sideResults">Side lengths and hypotenuse will appear here.</p>
+<p id="angleResults">Angles will appear here.</p>
+
+    <script>
+        function calculateTriangle() {
+            // Get input values
+            let a = parseFloat(document.getElementById('a').value);
+            let b = parseFloat(document.getElementById('b').value);
+            let c = parseFloat(document.getElementById('c').value);
+            let angleA = parseFloat(document.getElementById('angleA').value);
+            let angleB = parseFloat(document.getElementById('angleB').value);
+
+            // Initialize result variables
+            let results = "";
+            let angles = "";
+
+            // Calculate based on known values
+            if (!isNaN(a) && !isNaN(b)) {
+                // Calculate hypotenuse when two legs are given
+                c = Math.sqrt(a ** 2 + b ** 2);
+                results += `Hypotenuse (C): ${c.toFixed(4)}<br>`;
+                angleA = Math.degrees(Math.atan(a / b));
+                angleB = 90 - angleA;
+            }
+            else if (!isNaN(a) && !isNaN(c)) {
+                // Calculate side b and angles when a and hypotenuse are given
+                b = Math.sqrt(c ** 2 - a ** 2);
+                results += `Side B: ${b.toFixed(4)}<br>`;
+                angleA = Math.degrees(Math.asin(a / c));
+                angleB = 90 - angleA;
+            }
+            else if (!isNaN(b) && !isNaN(c)) {
+                // Calculate side a and angles when b and hypotenuse are given
+                a = Math.sqrt(c ** 2 - b ** 2);
+                results += `Side A: ${a.toFixed(4)}<br>`;
+                angleB = Math.degrees(Math.asin(b / c));
+                angleA = 90 - angleB;
+            }
+            else if (!isNaN(a) && !isNaN(angleA)) {
+                // Calculate b and c when a and angle A are given
+                angleB = 90 - angleA;
+                b = a / Math.tan(Math.radians(angleA));
+                c = Math.sqrt(a ** 2 + b ** 2);
+                results += `Side B: ${b.toFixed(4)}<br>Hypotenuse (C): ${c.toFixed(4)}<br>`;
+            }
+            else if (!isNaN(b) && !isNaN(angleB)) {
+                // Calculate a and c when b and angle B are given
+                angleA = 90 - angleB;
+                a = b / Math.tan(Math.radians(angleB));
+                c = Math.sqrt(a ** 2 + b ** 2);
+                results += `Side A: ${a.toFixed(4)}<br>Hypotenuse (C): ${c.toFixed(4)}<br>`;
+            } else {
+                results = "Please provide valid input for two values.";
+            }
+
+            // Display side lengths and angles
+            angles += `Angle A: ${angleA.toFixed(2)}°<br>Angle B: ${angleB.toFixed(2)}°<br>`;
+            document.getElementById('sideResults').innerHTML = results;
+            document.getElementById('angleResults').innerHTML = angles;
+        }
+
+        // Helper functions
+        Math.degrees = function(radians) {
+            return radians * (180 / Math.PI);
+        };
+        Math.radians = function(degrees) {
+            return degrees * (Math.PI / 180);
+        };
+    </script>
+</body>
+</html>

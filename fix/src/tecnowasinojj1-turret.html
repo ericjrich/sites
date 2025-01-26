@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecno Wasino JJ-1 Turret Zero Point Setting Procedure - FANUC 18i-TB</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+        }
+        .section {
+            background-color: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        ul, ol {
+            margin: 0;
+            padding: 0 0 0 20px;
+        }
+        li {
+            margin: 10px 0;
+        }
+        .indent-1 { padding-left: 20px; }
+        .indent-2 { padding-left: 40px; }
+        .indent-3 { padding-left: 60px; }
+        .note {
+            font-weight: bold;
+            color: #d9534f;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tecno Wasino JJ-1 Turret Zero Point Setting Procedure - FANUC 18i-TB</h1>
+    <div class="section">
+        <h2>Procedure Overview</h2>
+        <p>This procedure will guide you through resetting the zero point on the Tecno Wasino JJ-1’s servo-controlled turret using the FANUC 18i-TB controller. Follow each step precisely to avoid errors and ensure correct turret operation.</p>
+    </div>
+
+    <div class="section">
+        <h2>Steps</h2>
+        <ol>
+            <li><strong>Turn Off Power At Control And Main For 30sec. Then Turn All back on.</strong></li>
+
+            <li><strong>1st Boot:</strong>
+                <div class="indent-1">MDI Mode</div>
+                <div class="indent-1">Select [L] or [R] Lathe (Which Side Are We Calibrating)</div>
+                <div class="indent-1">Press [OFFSET/SETTING] Until We See Parameter Write (Set It To 1)</div>
+                <div class="indent-1">Press [RESET]+[CAN]</div>
+                <div class="indent-1">Press [SYSTEM]</div>
+                <div class="indent-1">Press [PMC]</div>
+                <div class="indent-1">Press [PMCPRM]</div>
+                <div class="indent-1">Press [COUNTR]</div>
+                <div class="indent-1">Find the parameter by is 'C' ADDRESS (Set According To Side):</div>
+                <div class="indent-2">LH: C40 (#11)</div>
+                <div class="indent-2">RH: C80 (#21)</div>
+                <div class="indent-3">PRESET=  8</div>
+                <div class="indent-3">CURRENT= 0</div>
+                <div class="indent-1">Press [KEEPRL]</div>
+                <div class="indent-1">Goto K17 (Fully highlighted) to help you get to K16 easier</div>
+                <div class="indent-2">LH: K16.0= 1 (Back 1 Space)</div>
+                <div class="indent-2">RH: K16.1= 1 (Back 2 Spaces)</div>
+                <div class="indent-1">Press [REF] (enables unclamp ability)</div>
+                <div class="indent-1">Press [+Z]  (unclamps turret)</div>
+                <div class="indent-1">Press [+X] or [-X] to rotate turret more that 1 full spin</div>
+                <div class="indent-1">Turn Down The Feed Rate to lowest increment above 0</div>
+                <div class="indent-1">Continue using [+X] & [-X] to align T1 into position</div>
+                <div class="indent-1">Clamp the Turret Head Using [-Z]</div>
+                <div class="indent-1"><strong>Verify Clamping:</strong></div>
+                <div class="indent-2">Check that the turret head is securely clamped.</div>
+                <div class="indent-2">If the turret does not clamp correctly, unclamp and keep trying until we get T1 properly re-clamped</div>
+            </li>
+
+            <li><strong>Power Cycle the CNC @ controller (off for at least 3 sec):</strong></li>
+
+            <li><strong>2nd Boot:</strong>
+                <div class="indent-1">Select [L] or [R] Lathe (Which Side Are We Calibrating)</div>
+                <div class="indent-1">Press [OFFSET/SETTING] Until We See Parameter Write (Set It To 1)</div>
+                <div class="indent-1">Press [RESET]+[CAN]</div>
+                <div class="indent-1">Press [SYSTEM]</div>
+                <div class="indent-1">Press [PMC]</div>
+                <div class="indent-1">Press [PMCPRM]</div>
+                <div class="indent-1">Press [KEEPRL]</div>
+                <div class="indent-1">Goto K17 (Fully highlighted) to help you get to K16 easier</div>
+                <div class="indent-2">LH: K16.0= 1 (Back 1 Space)</div>
+                <div class="indent-2">RH: K16.1= 1 (Back 2 Spaces)</div>
+                <div class="indent-1">Press [REF] (enables unclamp ability)</div>
+                <div class="indent-1">Press [+Z]  (unclamps turret)</div>
+                <div class="indent-1">Press [-Z]  (clamps turret)</div>
+                <div class="indent-1">Now hold down for 3 sec [-Z]+[REF]+[LH or RH]</div>
+            </li>
+
+            <li><strong>Final Power Cycle:</strong>
+                <div class="indent-1">Do a full shutdown at control and main PWR</div>
+                <div class="indent-1">Wait 30sec Then Turn On Main Only</div>
+                <div class="indent-1">Then Hold in [RESET]+[CAN] while booting up controller (hold until fully booted)</div>
+                <div class="indent-1">Home All Axis's</div>
+                <div class="indent-1">Put Machine In [RH] or [LH] (whichever you need)</div>
+            </li>
+
+            <li><strong>Test Turret Indexing:</strong>
+                <div class="indent-1">Test manual indexing by pressing the TurretIndex Button For your side.</div>
+                <div class="indent-1">Now Test automatic indexing, use a T-code command in MDI mode to confirm correct movement.</div>
+                <div class="indent-2">Example MDI Command= T0808</div>
+                <div class="indent-1">Test both clockwise and counterclockwise indexing to ensure smooth movement and secure clamping at each position.</div>
+                <div class="indent-2">Example MDI Command= T0202</div>
+                <p class="note">When operating correctly, PMC COUNTERs c40/c80 "Current" should change as you index manually.</p>
+            </li>
+        </ol>
+    </div>
+</body>
+</html>
