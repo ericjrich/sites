@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Non-Linear Interpolation Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 400px;
+            margin: auto;
+        }
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin: 10px 0;
+        }
+        .header {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin: 5px 0;
+        }
+        .header label {
+            width: 100px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .row label {
+            width: 50px;
+            text-align: center;
+        }
+        .row input {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 10px;
+            width: 80px;
+            border-radius: 5px;
+            text-align: center;
+            margin: 0 5px;
+        }
+        input[readonly] {
+            background-color: #555;
+            color: #bbb;
+            border: 1px solid #777;
+            cursor: not-allowed;
+            font-weight: bold;
+        }
+        button {
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 10px;
+            margin-top: 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .formula {
+            margin-top: 20px;
+            background-color: #1e1e1e;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #333;
+            font-style: italic;
+        }
+        canvas {
+            margin-top: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+    </style>
+    <script>
+        function calculateNonLinear() {
+            let A = [
+                parseFloat(document.getElementById('A1').value),
+                parseFloat(document.getElementById('A2').value),
+                parseFloat(document.getElementById('A3').value),
+                parseFloat(document.getElementById('A4').value)
+            ];
+
+            let B = [
+                document.getElementById('B1').value === "" ? NaN : parseFloat(document.getElementById('B1').value),
+                document.getElementById('B2').value === "" ? NaN : parseFloat(document.getElementById('B2').value),
+                document.getElementById('B3').value === "" ? NaN : parseFloat(document.getElementById('B3').value),
+                document.getElementById('B4').value === "" ? NaN : parseFloat(document.getElementById('B4').value)
+            ];
+
+            let missingIndex = B.findIndex(isNaN);
+
+            if (missingIndex === -1) {
+                alert("Please leave one B value empty to calculate.");
+                return;
+            }
+
+            let result = 0;
+            for (let i = 0; i < 4; i++) {
+                if (i === missingIndex) continue;
+
+                let term = B[i];
+                for (let j = 0; j < 4; j++) {
+                    if (i !== j && j !== missingIndex) {
+                        term *= (A[missingIndex] - A[j]) / (A[i] - A[j]);
+                    }
+                }
+                result += term;
+            }
+
+            document.getElementById(`B${missingIndex + 1}`).value = result.toFixed(4);
+
+            B[missingIndex] = result; // Include the missing point in the dataset
+
+            plotGraph(A, B);
+        }
+
+        function plotGraph(A, B) {
+            const ctx = document.getElementById('chart').getContext('2d');
+
+            const dataPoints = A.map((a, i) => ({ x: a, y: B[i] }));
+
+            if (window.myChart) window.myChart.destroy();
+
+            window.myChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    datasets: [{
+                        label: 'Data Points & Curve',
+                        data: dataPoints,
+                        backgroundColor: dataPoints.map(point => point.y === null ? 'blue' : 'red'),
+                        borderColor: 'red',
+                        showLine: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: { display: true, text: 'A (X-values)' }
+                        },
+                        y: {
+                            title: { display: true, text: 'B (Y-values)' }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <h2>Non-Linear Interpolation Calculator</h2>
+    <div class="container">
+        <div class="header">
+            <label>[A]</label>
+            <label>[B]</label>
+        </div>
+        <div class="row">
+            <label>[1]</label>
+            <input type="number" id="A1" value="">
+            <input type="number" id="B1" value="" step="any">
+        </div>
+        <div class="row">
+            <label>[2]</label>
+            <input type="number" id="A2" value="">
+            <input type="number" id="B2" value="" step="any">
+        </div>
+        <div class="row">
+            <label>[3]</label>
+            <input type="number" id="A3" value="">
+            <input type="number" id="B3" value="" step="any">
+        </div>
+        <div class="row">
+            <label>[4]</label>
+            <input type="number" id="A4" value="">
+            <input type="number" id="B4" value="" step="any">
+        </div>
+        <button onclick="calculateNonLinear()">Calculate</button>
+        <canvas id="chart" width="400" height="300"></canvas>
+        <div class="formula">
+            <strong>Lagrange Interpolation Formula:</strong><br>
+            P(x) = Σ [Bᵢ × Π((x - Aⱼ) / (Aᵢ - Aⱼ))] for i ≠ j
+        </div>
+    </div>
+</body>
+</html>
