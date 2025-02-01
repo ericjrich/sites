@@ -87,78 +87,90 @@
         }
     </style>
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            function calculateNonLinear() {
-                let A = [
-                    parseFloat(document.getElementById('A1').value),
-                    parseFloat(document.getElementById('A2').value),
-                    parseFloat(document.getElementById('A3').value),
-                    parseFloat(document.getElementById('A4').value)
-                ];
+document.addEventListener("DOMContentLoaded", function () {
+    let myChart = null;  // Declare globally to manage the chart instance
 
-                let B = [
-                    document.getElementById('B1').value === "" ? NaN : parseFloat(document.getElementById('B1').value),
-                    document.getElementById('B2').value === "" ? NaN : parseFloat(document.getElementById('B2').value),
-                    document.getElementById('B3').value === "" ? NaN : parseFloat(document.getElementById('B3').value),
-                    document.getElementById('B4').value === "" ? NaN : parseFloat(document.getElementById('B4').value)
-                ];
+    function calculateNonLinear() {
+        let A = [
+            parseFloat(document.getElementById('A1').value),
+            parseFloat(document.getElementById('A2').value),
+            parseFloat(document.getElementById('A3').value),
+            parseFloat(document.getElementById('A4').value)
+        ];
 
-                let missingIndex = B.findIndex(isNaN);
+        let B = [
+            document.getElementById('B1').value === "" ? NaN : parseFloat(document.getElementById('B1').value),
+            document.getElementById('B2').value === "" ? NaN : parseFloat(document.getElementById('B2').value),
+            document.getElementById('B3').value === "" ? NaN : parseFloat(document.getElementById('B3').value),
+            document.getElementById('B4').value === "" ? NaN : parseFloat(document.getElementById('B4').value)
+        ];
 
-                if (missingIndex === -1) {
-                    alert("Please leave one B value empty to calculate.");
-                    return;
+        let missingIndex = B.findIndex(isNaN);
+
+        if (missingIndex === -1) {
+            alert("Please leave one B value empty to calculate.");
+            return;
+        }
+
+        // Lagrange Interpolation Formula
+        let result = 0;
+        for (let i = 0; i < 4; i++) {
+            if (i === missingIndex) continue;
+
+            let term = B[i];
+            for (let j = 0; j < 4; j++) {
+                if (i !== j && j !== missingIndex) {
+                    term *= (A[missingIndex] - A[j]) / (A[i] - A[j]);
                 }
-
-                let result = 0;
-                for (let i = 0; i < 4; i++) {
-                    if (i === missingIndex) continue;
-
-                    let term = B[i];
-                    for (let j = 0; j < 4; j++) {
-                        if (i !== j && j !== missingIndex) {
-                            term *= (A[missingIndex] - A[j]) / (A[i] - A[j]);
-                        }
-                    }
-                    result += term;
-                }
-
-                document.getElementById(`B${missingIndex + 1}`).value = result.toFixed(4);
-                B[missingIndex] = result;
-
-                plotGraph(A, B);
             }
+            result += term;
+        }
 
-            function plotGraph(A, B) {
-                const ctx = document.getElementById('chart').getContext('2d');
+        document.getElementById(`B${missingIndex + 1}`).value = result.toFixed(4);
+        B[missingIndex] = result;  // Include the missing point in the dataset
 
-                const dataPoints = A.map((a, i) => ({ x: a, y: B[i] }));
+        plotGraph(A, B);
+    }
 
-                if (window.myChart) window.myChart.destroy();
+    function plotGraph(A, B) {
+        const ctx = document.getElementById('chart').getContext('2d');
+        const dataPoints = A.map((a, i) => ({ x: a, y: B[i] }));
 
-                window.myChart = new Chart(ctx, {
-                    type: 'scatter',
-                    data: {
-                        datasets: [{
-                            label: 'Non-Linear Interpolation',
-                            data: dataPoints,
-                            backgroundColor: 'blue',
-                            borderColor: 'blue',
-                            showLine: true,
-                            tension: 0.4
-                        }]
+        // Destroy the existing chart if it exists
+        if (myChart) {
+            myChart.destroy();
+        }
+
+        // Create a new chart
+        myChart = new Chart(ctx, {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: 'Non-Linear Interpolation',
+                    data: dataPoints,
+                    backgroundColor: 'blue',
+                    borderColor: 'blue',
+                    showLine: true,
+                    tension: 0.4  // Smooth curve for non-linear data
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: { display: true, text: 'A (X-values)' }
                     },
-                    options: {
-                        scales: {
-                            x: { title: { display: true, text: 'A (X-values)' } },
-                            y: { title: { display: true, text: 'B (Y-values)' } }
-                        }
+                    y: {
+                        title: { display: true, text: 'B (Y-values)' }
                     }
-                });
+                }
             }
-
-            document.querySelector("button").addEventListener("click", calculateNonLinear);
         });
+    }
+
+    // Attach the calculateNonLinear function to the button
+    document.querySelector("button").addEventListener("click", calculateNonLinear);
+});
+
     </script>
 </head>
 <body>
