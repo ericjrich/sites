@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Linear Interpolation Calculator</title>
+    <script>
+        function calculateX() {
+            let A1 = parseFloat(document.getElementById('A1').value);
+            let B1 = parseFloat(document.getElementById('B1').value);
+            let A3 = parseFloat(document.getElementById('A3').value);
+            let B3 = parseFloat(document.getElementById('B3').value);
+            let A2 = parseFloat(document.getElementById('A2').value);
+
+            let B2 = B1 + ((B3 - B1) / (A3 - A1)) * (A2 - A1);
+
+            document.getElementById('B2').value = B2.toFixed(4);
+        }
+    </script>
+</head>
+<body>
+    <h2>Linear Interpolation Calculator</h2>
+    <label>A1: <input type="number" id="A1" value=""></label>
+    <label>B1: <input type="number" id="B1" value="" step="any"></label><br><br>
+    <label>A2: <input type="number" id="A2" value=""></label>
+    <label>B2: <input type="text" id="B2" readonly></label><br><br>
+    <label>A3: <input type="number" id="A3" value=""></label>
+    <label>B3: <input type="number" id="B3" value="" step="any"></label><br><br>
+    <button onclick="calculateX()">Calculate X</button>
+</body>
+</html>
