@@ -21,23 +21,34 @@
         .row {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             width: 100%;
             margin: 10px 0;
         }
+        .header {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            margin: 5px 0;
+        }
+        .header label {
+            width: 100px;
+            text-align: center;
+            font-weight: bold;
+        }
         .row label {
-            flex: 1;
-            text-align: right;
-            margin-right: 10px;
+            width: 50px;
+            text-align: center;
         }
         .row input {
             background-color: #333;
             color: #fff;
             border: 1px solid #555;
             padding: 10px;
-            width: 50%;
+            width: 80px;
             border-radius: 5px;
             text-align: center;
+            margin: 0 5px;
         }
         input[readonly] {
             background-color: #555;
@@ -60,6 +71,14 @@
         button:hover {
             background-color: #0056b3;
         }
+        .formula {
+            margin-top: 20px;
+            background-color: #1e1e1e;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #333;
+            font-style: italic;
+        }
     </style>
     <script>
         function calculate() {
@@ -78,22 +97,33 @@
 <body>
     <h2>Linear Interpolation Calculator</h2>
     <div class="container">
+        <div class="header">
+            <label>[A]</label>
+            <label>[B]</label>
+        </div>
         <div class="row">
-            <label>Low:</label>
+            <label>[1]</label>
             <input type="number" id="A1" value="">
             <input type="number" id="B1" value="" step="any">
+            <label>"Low"</label>
         </div>
         <div class="row">
-            <label>Med:</label>
+            <label>[2]</label>
             <input type="number" id="A2" value="">
             <input type="text" id="B2" readonly placeholder="Auto-calculate">
+            <label>"Med"</label>
         </div>
         <div class="row">
-            <label>High:</label>
+            <label>[3]</label>
             <input type="number" id="A3" value="">
             <input type="number" id="B3" value="" step="any">
+            <label>"High"</label>
         </div>
         <button onclick="calculate()">Calculate</button>
+        <div class="formula">
+            <strong>Formula:</strong><br>
+            B₂ = B₁ + [(B₃ - B₁) ÷ (A₃ - A₁)] × (A₂ - A₁)
+        </div>
     </div>
 </body>
 </html>
