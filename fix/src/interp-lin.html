@@ -3,7 +3,7 @@
 <head>
     <title>Linear Interpolation Calculator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         body {
             background-color: #121212;
@@ -87,51 +87,51 @@
         }
     </style>
     <script>
-        function calculateLinear() {
-            let A1 = parseFloat(document.getElementById('A1').value);
-            let B1 = parseFloat(document.getElementById('B1').value);
-            let A3 = parseFloat(document.getElementById('A3').value);
-            let B3 = parseFloat(document.getElementById('B3').value);
-            let A2 = parseFloat(document.getElementById('A2').value);
+        document.addEventListener("DOMContentLoaded", function () {
+            function calculateLinear() {
+                let A1 = parseFloat(document.getElementById('A1').value);
+                let B1 = parseFloat(document.getElementById('B1').value);
+                let A3 = parseFloat(document.getElementById('A3').value);
+                let B3 = parseFloat(document.getElementById('B3').value);
+                let A2 = parseFloat(document.getElementById('A2').value);
 
-            let B2 = B1 + ((B3 - B1) / (A3 - A1)) * (A2 - A1);
+                let B2 = B1 + ((B3 - B1) / (A3 - A1)) * (A2 - A1);
 
-            document.getElementById('B2').value = B2.toFixed(4);
+                document.getElementById('B2').value = B2.toFixed(4);
 
-            plotGraph([A1, A2, A3], [B1, B2, B3]);
-        }
+                plotGraph([A1, A2, A3], [B1, B2, B3]);
+            }
 
-        function plotGraph(A, B) {
-            const ctx = document.getElementById('chart').getContext('2d');
+            function plotGraph(A, B) {
+                const ctx = document.getElementById('chart').getContext('2d');
 
-            const dataPoints = A.map((a, i) => ({ x: a, y: B[i] }));
+                const dataPoints = A.map((a, i) => ({ x: a, y: B[i] }));
 
-            if (window.myChart) window.myChart.destroy();
+                if (window.myChart) window.myChart.destroy();
 
-            window.myChart = new Chart(ctx, {
-                type: 'scatter',
-                data: {
-                    datasets: [{
-                        label: 'Linear Interpolation',
-                        data: dataPoints,
-                        backgroundColor: 'red',
-                        borderColor: 'red',
-                        showLine: true,
-                        tension: 0
-                    }]
-                },
-                options: {
-                    scales: {
-                        x: {
-                            title: { display: true, text: 'A (X-values)' }
-                        },
-                        y: {
-                            title: { display: true, text: 'B (Y-values)' }
+                window.myChart = new Chart(ctx, {
+                    type: 'scatter',
+                    data: {
+                        datasets: [{
+                            label: 'Linear Interpolation',
+                            data: dataPoints,
+                            backgroundColor: 'red',
+                            borderColor: 'red',
+                            showLine: true,
+                            tension: 0
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: { title: { display: true, text: 'A (X-values)' } },
+                            y: { title: { display: true, text: 'B (Y-values)' } }
                         }
                     }
-                }
-            });
-        }
+                });
+            }
+
+            document.querySelector("button").addEventListener("click", calculateLinear);
+        });
     </script>
 </head>
 <body>
@@ -156,7 +156,7 @@
             <input type="number" id="A3" value="">
             <input type="number" id="B3" value="" step="any">
         </div>
-        <button onclick="calculateLinear()">Calculate</button>
+        <button>Calculate</button>
         <canvas id="chart" width="400" height="300"></canvas>
         <div class="formula">
             <strong>Linear Interpolation Formula:</strong><br>

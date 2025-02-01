@@ -3,7 +3,7 @@
 <head>
     <title>Non-Linear Interpolation Calculator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         body {
             background-color: #121212;
@@ -87,79 +87,78 @@
         }
     </style>
     <script>
-        function calculateNonLinear() {
-            let A = [
-                parseFloat(document.getElementById('A1').value),
-                parseFloat(document.getElementById('A2').value),
-                parseFloat(document.getElementById('A3').value),
-                parseFloat(document.getElementById('A4').value)
-            ];
+        document.addEventListener("DOMContentLoaded", function () {
+            function calculateNonLinear() {
+                let A = [
+                    parseFloat(document.getElementById('A1').value),
+                    parseFloat(document.getElementById('A2').value),
+                    parseFloat(document.getElementById('A3').value),
+                    parseFloat(document.getElementById('A4').value)
+                ];
 
-            let B = [
-                document.getElementById('B1').value === "" ? NaN : parseFloat(document.getElementById('B1').value),
-                document.getElementById('B2').value === "" ? NaN : parseFloat(document.getElementById('B2').value),
-                document.getElementById('B3').value === "" ? NaN : parseFloat(document.getElementById('B3').value),
-                document.getElementById('B4').value === "" ? NaN : parseFloat(document.getElementById('B4').value)
-            ];
+                let B = [
+                    document.getElementById('B1').value === "" ? NaN : parseFloat(document.getElementById('B1').value),
+                    document.getElementById('B2').value === "" ? NaN : parseFloat(document.getElementById('B2').value),
+                    document.getElementById('B3').value === "" ? NaN : parseFloat(document.getElementById('B3').value),
+                    document.getElementById('B4').value === "" ? NaN : parseFloat(document.getElementById('B4').value)
+                ];
 
-            let missingIndex = B.findIndex(isNaN);
+                let missingIndex = B.findIndex(isNaN);
 
-            if (missingIndex === -1) {
-                alert("Please leave one B value empty to calculate.");
-                return;
-            }
-
-            let result = 0;
-            for (let i = 0; i < 4; i++) {
-                if (i === missingIndex) continue;
-
-                let term = B[i];
-                for (let j = 0; j < 4; j++) {
-                    if (i !== j && j !== missingIndex) {
-                        term *= (A[missingIndex] - A[j]) / (A[i] - A[j]);
-                    }
+                if (missingIndex === -1) {
+                    alert("Please leave one B value empty to calculate.");
+                    return;
                 }
-                result += term;
-            }
 
-            document.getElementById(`B${missingIndex + 1}`).value = result.toFixed(4);
+                let result = 0;
+                for (let i = 0; i < 4; i++) {
+                    if (i === missingIndex) continue;
 
-            B[missingIndex] = result; // Include the missing point in the dataset
-
-            plotGraph(A, B);
-        }
-
-        function plotGraph(A, B) {
-            const ctx = document.getElementById('chart').getContext('2d');
-
-            const dataPoints = A.map((a, i) => ({ x: a, y: B[i] }));
-
-            if (window.myChart) window.myChart.destroy();
-
-            window.myChart = new Chart(ctx, {
-                type: 'scatter',
-                data: {
-                    datasets: [{
-                        label: 'Data Points & Curve',
-                        data: dataPoints,
-                        backgroundColor: dataPoints.map(point => point.y === null ? 'blue' : 'red'),
-                        borderColor: 'red',
-                        showLine: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    scales: {
-                        x: {
-                            title: { display: true, text: 'A (X-values)' }
-                        },
-                        y: {
-                            title: { display: true, text: 'B (Y-values)' }
+                    let term = B[i];
+                    for (let j = 0; j < 4; j++) {
+                        if (i !== j && j !== missingIndex) {
+                            term *= (A[missingIndex] - A[j]) / (A[i] - A[j]);
                         }
                     }
+                    result += term;
                 }
-            });
-        }
+
+                document.getElementById(`B${missingIndex + 1}`).value = result.toFixed(4);
+                B[missingIndex] = result;
+
+                plotGraph(A, B);
+            }
+
+            function plotGraph(A, B) {
+                const ctx = document.getElementById('chart').getContext('2d');
+
+                const dataPoints = A.map((a, i) => ({ x: a, y: B[i] }));
+
+                if (window.myChart) window.myChart.destroy();
+
+                window.myChart = new Chart(ctx, {
+                    type: 'scatter',
+                    data: {
+                        datasets: [{
+                            label: 'Non-Linear Interpolation',
+                            data: dataPoints,
+                            backgroundColor: 'blue',
+                            borderColor: 'blue',
+                            showLine: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            x: { title: { display: true, text: 'A (X-values)' } },
+                            y: { title: { display: true, text: 'B (Y-values)' } }
+                        }
+                    }
+                });
+            }
+
+            document.querySelector("button").addEventListener("click", calculateNonLinear);
+        });
     </script>
 </head>
 <body>
@@ -189,10 +188,10 @@
             <input type="number" id="A4" value="">
             <input type="number" id="B4" value="" step="any">
         </div>
-        <button onclick="calculateNonLinear()">Calculate</button>
+        <button>Calculate</button>
         <canvas id="chart" width="400" height="300"></canvas>
         <div class="formula">
-            <strong>Lagrange Interpolation Formula:</strong><br>
+            <strong>Non-Linear Interpolation Formula (Lagrange):</strong><br>
             P(x) = Σ [Bᵢ × Π((x - Aⱼ) / (Aᵢ - Aⱼ))] for i ≠ j
         </div>
     </div>
