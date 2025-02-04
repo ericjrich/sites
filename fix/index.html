@@ -19,6 +19,11 @@
       padding: 1em;
       box-sizing: border-box;
     }
+    #lottoNumberDisplay {
+        font-size: 1em;
+        margin-top: 10px;
+        opacity: 0.1; /* Faded effect */
+    }
   </style>
   <script>
     function openPopup(url) {
@@ -121,8 +126,31 @@
     </ul>
   </li>
 </ul>
-  <em>20250131 @ 2332 EST</em>
+  <em>20250203 @ 1948 EST</em>
+  <div id="lottoNumberDisplay"></div>
+    <script>
+        function generateLottoNumber() {
+            const lottoDayModifiers = {
+                0: 6,   // Sunday
+                1: 12,  // Monday
+                2: 20,  // Tuesday
+                3: 30,  // Wednesday
+                4: 42,  // Thursday
+                5: 56,  // Friday
+                6: 72   // Saturday
+            };
 
+            const lottoToday = new Date();
+            const lottoDayOfWeek = lottoToday.getDay();
+            const lottoDateOfMonth = lottoToday.getDate();
+
+            const lottoBaseValue = lottoDayModifiers[lottoDayOfWeek] + lottoDateOfMonth;
+
+            document.getElementById('lottoNumberDisplay').innerText = `Rev: ${lottoBaseValue}`;
+        }
+
+        generateLottoNumber();
+    </script>
 </body>
 </html>
 <!-- NOTES
