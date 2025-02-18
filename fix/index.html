@@ -24,6 +24,35 @@
         margin-top: 10px;
         opacity: 0.1; /* Faded effect */
     }
+    .scrolling-text-container {
+      width: 90%; /* Matches button width */
+      max-width: 600px;
+      overflow: hidden;
+      white-space: nowrap;
+      margin: 0 auto 1em auto;
+      position: relative;
+    }
+
+    .scrolling-text {
+      display: flex;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #4A90E2;
+      animation: scrollText 10s linear infinite;
+      gap: 1em; /* Space between repeated text */
+      width: max-content;
+    }
+
+    @keyframes scrollText {
+      from {
+        transform: translateX(0);
+      }
+      to {
+        transform: translateX(-50%);
+      }
+    }
+
+
   </style>
   <script>
     function openPopup(url) {
@@ -76,7 +105,21 @@
   </script>
 </head>
 <body>
-  <h1>EJRNOTES</h1>
+<h1>EJRNOTES</h1>
+<div class="scrolling-text-container">
+  <div class="scrolling-text">
+    <span>We Will Survive ! &nbsp;•&nbsp;</span>
+    <span>We Will ReBuild ! &nbsp;•&nbsp;</span>
+    <span>We Will ReInvent ! &nbsp;•&nbsp;</span>
+    <span>We Will Succeed ! &nbsp;•&nbsp;</span>
+    <span>We Will Survive ! &nbsp;•&nbsp;</span>
+    <span>We Will ReBuild ! &nbsp;•&nbsp;</span>
+    <span>We Will ReInvent ! &nbsp;•&nbsp;</span>
+    <span>We Will Succeed ! &nbsp;•&nbsp;</span>
+
+  </div>
+</div>
+
 <ul>
   <li>DMMs
     <ul class="submenu">
@@ -126,7 +169,7 @@
     </ul>
   </li>
 </ul>
-  <em>20250203 @ 1948 EST</em>
+  <em>20250218 @ 1333 EST</em>
   <div id="lottoNumberDisplay"></div>
     <script>
         function generateLottoNumber() {
