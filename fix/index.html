@@ -25,32 +25,51 @@
         opacity: 0.1; /* Faded effect */
     }
     .scrolling-text-container {
-      width: 90%; /* Matches button width */
+      width: 90%;
       max-width: 600px;
       overflow: hidden;
-      white-space: nowrap;
       margin: 0 auto 1em auto;
       position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .scrolling-text {
       display: flex;
-      font-size: 1.2em;
+      font-size: 2em;
       font-weight: bold;
       color: #4A90E2;
-      animation: scrollText 10s linear infinite;
-      gap: 1em; /* Space between repeated text */
-      width: max-content;
+      gap: 1em;
     }
 
-    @keyframes scrollText {
-      from {
+    .left-fist {
+      animation: leftFistBump 1s ease-in-out infinite;
+    }
+
+    .right-fist {
+      animation: rightFistBump 1s ease-in-out infinite;
+    }
+
+    @keyframes leftFistBump {
+      0%, 100% {
         transform: translateX(0);
       }
-      to {
-        transform: translateX(-50%);
+      50% {
+        transform: translateX(20px); /* Moves right fist to the left */
       }
     }
+
+    @keyframes rightFistBump {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      50% {
+        transform: translateX(-20px); /* Moves left fist to the right */
+      }
+    }
+
+
 
 
   </style>
@@ -108,17 +127,12 @@
 <h1>EJRNOTES</h1>
 <div class="scrolling-text-container">
   <div class="scrolling-text">
-    <span>We Will Survive ! &nbsp;•&nbsp;</span>
-    <span>We Will ReBuild ! &nbsp;•&nbsp;</span>
-    <span>We Will ReInvent ! &nbsp;•&nbsp;</span>
-    <span>We Will Succeed ! &nbsp;•&nbsp;</span>
-    <span>We Will Survive ! &nbsp;•&nbsp;</span>
-    <span>We Will ReBuild ! &nbsp;•&nbsp;</span>
-    <span>We Will ReInvent ! &nbsp;•&nbsp;</span>
-    <span>We Will Succeed ! &nbsp;•&nbsp;</span>
-
+    <span class="left-fist">🤜</span>
+    <span class="right-fist">🤛</span>
   </div>
 </div>
+
+
 
 <ul>
   <li>DMMs
@@ -169,7 +183,7 @@
     </ul>
   </li>
 </ul>
-  <em>20250218 @ 1333 EST</em>
+  <em>20250303 @ 1315 EST</em>
   <div id="lottoNumberDisplay"></div>
     <script>
         function generateLottoNumber() {
