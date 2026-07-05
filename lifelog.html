@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Life Log (EJRCNC)</title>
+<style>
+body { font-family: sans-serif; padding: 15px; max-width: 700px; margin: auto; }
+input, textarea, button { width: 100%; padding: 10px; margin: 6px 0; font-size: 16px; }
+button { font-weight: bold; }
+.entry { white-space: pre-wrap; background: #f2f2f2; padding: 12px; margin-top: 12px; border-radius: 8px; }
+</style>
+</head>
+<body>
+
+<h2>Observation → Action Log</h2>
+<input id="state" placeholder="What exists right now?">
+<input id="goal" placeholder="What should exist?">
+<input id="problem" placeholder="What's preventing the goal?">
+<input id="cause" placeholder="Why is that happening?">
+<input id="constraint" placeholder="What limits me?">
+<input id="resource" placeholder="What can help?">
+<input id="opportunity" placeholder="What's available to improve things?">
+<input id="action" placeholder="What's the next thing to do?">
+
+<button onclick="addEntry()">Submit</button>
+<button onclick="clearForm()">Clear Form</button>
+<button onclick="clearLog()">Clear Log</button>
+<button onclick="downloadLog()">Download Log as TXT</button>
+
+<h3>Log</h3>
+<div id="log"></div>
+
+<script>
+function loadLog() {
+  document.getElementById("log").innerHTML =
+    localStorage.getItem("lifeLog") || "";
+}
+
+function addEntry() {
+  const now = new Date().toLocaleString();
+
+  const entry =
+`[${now}]
+
+State
+${state.value}
+
+Goal
+${goal.value}
+
+Problem
+${problem.value}
+
+Cause
+${cause.value}
+
+Constraint
+${constraint.value}
+
+Resource
+${resource.value}
+
+Opportunity
+${opportunity.value}
+
+Action
+${action.value}
+------------------------------`;
+
+  const oldLog = localStorage.getItem("lifeLog") || "";
+  localStorage.setItem("lifeLog", `<div class="entry">${entry}</div>` + oldLog);
+
+  clearForm();
+  loadLog();
+}
+
+function clearForm() {
+  ["state","goal","problem","cause","constraint","resource","opportunity","action"]
+    .forEach(id => document.getElementById(id).value = "");
+}
+
+
+function getPlainLogText() {
+  const temp = document.createElement("div");
+  temp.innerHTML = localStorage.getItem("lifeLog") || "";
+  return temp.innerText.trim();
+}
+
+function downloadLog() {
+  const text = getPlainLogText();
+
+  if (!text) {
+    alert("No log entries to download yet.");
+    return;
+  }
+
+  const date = new Date().toISOString().slice(0, 10);
+  const filename = `life-log-${date}.txt`;
+  const blob = new Blob([text + "\n"], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+
+  URL.revokeObjectURL(url);
+}
+
+function clearLog() {
+  if (confirm("Delete the whole log?")) {
+    localStorage.removeItem("lifeLog");
+    loadLog();
+  }
+}
+
+loadLog();
+</script>
+
+</body>
+</html>
