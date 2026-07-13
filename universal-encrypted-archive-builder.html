@@ -1,0 +1,1741 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Universal Encrypted Archive Builder & Viewer</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; background: Canvas; color: CanvasText; }
+    main {
+      width: min(900px, calc(100% - 28px));
+      margin: 28px auto;
+      padding: 24px;
+      border: 1px solid color-mix(in srgb, CanvasText 20%, transparent);
+      border-radius: 16px;
+      box-shadow: 0 14px 50px color-mix(in srgb, CanvasText 12%, transparent);
+    }
+    h1, h2, h3 { margin-top: 0; }
+    p { line-height: 1.5; }
+    label, legend { font-weight: 700; }
+    label { display: block; margin: 16px 0 6px; }
+    input, button, select { font: inherit; }
+    input[type="file"], input[type="password"], input[type="text"], select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid color-mix(in srgb, CanvasText 25%, transparent);
+      border-radius: 10px;
+      background: Canvas;
+      color: CanvasText;
+    }
+    button {
+      padding: 13px 16px;
+      border: 0;
+      border-radius: 10px;
+      background: #2563eb;
+      color: white;
+      font-weight: 750;
+      cursor: pointer;
+    }
+    button:disabled { opacity: .55; cursor: wait; }
+    .secondary {
+      background: transparent;
+      color: CanvasText;
+      border: 1px solid color-mix(in srgb, CanvasText 30%, transparent);
+    }
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin: 22px 0;
+    }
+    .tab {
+      background: transparent;
+      color: CanvasText;
+      border: 1px solid color-mix(in srgb, CanvasText 25%, transparent);
+    }
+    .tab.active {
+      background: #2563eb;
+      color: white;
+      border-color: transparent;
+    }
+    .panel {
+      border-top: 1px solid color-mix(in srgb, CanvasText 18%, transparent);
+      padding-top: 22px;
+    }
+    .panel[hidden], [hidden] { display: none !important; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .action { width: 100%; margin-top: 18px; }
+    .info {
+      margin: 14px 0 0;
+      padding: 12px;
+      border-radius: 10px;
+      background: color-mix(in srgb, CanvasText 8%, transparent);
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+    .notice { border-left: 4px solid #2563eb; }
+    .builder-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    .builder-buttons .secondary { white-space: nowrap; }
+    .stage-list {
+      margin-top: 14px;
+      display: grid;
+      gap: 10px;
+    }
+    .stage-item {
+      border: 1px solid color-mix(in srgb, CanvasText 18%, transparent);
+      border-radius: 12px;
+      padding: 12px;
+    }
+    .stage-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+    }
+    .stage-title { font-weight: 750; overflow-wrap: anywhere; }
+    .stage-meta { margin-top: 4px; font-size: .85rem; opacity: .72; }
+    .stage-head button { padding: 8px 11px; }
+    .stage-paths {
+      margin: 10px 0 0;
+      padding-left: 22px;
+      max-height: 180px;
+      overflow: auto;
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: .82rem;
+      opacity: .8;
+    }
+    .small { font-size: .9rem; opacity: .78; }
+    .status {
+      min-height: 1.5em;
+      margin-top: 12px;
+      font-weight: 650;
+      overflow-wrap: anywhere;
+    }
+    .error { color: #dc2626; }
+    .ok { color: #16a34a; }
+    code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    @media (max-width: 650px) {
+      .row, .tabs, .builder-buttons { grid-template-columns: 1fr; }
+      main { width: min(100% - 18px, 900px); margin: 9px auto; padding: 17px; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Universal Encrypted Archive Builder & Viewer</h1>
+  <p>
+    Build one package by adding loose files and folders in any combination.
+    One loose file becomes <code>name.ext.crypt.html</code>; anything larger
+    becomes <code>name.arch.crypt.html</code>.
+  </p>
+
+  <div class="tabs" role="tablist" aria-label="Tool mode">
+    <button id="createTab" class="tab active" type="button">Archive Builder</button>
+    <button id="openTab" class="tab" type="button">Open Existing Protected HTML</button>
+  </div>
+
+  <section id="createPanel" class="panel">
+    <h2>Create</h2>
+
+    <h3>Archive Builder</h3>
+    <p>
+      Add loose files and folders in any order. Keep adding until the package
+      contains everything you want, then encrypt it once.
+    </p>
+
+    <div class="builder-buttons">
+      <button id="addFilesButton" type="button">+ Add Files</button>
+      <button id="addFolderButton" type="button">+ Add Folder</button>
+      <button id="clearStageButton" class="secondary" type="button">Clear All</button>
+    </div>
+
+    <input id="filesPicker" type="file" multiple hidden>
+    <input id="folderPickerInput" type="file"
+           webkitdirectory directory multiple hidden>
+
+    <div id="stageEmpty" class="info">
+      Nothing added yet. Add files, folders, or both.
+    </div>
+    <div id="stageList" class="stage-list" hidden></div>
+    <div id="sourceInfo" class="info" hidden></div>
+
+    <p class="small">
+      Folder paths are preserved. Empty folders cannot be included because the
+      browser picker returns files and their paths, not empty-directory records.
+      Duplicate top-level names are kept by automatically adding “(2)”, “(3)”, and so on.
+    </p>
+
+    <div class="info notice">
+      Single files default to <strong>Open in new tab</strong> after unlocking.
+      Archives default to <strong>Extract archive</strong>, with a second option
+      to browse the folder tree and preview individual files.
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="pass1">Passphrase</label>
+        <input id="pass1" type="password" autocomplete="new-password">
+      </div>
+      <div>
+        <label for="pass2">Confirm passphrase</label>
+        <input id="pass2" type="password" autocomplete="new-password">
+      </div>
+    </div>
+
+    <label for="clue">Optional clue</label>
+    <input id="clue" type="text" maxlength="500"
+           placeholder="Example: Stored in the blue notebook">
+    <p class="small">
+      The clue is visible before unlocking. Do not put the passphrase itself in it.
+    </p>
+
+    <label for="outputName">Output filename</label>
+    <input id="outputName" type="text" value="protected-file.crypt.html">
+
+    <button id="createButton" class="action" type="button">
+      Encrypt and Download
+    </button>
+    <div id="createStatus" class="status" aria-live="polite"></div>
+  </section>
+
+  <section id="openPanel" class="panel" hidden>
+    <h2>Open or Extract Existing Protected HTML</h2>
+
+    <label for="protectedInput">Choose a supported protected HTML file</label>
+    <input id="protectedInput" type="file" accept=".html,.htm,text/html">
+
+    <div id="protectedInfo" class="info" hidden></div>
+    <div id="protectedClue" class="info" hidden></div>
+
+    <label for="openPass">Passphrase</label>
+    <input id="openPass" type="password" autocomplete="current-password">
+
+    <button id="openButton" class="action" type="button">
+      Decrypt
+    </button>
+    <div id="openStatus" class="status" aria-live="polite"></div>
+
+    <p class="small">
+      Current archive/viewer files and the earlier single-file protector formats
+      are supported here.
+    </p>
+  </section>
+
+  <p class="small">
+    AES-256-GCM encryption; PBKDF2-SHA-256 key derivation; random salt and IV;
+    300,000 derivation rounds. The passphrase is never stored.
+  </p>
+  <p class="small">
+    Everything is processed in browser memory. Very large archives may exceed
+    the available memory on phones or older computers.
+  </p>
+</main>
+
+<script>
+"use strict";
+
+const ITERATIONS = 300000;
+const CURRENT_PAYLOAD_ID = "encryptedArchiveViewerPayload";
+const LEGACY_IDS = ["universalViewerPayload", "universalEncryptedPayload", "encryptedPayload"];
+const encoder = new TextEncoder();
+const decoder = new TextDecoder();
+const $ = (id) => document.getElementById(id);
+
+const createTab = $("createTab");
+const openTab = $("openTab");
+const createPanel = $("createPanel");
+const openPanel = $("openPanel");
+
+const addFilesButton = $("addFilesButton");
+const addFolderButton = $("addFolderButton");
+const clearStageButton = $("clearStageButton");
+const filesPicker = $("filesPicker");
+const folderPickerInput = $("folderPickerInput");
+const stageEmpty = $("stageEmpty");
+const stageList = $("stageList");
+const sourceInfo = $("sourceInfo");
+const pass1 = $("pass1");
+const pass2 = $("pass2");
+const clueInput = $("clue");
+const outputName = $("outputName");
+const createButton = $("createButton");
+const createStatus = $("createStatus");
+
+const protectedInput = $("protectedInput");
+const protectedInfo = $("protectedInfo");
+const protectedClue = $("protectedClue");
+const openPass = $("openPass");
+const openButton = $("openButton");
+const openStatus = $("openStatus");
+
+let stagedGroups = [];
+let nextStageId = 1;
+let outputNameTouched = false;
+let loadedPayload = null;
+let loadedProtectedName = "";
+
+function setMainMode(mode) {
+  const creating = mode === "create";
+  createPanel.hidden = !creating;
+  openPanel.hidden = creating;
+  createTab.classList.toggle("active", creating);
+  openTab.classList.toggle("active", !creating);
+}
+createTab.addEventListener("click", () => setMainMode("create"));
+openTab.addEventListener("click", () => setMainMode("open"));
+
+function setStatus(element, message, kind = "") {
+  element.textContent = message;
+  element.className = ("status " + kind).trim();
+}
+
+function formatBytes(bytes) {
+  if (!Number.isFinite(bytes) || bytes < 0) return "Unknown size";
+  const units = ["B", "KB", "MB", "GB", "TB"];
+  let value = bytes;
+  let unit = 0;
+  while (value >= 1024 && unit < units.length - 1) {
+    value /= 1024;
+    unit++;
+  }
+  const digits = unit === 0 || value >= 100 ? 0 : value >= 10 ? 1 : 2;
+  return value.toFixed(digits) + " " + units[unit];
+}
+
+function cleanArchiveName(value) {
+  const cleaned = String(value || "archive")
+    .replace(/[\\/:*?"<>|]+/g, "-")
+    .replace(/\s+/g, " ")
+    .trim();
+  return cleaned || "archive";
+}
+
+function splitFilename(name) {
+  const match = String(name).match(/^(.*?)(\.[^.]+)?$/);
+  return { base: match && match[1] ? match[1] : String(name), ext: match && match[2] ? match[2] : "" };
+}
+
+function uniqueTopLevelName(desiredName, preserveExtension = true) {
+  const used = new Set(stagedGroups.map(group => group.rootName.toLowerCase()));
+  if (!used.has(desiredName.toLowerCase())) return desiredName;
+
+  const parts = preserveExtension ? splitFilename(desiredName) : { base: desiredName, ext: "" };
+  let number = 2;
+  let candidate;
+  do {
+    candidate = parts.base + " (" + number + ")" + parts.ext;
+    number++;
+  } while (used.has(candidate.toLowerCase()));
+  return candidate;
+}
+
+function stagedEntries() {
+  return stagedGroups.flatMap(group => group.files.map(item => ({
+    file: item.file,
+    path: item.path,
+    groupId: group.id,
+    groupType: group.type
+  })));
+}
+
+function packageDescriptor() {
+  const entries = stagedEntries();
+  const isSingleFile =
+    stagedGroups.length === 1 &&
+    stagedGroups[0].type === "file" &&
+    stagedGroups[0].files.length === 1;
+
+  let name = "archive";
+  if (isSingleFile) {
+    name = stagedGroups[0].files[0].file.name;
+  } else if (stagedGroups.length === 1 && stagedGroups[0].type === "folder") {
+    name = stagedGroups[0].rootName;
+  }
+
+  return {
+    entries,
+    kind: isSingleFile ? "file" : "archive",
+    name: cleanArchiveName(name),
+    sourceMode: isSingleFile ? "single" : "staged-archive"
+  };
+}
+
+function suggestedOutput() {
+  const descriptor = packageDescriptor();
+  if (!descriptor.entries.length) return "archive.arch.crypt.html";
+  return descriptor.kind === "file"
+    ? descriptor.name + ".crypt.html"
+    : descriptor.name + ".arch.crypt.html";
+}
+
+function updateOutputName() {
+  if (!outputNameTouched) outputName.value = suggestedOutput();
+}
+
+function renderStage() {
+  setStatus(createStatus, "");
+  stageList.replaceChildren();
+
+  if (!stagedGroups.length) {
+    stageEmpty.hidden = false;
+    stageList.hidden = true;
+    sourceInfo.hidden = true;
+    sourceInfo.textContent = "";
+    updateOutputName();
+    return;
+  }
+
+  stageEmpty.hidden = true;
+  stageList.hidden = false;
+
+  stagedGroups.forEach(group => {
+    const item = document.createElement("div");
+    item.className = "stage-item";
+
+    const head = document.createElement("div");
+    head.className = "stage-head";
+
+    const textBox = document.createElement("div");
+    const title = document.createElement("div");
+    title.className = "stage-title";
+    title.textContent = (group.type === "folder" ? "📁 " : "📄 ") + group.rootName;
+
+    const total = group.files.reduce((sum, item) => sum + item.file.size, 0);
+    const meta = document.createElement("div");
+    meta.className = "stage-meta";
+    meta.textContent = group.files.length + " file" + (group.files.length === 1 ? "" : "s") +
+      " · " + formatBytes(total);
+
+    textBox.appendChild(title);
+    textBox.appendChild(meta);
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "secondary";
+    remove.textContent = "Remove";
+    remove.addEventListener("click", () => {
+      stagedGroups = stagedGroups.filter(existing => existing.id !== group.id);
+      renderStage();
+    });
+
+    head.appendChild(textBox);
+    head.appendChild(remove);
+    item.appendChild(head);
+
+    if (group.type === "folder" || group.files.length > 1) {
+      const details = document.createElement("details");
+      details.className = "stage-paths";
+      const summary = document.createElement("summary");
+      summary.textContent = "Show contained files";
+      details.appendChild(summary);
+      const list = document.createElement("ul");
+      group.files.forEach(entry => {
+        const row = document.createElement("li");
+        row.textContent = entry.path;
+        list.appendChild(row);
+      });
+      details.appendChild(list);
+      item.appendChild(details);
+    }
+
+    stageList.appendChild(item);
+  });
+
+  const descriptor = packageDescriptor();
+  const totalSize = descriptor.entries.reduce((sum, entry) => sum + entry.file.size, 0);
+  sourceInfo.textContent =
+    "Package type: " + (descriptor.kind === "file" ? "Single-file viewer" : "Archive") + "\n" +
+    "Top-level items: " + stagedGroups.length + "\n" +
+    "Total files: " + descriptor.entries.length + "\n" +
+    "Original size: " + formatBytes(totalSize);
+  sourceInfo.hidden = false;
+  updateOutputName();
+}
+
+function addLooseFiles(files) {
+  Array.from(files || []).forEach(file => {
+    const rootName = uniqueTopLevelName(file.name);
+    stagedGroups.push({
+      id: nextStageId++,
+      type: "file",
+      rootName,
+      files: [{ file, path: rootName }]
+    });
+  });
+  renderStage();
+}
+
+function addFolderFiles(files) {
+  const selected = Array.from(files || []);
+  if (!selected.length) return;
+
+  const roots = new Map();
+  selected.forEach(file => {
+    const rawPath = String(file.webkitRelativePath || file.name).replace(/\\/g, "/");
+    const parts = rawPath.split("/").filter(Boolean);
+    const root = parts.length > 1 ? parts[0] : "folder";
+    if (!roots.has(root)) roots.set(root, []);
+    roots.get(root).push({ file, parts });
+  });
+
+  roots.forEach((items, originalRoot) => {
+    const rootName = uniqueTopLevelName(originalRoot, false);
+    stagedGroups.push({
+      id: nextStageId++,
+      type: "folder",
+      rootName,
+      files: items.map(item => {
+        const relativeParts = item.parts.length > 1 ? item.parts.slice(1) : [item.file.name];
+        return {
+          file: item.file,
+          path: [rootName].concat(relativeParts).join("/")
+        };
+      })
+    });
+  });
+
+  renderStage();
+}
+
+addFilesButton.addEventListener("click", () => filesPicker.click());
+addFolderButton.addEventListener("click", () => folderPickerInput.click());
+clearStageButton.addEventListener("click", () => {
+  stagedGroups = [];
+  outputNameTouched = false;
+  filesPicker.value = "";
+  folderPickerInput.value = "";
+  renderStage();
+});
+
+filesPicker.addEventListener("change", () => {
+  addLooseFiles(filesPicker.files);
+  filesPicker.value = "";
+});
+
+folderPickerInput.addEventListener("change", () => {
+  addFolderFiles(folderPickerInput.files);
+  folderPickerInput.value = "";
+});
+
+outputName.addEventListener("input", () => {
+  outputNameTouched = true;
+});
+
+renderStage();
+
+function bytesToBase64(bytes) {
+  let binary = "";
+  const chunkSize = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunkSize) {
+    binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunkSize));
+  }
+  return btoa(binary);
+}
+
+function base64ToBytes(base64) {
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return bytes;
+}
+
+async function deriveKey(passphrase, salt, iterations, hash, usages) {
+  const material = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(passphrase),
+    "PBKDF2",
+    false,
+    ["deriveKey"]
+  );
+  return crypto.subtle.deriveKey(
+    { name: "PBKDF2", hash, salt, iterations },
+    material,
+    { name: "AES-GCM", length: 256 },
+    false,
+    usages
+  );
+}
+
+function normalizePath(path) {
+  return String(path || "")
+    .replace(/\\/g, "/")
+    .replace(/^\/+/, "")
+    .split("/")
+    .filter(part => part && part !== "." && part !== "..")
+    .join("/");
+}
+
+async function buildPackage(descriptor) {
+  const entries = [];
+  const byteArrays = [];
+  let offset = 0;
+
+  for (const item of descriptor.entries) {
+    const file = item.file;
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    const path = normalizePath(item.path);
+    if (!path) throw new Error("A staged file has an invalid path.");
+
+    entries.push({
+      path,
+      name: file.name,
+      type: file.type || "application/octet-stream",
+      size: bytes.length,
+      lastModified: file.lastModified || 0,
+      offset,
+      length: bytes.length
+    });
+
+    byteArrays.push(bytes);
+    offset += bytes.length;
+  }
+
+  const metadata = {
+    format: "ER-ARCHIVE-1",
+    kind: descriptor.kind,
+    name: descriptor.name,
+    sourceMode: descriptor.sourceMode,
+    createdAt: new Date().toISOString(),
+    totalSize: offset,
+    entries
+  };
+
+  const metadataBytes = encoder.encode(JSON.stringify(metadata));
+  const packageBytes = new Uint8Array(4 + metadataBytes.length + offset);
+  const view = new DataView(packageBytes.buffer);
+  view.setUint32(0, metadataBytes.length, false);
+  packageBytes.set(metadataBytes, 4);
+
+  let cursor = 4 + metadataBytes.length;
+  for (const bytes of byteArrays) {
+    packageBytes.set(bytes, cursor);
+    cursor += bytes.length;
+  }
+
+  return { metadata, packageBytes };
+}
+
+function unpackPackage(plainBytes) {
+  if (!(plainBytes instanceof Uint8Array) || plainBytes.length < 4) {
+    throw new Error("The decrypted package is incomplete.");
+  }
+
+  const view = new DataView(
+    plainBytes.buffer,
+    plainBytes.byteOffset,
+    plainBytes.byteLength
+  );
+  const metadataLength = view.getUint32(0, false);
+
+  if (metadataLength < 2 || 4 + metadataLength > plainBytes.length) {
+    throw new Error("The package metadata is damaged.");
+  }
+
+  let metadata;
+  try {
+    metadata = JSON.parse(
+      decoder.decode(plainBytes.subarray(4, 4 + metadataLength))
+    );
+  } catch {
+    throw new Error("The package metadata could not be read.");
+  }
+
+  const dataStart = 4 + metadataLength;
+
+  if (metadata && metadata.format === "ER-ARCHIVE-1" && Array.isArray(metadata.entries)) {
+    return { metadata, data: plainBytes.slice(dataStart) };
+  }
+
+  // Compatibility with the previous single-file metadata package.
+  if (metadata && typeof metadata.name === "string" && !metadata.entries) {
+    const bytes = plainBytes.slice(dataStart);
+    return {
+      metadata: {
+        format: "ER-ARCHIVE-1",
+        kind: "file",
+        name: metadata.name,
+        sourceMode: "single",
+        totalSize: bytes.length,
+        entries: [{
+          path: metadata.name,
+          name: metadata.name,
+          type: metadata.type || "application/octet-stream",
+          size: bytes.length,
+          lastModified: metadata.lastModified || 0,
+          offset: 0,
+          length: bytes.length
+        }]
+      },
+      data: bytes
+    };
+  }
+
+  throw new Error("This is not a supported package.");
+}
+
+function entryBytes(pkg, entry) {
+  const start = Number(entry.offset);
+  const end = start + Number(entry.length);
+  if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) ||
+      start < 0 || end > pkg.data.length) {
+    throw new Error("An archive entry points outside the package.");
+  }
+  return pkg.data.slice(start, end);
+}
+
+function downloadBlob(blob, filename) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+function safeTitle(value) {
+  return String(value || "Encrypted File").replace(/[<>&"]/g, function(character) {
+    return { "<": "&lt;", ">": "&gt;", "&": "&amp;", '"': "&quot;" }[character];
+  });
+}
+
+function makeProtectedHtml(payload, publicKind, title) {
+  const payloadJson = JSON.stringify(payload).replace(/</g, "\\u003c");
+  const isArchive = publicKind === "archive";
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${safeTitle(title)} — Encrypted</title>
+<style>
+:root{color-scheme:light dark;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:Canvas;color:CanvasText}
+main{width:min(1150px,calc(100% - 24px));margin:18px auto;padding:22px;border:1px solid color-mix(in srgb,CanvasText 20%,transparent);border-radius:16px;box-shadow:0 14px 50px color-mix(in srgb,CanvasText 12%,transparent)}
+h1,h2,h3{margin-top:0}p{line-height:1.45}
+label,legend{font-weight:700}label{display:block;margin:16px 0 6px}
+input,button{font:inherit}
+input[type=password]{width:100%;padding:12px;border:1px solid color-mix(in srgb,CanvasText 25%,transparent);border-radius:10px;background:Canvas;color:CanvasText}
+button{padding:11px 14px;border:0;border-radius:10px;background:#2563eb;color:#fff;font-weight:750;cursor:pointer}
+button:disabled{opacity:.55;cursor:wait}
+.secondary{background:transparent;color:CanvasText;border:1px solid color-mix(in srgb,CanvasText 30%,transparent)}
+fieldset{margin:18px 0 0;padding:14px;border:1px solid color-mix(in srgb,CanvasText 20%,transparent);border-radius:12px}
+.choice{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:start;margin:10px 0;cursor:pointer}
+.choice input{margin-top:4px}.choice strong,.choice span{display:block}.choice span span{margin-top:3px;font-size:.9rem;opacity:.76;line-height:1.35}
+#unlockButton,#clueButton{width:100%;margin-top:14px}
+.info{margin-top:12px;padding:12px;border-radius:10px;background:color-mix(in srgb,CanvasText 8%,transparent);white-space:pre-wrap;overflow-wrap:anywhere}
+#error{min-height:1.4em;margin-top:12px;color:#dc2626;font-weight:650}
+.small{font-size:.88rem;opacity:.72}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}.toolbar button{flex:1 1 180px}
+#tree{margin-top:16px;padding:12px;border:1px solid color-mix(in srgb,CanvasText 18%,transparent);border-radius:12px}
+details{margin-left:10px}summary{cursor:pointer;padding:5px;font-weight:700}
+.file-row{display:grid;grid-template-columns:minmax(180px,1fr) auto auto;gap:8px;align-items:center;padding:6px 4px 6px 18px;border-top:1px solid color-mix(in srgb,CanvasText 8%,transparent)}
+.file-name{overflow-wrap:anywhere}.file-meta{font-size:.82rem;opacity:.68}
+.file-row button{padding:7px 10px}
+#progress{margin-top:12px;font-weight:650}
+@media(max-width:650px){main{width:min(100% - 12px,1150px);margin:6px auto;padding:14px}.file-row{grid-template-columns:1fr 1fr}.file-name{grid-column:1/-1}}
+</style>
+</head>
+<body>
+<main>
+<section id="locked">
+  <h1>${isArchive ? "Encrypted Archive" : "Encrypted File"}</h1>
+  <p>Enter the passphrase and choose what happens after decryption.</p>
+  <form id="unlockForm">
+    <label for="passphrase">Passphrase</label>
+    <input id="passphrase" type="password" autocomplete="current-password" autofocus required>
+    <fieldset>
+      <legend>After decryption</legend>
+      ${isArchive ? `
+      <label class="choice">
+        <input type="radio" name="action" value="extract" checked>
+        <span><strong>Extract archive</strong><span>Restore the folder/files. A ZIP download is used when direct folder writing is unavailable.</span></span>
+      </label>
+      <label class="choice">
+        <input type="radio" name="action" value="browse">
+        <span><strong>Browse archive tree</strong><span>Explore folders and preview or download individual files.</span></span>
+      </label>` : `
+      <label class="choice">
+        <input type="radio" name="action" value="view" checked>
+        <span><strong>Open in new tab</strong><span>Use the browser viewer when the file type is supported.</span></span>
+      </label>
+      <label class="choice">
+        <input type="radio" name="action" value="download">
+        <span><strong>Download original</strong><span>Restore the original file exactly.</span></span>
+      </label>`}
+    </fieldset>
+    <button id="unlockButton" type="submit">Decrypt</button>
+  </form>
+  <button id="clueButton" class="secondary" type="button" hidden>Show clue</button>
+  <div id="clueBox" class="info" hidden></div>
+  <div id="error" role="alert" aria-live="polite"></div>
+  <p class="small">Decryption is local. The passphrase is not stored.</p>
+</section>
+
+<section id="opened" hidden>
+  <h2 id="packageTitle"></h2>
+  <div id="packageInfo" class="info"></div>
+  <div id="progress"></div>
+  <div class="toolbar">
+    <button id="primaryButton" type="button"></button>
+    <button id="browseButton" type="button">Browse Tree</button>
+    <button id="zipButton" type="button">Download ZIP</button>
+    <button id="lockButton" class="secondary" type="button">Lock Again</button>
+  </div>
+  <div id="tree" hidden></div>
+</section>
+</main>
+
+<script id="${CURRENT_PAYLOAD_ID}" type="application/json">${payloadJson}<\/script>
+<script>
+"use strict";
+
+var payload = JSON.parse(document.getElementById("${CURRENT_PAYLOAD_ID}").textContent);
+var encoder = new TextEncoder();
+var decoder = new TextDecoder();
+var locked = document.getElementById("locked");
+var opened = document.getElementById("opened");
+var form = document.getElementById("unlockForm");
+var passphraseInput = document.getElementById("passphrase");
+var unlockButton = document.getElementById("unlockButton");
+var clueButton = document.getElementById("clueButton");
+var clueBox = document.getElementById("clueBox");
+var errorBox = document.getElementById("error");
+var packageTitle = document.getElementById("packageTitle");
+var packageInfo = document.getElementById("packageInfo");
+var progressBox = document.getElementById("progress");
+var primaryButton = document.getElementById("primaryButton");
+var browseButton = document.getElementById("browseButton");
+var zipButton = document.getElementById("zipButton");
+var lockButton = document.getElementById("lockButton");
+var treeBox = document.getElementById("tree");
+var currentPackage = null;
+var activeUrls = [];
+
+if (typeof payload.clue === "string" && payload.clue.trim()) {
+  clueButton.hidden = false;
+  clueButton.addEventListener("click", function() {
+    var opening = clueBox.hidden;
+    clueBox.hidden = !opening;
+    clueBox.textContent = opening ? payload.clue : "";
+    clueButton.textContent = opening ? "Hide clue" : "Show clue";
+  });
+}
+
+function base64ToBytes(base64) {
+  var binary = atob(base64);
+  var bytes = new Uint8Array(binary.length);
+  for (var i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  return bytes;
+}
+
+function formatBytes(bytes) {
+  var units = ["B", "KB", "MB", "GB", "TB"];
+  var value = bytes;
+  var unit = 0;
+  while (value >= 1024 && unit < units.length - 1) {
+    value /= 1024;
+    unit++;
+  }
+  var digits = unit === 0 || value >= 100 ? 0 : value >= 10 ? 1 : 2;
+  return value.toFixed(digits) + " " + units[unit];
+}
+
+async function deriveKey(passphrase, salt) {
+  var material = await crypto.subtle.importKey(
+    "raw", encoder.encode(passphrase), "PBKDF2", false, ["deriveKey"]
+  );
+  return crypto.subtle.deriveKey(
+    {
+      name: "PBKDF2",
+      hash: payload.hash || "SHA-256",
+      salt: salt,
+      iterations: Number(payload.iterations) || 300000
+    },
+    material,
+    { name: payload.algorithm || "AES-GCM", length: 256 },
+    false,
+    ["decrypt"]
+  );
+}
+
+function unpackPackage(plainBytes) {
+  var view = new DataView(plainBytes.buffer, plainBytes.byteOffset, plainBytes.byteLength);
+  var metadataLength = view.getUint32(0, false);
+  if (metadataLength < 2 || 4 + metadataLength > plainBytes.length) {
+    throw new Error("Damaged decrypted package.");
+  }
+  var metadata = JSON.parse(decoder.decode(plainBytes.subarray(4, 4 + metadataLength)));
+  var data = plainBytes.slice(4 + metadataLength);
+
+  if (metadata && metadata.format === "ER-ARCHIVE-1" && Array.isArray(metadata.entries)) {
+    return { metadata: metadata, data: data };
+  }
+
+  if (metadata && typeof metadata.name === "string") {
+    return {
+      metadata: {
+        format: "ER-ARCHIVE-1",
+        kind: "file",
+        name: metadata.name,
+        sourceMode: "single",
+        totalSize: data.length,
+        entries: [{
+          path: metadata.name,
+          name: metadata.name,
+          type: metadata.type || "application/octet-stream",
+          size: data.length,
+          lastModified: metadata.lastModified || 0,
+          offset: 0,
+          length: data.length
+        }]
+      },
+      data: data
+    };
+  }
+
+  throw new Error("Unsupported decrypted package.");
+}
+
+function getEntryBytes(entry) {
+  var start = Number(entry.offset);
+  var end = start + Number(entry.length);
+  if (!Number.isSafeInteger(start) || !Number.isSafeInteger(end) ||
+      start < 0 || end > currentPackage.data.length) {
+    throw new Error("Archive entry is damaged.");
+  }
+  return currentPackage.data.slice(start, end);
+}
+
+function makeEntryBlob(entry) {
+  return new Blob([getEntryBytes(entry)], {
+    type: entry.type || "application/octet-stream"
+  });
+}
+
+function downloadBlob(blob, filename) {
+  var url = URL.createObjectURL(blob);
+  activeUrls.push(url);
+  var link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(function() {
+    URL.revokeObjectURL(url);
+    activeUrls = activeUrls.filter(function(item) { return item !== url; });
+  }, 2500);
+}
+
+function downloadEntry(entry) {
+  downloadBlob(makeEntryBlob(entry), entry.path.split("/").pop() || entry.name);
+}
+
+function isTextLike(type, name) {
+  return type.indexOf("text/") === 0 ||
+    type === "application/json" ||
+    type === "application/xml" ||
+    type === "application/javascript" ||
+    /\.(txt|md|markdown|csv|tsv|json|xml|yaml|yml|ini|conf|log|js|mjs|cjs|css|py|sh|bat|ps1|sql)$/i.test(name);
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, function(character) {
+    return {
+      "&": "&amp;", "<": "&lt;", ">": "&gt;",
+      '"': "&quot;", "'": "&#39;"
+    }[character];
+  });
+}
+
+function openWrapper(html) {
+  var wrapper = new Blob([html], { type: "text/html;charset=utf-8" });
+  var url = URL.createObjectURL(wrapper);
+  activeUrls.push(url);
+  var openedWindow = window.open(url, "_blank");
+  if (!openedWindow) {
+    URL.revokeObjectURL(url);
+    activeUrls = activeUrls.filter(function(item) { return item !== url; });
+    throw new Error("The browser blocked the new tab. Allow pop-ups and try again.");
+  }
+  setTimeout(function() {
+    URL.revokeObjectURL(url);
+    activeUrls = activeUrls.filter(function(item) { return item !== url; });
+  }, 60000);
+}
+
+function previewEntry(entry) {
+  var bytes = getEntryBytes(entry);
+  var type = String(entry.type || "application/octet-stream").toLowerCase();
+  var name = entry.name || entry.path.split("/").pop();
+  var blob = new Blob([bytes], { type: type });
+  var url = URL.createObjectURL(blob);
+  activeUrls.push(url);
+
+  if (type === "text/html" || /\.html?$/i.test(name)) {
+    var openedHtml = window.open(url, "_blank");
+    if (!openedHtml) throw new Error("The browser blocked the new tab.");
+    return;
+  }
+
+  if (isTextLike(type, name)) {
+    var content = decoder.decode(bytes);
+    openWrapper(
+      "<!doctype html><html><head><meta charset='utf-8'>" +
+      "<meta name='viewport' content='width=device-width,initial-scale=1'>" +
+      "<title>" + escapeHtml(name) + "</title>" +
+      "<style>body{margin:0;padding:20px;background:#111;color:#eee;" +
+      "font-family:ui-monospace,SFMono-Regular,Consolas,monospace}" +
+      "pre{white-space:pre-wrap;overflow-wrap:anywhere}</style></head>" +
+      "<body><pre>" + escapeHtml(content) + "</pre></body></html>"
+    );
+    return;
+  }
+
+  var openedFile = window.open(url, "_blank");
+  if (!openedFile) throw new Error("The browser blocked the new tab.");
+}
+
+function buildTree(entries) {
+  var root = { folders: {}, files: [] };
+
+  entries.forEach(function(entry) {
+    var parts = String(entry.path).split("/");
+    var fileName = parts.pop();
+    var node = root;
+
+    parts.forEach(function(part) {
+      if (!node.folders[part]) node.folders[part] = { folders: {}, files: [] };
+      node = node.folders[part];
+    });
+
+    node.files.push({ entry: entry, displayName: fileName });
+  });
+
+  return root;
+}
+
+function renderTreeNode(node, container) {
+  Object.keys(node.folders).sort().forEach(function(folderName) {
+    var details = document.createElement("details");
+    details.open = true;
+    var summary = document.createElement("summary");
+    summary.textContent = "📁 " + folderName;
+    details.appendChild(summary);
+    renderTreeNode(node.folders[folderName], details);
+    container.appendChild(details);
+  });
+
+  node.files.sort(function(a, b) {
+    return a.displayName.localeCompare(b.displayName);
+  }).forEach(function(item) {
+    var row = document.createElement("div");
+    row.className = "file-row";
+
+    var label = document.createElement("div");
+    label.className = "file-name";
+    var strong = document.createElement("div");
+    strong.textContent = "📄 " + item.displayName;
+    var meta = document.createElement("div");
+    meta.className = "file-meta";
+    meta.textContent =
+      (item.entry.type || "Unknown / binary") + " · " +
+      formatBytes(item.entry.length);
+    label.appendChild(strong);
+    label.appendChild(meta);
+
+    var preview = document.createElement("button");
+    preview.type = "button";
+    preview.textContent = "Open";
+    preview.addEventListener("click", function() {
+      try { previewEntry(item.entry); }
+      catch (error) { alert(error.message || "Could not open this file."); }
+    });
+
+    var download = document.createElement("button");
+    download.type = "button";
+    download.className = "secondary";
+    download.textContent = "Download";
+    download.addEventListener("click", function() {
+      downloadEntry(item.entry);
+    });
+
+    row.appendChild(label);
+    row.appendChild(preview);
+    row.appendChild(download);
+    container.appendChild(row);
+  });
+}
+
+function showTree() {
+  treeBox.replaceChildren();
+  renderTreeNode(buildTree(currentPackage.metadata.entries), treeBox);
+  treeBox.hidden = false;
+}
+
+async function writeArchiveToDirectory() {
+  if (!window.showDirectoryPicker) return false;
+
+  progressBox.textContent = "Choose a destination folder…";
+  var rootHandle;
+
+  try {
+    rootHandle = await window.showDirectoryPicker({ mode: "readwrite" });
+  } catch (error) {
+    if (error && error.name === "AbortError") {
+      progressBox.textContent = "Folder extraction canceled.";
+      return true;
+    }
+    return false;
+  }
+
+  var directoryCache = { "": rootHandle };
+  var entries = currentPackage.metadata.entries;
+
+  for (var i = 0; i < entries.length; i++) {
+    var entry = entries[i];
+    var parts = String(entry.path).split("/");
+    var filename = parts.pop();
+    var currentPath = "";
+    var currentHandle = rootHandle;
+
+    for (var p = 0; p < parts.length; p++) {
+      currentPath = currentPath ? currentPath + "/" + parts[p] : parts[p];
+      if (!directoryCache[currentPath]) {
+        currentHandle = await currentHandle.getDirectoryHandle(parts[p], { create: true });
+        directoryCache[currentPath] = currentHandle;
+      } else {
+        currentHandle = directoryCache[currentPath];
+      }
+    }
+
+    progressBox.textContent =
+      "Extracting " + (i + 1) + " of " + entries.length + ": " + entry.path;
+
+    var fileHandle = await currentHandle.getFileHandle(filename, { create: true });
+    var writable = await fileHandle.createWritable();
+    await writable.write(getEntryBytes(entry));
+    await writable.close();
+  }
+
+  progressBox.textContent =
+    "Extracted " + entries.length + " files successfully.";
+  return true;
+}
+
+var crcTable = null;
+
+function makeCrcTable() {
+  var table = new Uint32Array(256);
+  for (var n = 0; n < 256; n++) {
+    var c = n;
+    for (var k = 0; k < 8; k++) {
+      c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+    }
+    table[n] = c >>> 0;
+  }
+  return table;
+}
+
+function crc32(bytes) {
+  if (!crcTable) crcTable = makeCrcTable();
+  var crc = 0 ^ (-1);
+  for (var i = 0; i < bytes.length; i++) {
+    crc = (crc >>> 8) ^ crcTable[(crc ^ bytes[i]) & 0xFF];
+  }
+  return (crc ^ (-1)) >>> 0;
+}
+
+function dosDateTime(timestamp) {
+  var date = timestamp ? new Date(timestamp) : new Date();
+  var year = Math.max(1980, date.getFullYear());
+  var time =
+    ((date.getHours() & 31) << 11) |
+    ((date.getMinutes() & 63) << 5) |
+    ((Math.floor(date.getSeconds() / 2)) & 31);
+  var day =
+    (((year - 1980) & 127) << 9) |
+    (((date.getMonth() + 1) & 15) << 5) |
+    (date.getDate() & 31);
+  return { time: time, date: day };
+}
+
+function makeZip() {
+  var entries = currentPackage.metadata.entries;
+  var localParts = [];
+  var centralParts = [];
+  var localOffset = 0;
+
+  entries.forEach(function(entry) {
+    var fileBytes = getEntryBytes(entry);
+    var nameBytes = encoder.encode(String(entry.path));
+    var crc = crc32(fileBytes);
+    var dt = dosDateTime(entry.lastModified);
+    var local = new Uint8Array(30 + nameBytes.length);
+    var lv = new DataView(local.buffer);
+
+    lv.setUint32(0, 0x04034b50, true);
+    lv.setUint16(4, 20, true);
+    lv.setUint16(6, 0x0800, true);
+    lv.setUint16(8, 0, true);
+    lv.setUint16(10, dt.time, true);
+    lv.setUint16(12, dt.date, true);
+    lv.setUint32(14, crc, true);
+    lv.setUint32(18, fileBytes.length, true);
+    lv.setUint32(22, fileBytes.length, true);
+    lv.setUint16(26, nameBytes.length, true);
+    lv.setUint16(28, 0, true);
+    local.set(nameBytes, 30);
+
+    localParts.push(local, fileBytes);
+
+    var central = new Uint8Array(46 + nameBytes.length);
+    var cv = new DataView(central.buffer);
+    cv.setUint32(0, 0x02014b50, true);
+    cv.setUint16(4, 20, true);
+    cv.setUint16(6, 20, true);
+    cv.setUint16(8, 0x0800, true);
+    cv.setUint16(10, 0, true);
+    cv.setUint16(12, dt.time, true);
+    cv.setUint16(14, dt.date, true);
+    cv.setUint32(16, crc, true);
+    cv.setUint32(20, fileBytes.length, true);
+    cv.setUint32(24, fileBytes.length, true);
+    cv.setUint16(28, nameBytes.length, true);
+    cv.setUint16(30, 0, true);
+    cv.setUint16(32, 0, true);
+    cv.setUint16(34, 0, true);
+    cv.setUint16(36, 0, true);
+    cv.setUint32(38, 0, true);
+    cv.setUint32(42, localOffset, true);
+    central.set(nameBytes, 46);
+    centralParts.push(central);
+
+    localOffset += local.length + fileBytes.length;
+  });
+
+  var centralSize = centralParts.reduce(function(sum, part) {
+    return sum + part.length;
+  }, 0);
+
+  var end = new Uint8Array(22);
+  var ev = new DataView(end.buffer);
+  ev.setUint32(0, 0x06054b50, true);
+  ev.setUint16(4, 0, true);
+  ev.setUint16(6, 0, true);
+  ev.setUint16(8, entries.length, true);
+  ev.setUint16(10, entries.length, true);
+  ev.setUint32(12, centralSize, true);
+  ev.setUint32(16, localOffset, true);
+  ev.setUint16(20, 0, true);
+
+  return new Blob(localParts.concat(centralParts, [end]), {
+    type: "application/zip"
+  });
+}
+
+function downloadZip() {
+  progressBox.textContent = "Building ZIP…";
+  var zip = makeZip();
+  var name = String(currentPackage.metadata.name || "archive") + ".zip";
+  downloadBlob(zip, name);
+  progressBox.textContent = "Downloaded " + name + ".";
+}
+
+async function extractArchive() {
+  if (currentPackage.metadata.kind !== "archive") {
+    downloadEntry(currentPackage.metadata.entries[0]);
+    return;
+  }
+
+  try {
+    var direct = await writeArchiveToDirectory();
+    if (!direct) downloadZip();
+  } catch (error) {
+    console.error(error);
+    progressBox.textContent =
+      "Direct folder extraction failed; downloading a ZIP instead.";
+    downloadZip();
+  }
+}
+
+function openSingleFile() {
+  var entry = currentPackage.metadata.entries[0];
+  try {
+    previewEntry(entry);
+  } catch (error) {
+    progressBox.textContent =
+      (error.message || "This file could not be opened.") +
+      " Use Download Original.";
+  }
+}
+
+function downloadSingleFile() {
+  downloadEntry(currentPackage.metadata.entries[0]);
+}
+
+function showOpened() {
+  locked.hidden = true;
+  opened.hidden = false;
+  var metadata = currentPackage.metadata;
+  var archive = metadata.kind === "archive";
+
+  packageTitle.textContent = archive
+    ? "Archive: " + metadata.name
+    : "File: " + metadata.name;
+
+  packageInfo.textContent =
+    "Type: " + (archive ? "Archive" :
+      (metadata.entries[0].type || "Unknown / binary")) + "\\n" +
+    "Files: " + metadata.entries.length + "\\n" +
+    "Original size: " + formatBytes(metadata.totalSize || currentPackage.data.length);
+
+  primaryButton.textContent = archive ? "Extract Archive" : "Open in New Tab";
+  browseButton.hidden = !archive;
+  zipButton.hidden = !archive;
+
+  primaryButton.onclick = archive ? extractArchive : openSingleFile;
+  browseButton.onclick = showTree;
+  zipButton.onclick = downloadZip;
+}
+
+function lockAgain() {
+  activeUrls.forEach(function(url) { URL.revokeObjectURL(url); });
+  activeUrls = [];
+  currentPackage = null;
+  treeBox.replaceChildren();
+  treeBox.hidden = true;
+  progressBox.textContent = "";
+  opened.hidden = true;
+  locked.hidden = false;
+  passphraseInput.value = "";
+  passphraseInput.focus();
+  unlockButton.disabled = false;
+  unlockButton.textContent = "Decrypt";
+}
+
+lockButton.addEventListener("click", lockAgain);
+
+form.addEventListener("submit", async function(event) {
+  event.preventDefault();
+  errorBox.textContent = "";
+  unlockButton.disabled = true;
+  unlockButton.textContent = "Decrypting…";
+
+  try {
+    var salt = base64ToBytes(payload.salt);
+    var iv = base64ToBytes(payload.iv);
+    var ciphertext = base64ToBytes(payload.ciphertext);
+    var key = await deriveKey(passphraseInput.value, salt);
+
+    var plainBuffer = await crypto.subtle.decrypt(
+      { name: payload.algorithm || "AES-GCM", iv: iv },
+      key,
+      ciphertext
+    );
+
+    currentPackage = unpackPackage(new Uint8Array(plainBuffer));
+    showOpened();
+
+    var actionElement = document.querySelector('input[name="action"]:checked');
+    var action = actionElement ? actionElement.value : "";
+
+    if (currentPackage.metadata.kind === "archive") {
+      if (action === "browse") showTree();
+      else await extractArchive();
+    } else {
+      if (action === "download") downloadSingleFile();
+      else openSingleFile();
+    }
+
+    unlockButton.textContent = "Decrypted";
+  } catch (error) {
+    console.error(error);
+    errorBox.textContent =
+      "Wrong passphrase, damaged file, or unsupported encrypted format.";
+    passphraseInput.select();
+    unlockButton.disabled = false;
+    unlockButton.textContent = "Decrypt";
+  }
+});
+
+window.addEventListener("beforeunload", function() {
+  activeUrls.forEach(function(url) { URL.revokeObjectURL(url); });
+});
+<\/script>
+</body>
+</html>`;
+}
+
+function ensureHtmlName(name) {
+  const clean = String(name || "").trim() || "protected-file.crypt.html";
+  return /\.html?$/i.test(clean) ? clean : clean + ".html";
+}
+
+createButton.addEventListener("click", async () => {
+  setStatus(createStatus, "");
+  const descriptor = packageDescriptor();
+  const password = pass1.value;
+  const confirmation = pass2.value;
+
+  if (!crypto || !crypto.subtle) {
+    setStatus(createStatus, "This browser does not provide Web Crypto.", "error");
+    return;
+  }
+
+  if (!descriptor.entries.length) {
+    setStatus(createStatus, "Add at least one file or folder.", "error");
+    return;
+  }
+
+  if (password.length < 8) {
+    setStatus(createStatus, "Use a passphrase of at least 8 characters.", "error");
+    return;
+  }
+
+  if (password !== confirmation) {
+    setStatus(createStatus, "The passphrases do not match.", "error");
+    return;
+  }
+
+  createButton.disabled = true;
+  createButton.textContent = "Packaging and encrypting…";
+
+  try {
+    const built = await buildPackage(descriptor);
+    const salt = crypto.getRandomValues(new Uint8Array(16));
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const key = await deriveKey(
+      password, salt, ITERATIONS, "SHA-256", ["encrypt"]
+    );
+
+    const encrypted = await crypto.subtle.encrypt(
+      { name: "AES-GCM", iv },
+      key,
+      built.packageBytes
+    );
+
+    const publicKind = built.metadata.kind;
+    const payload = {
+      tool: "Universal Encrypted Archive Builder & Viewer",
+      version: 1,
+      publicKind,
+      algorithm: "AES-GCM",
+      hash: "SHA-256",
+      iterations: ITERATIONS,
+      salt: bytesToBase64(salt),
+      iv: bytesToBase64(iv),
+      ciphertext: bytesToBase64(new Uint8Array(encrypted)),
+      clue: String(clueInput.value || "").trim()
+    };
+
+    const protectedHtml = makeProtectedHtml(
+      payload,
+      publicKind,
+      built.metadata.name
+    );
+
+    const filename = ensureHtmlName(
+      outputName.value || suggestedOutput()
+    );
+
+    downloadBlob(
+      new Blob([protectedHtml], { type: "text/html;charset=utf-8" }),
+      filename
+    );
+
+    setStatus(
+      createStatus,
+      "Created " + filename + ". Test extraction, browsing, and file opening before deleting the originals.",
+      "ok"
+    );
+  } catch (error) {
+    console.error(error);
+    setStatus(
+      createStatus,
+      "Creation failed. The selection may be too large for available browser memory.",
+      "error"
+    );
+  } finally {
+    createButton.disabled = false;
+    createButton.textContent = "Encrypt and Download";
+  }
+});
+
+function findPayload(htmlText) {
+  const parsed = new DOMParser().parseFromString(htmlText, "text/html");
+  const ids = [CURRENT_PAYLOAD_ID].concat(LEGACY_IDS);
+
+  for (const id of ids) {
+    const element = parsed.getElementById(id);
+    if (!element) continue;
+    try {
+      return { payload: JSON.parse(element.textContent), id };
+    } catch {
+      throw new Error("The encrypted payload is damaged.");
+    }
+  }
+
+  throw new Error("No supported encrypted payload was found.");
+}
+
+function validatePayload(payload) {
+  ["salt", "iv", "ciphertext"].forEach(field => {
+    if (typeof payload[field] !== "string" || !payload[field]) {
+      throw new Error("The payload is missing " + field + ".");
+    }
+  });
+}
+
+protectedInput.addEventListener("change", async () => {
+  setStatus(openStatus, "");
+  loadedPayload = null;
+  loadedProtectedName = "";
+  protectedInfo.hidden = true;
+  protectedClue.hidden = true;
+  protectedInfo.textContent = "";
+  protectedClue.textContent = "";
+
+  const file = protectedInput.files && protectedInput.files[0];
+  if (!file) return;
+
+  try {
+    const found = findPayload(await file.text());
+    validatePayload(found.payload);
+    loadedPayload = found.payload;
+    loadedProtectedName = file.name;
+
+    protectedInfo.textContent =
+      "Selected: " + file.name + "\n" +
+      "Size: " + formatBytes(file.size) + "\n" +
+      "Format marker: " + found.id + "\n" +
+      "Declared type: " + (found.payload.publicKind || found.payload.mode || "legacy");
+    protectedInfo.hidden = false;
+
+    if (typeof found.payload.clue === "string" && found.payload.clue.trim()) {
+      protectedClue.textContent = "Clue: " + found.payload.clue;
+      protectedClue.hidden = false;
+    }
+
+    setStatus(openStatus, "Protected file recognized.", "ok");
+  } catch (error) {
+    setStatus(openStatus, error.message || "Could not read the file.", "error");
+  }
+});
+
+async function decryptLoadedPayload(payload, password) {
+  const salt = base64ToBytes(payload.salt);
+  const iv = base64ToBytes(payload.iv);
+  const ciphertext = base64ToBytes(payload.ciphertext);
+  const key = await deriveKey(
+    password,
+    salt,
+    Number(payload.iterations) || ITERATIONS,
+    payload.hash || "SHA-256",
+    ["decrypt"]
+  );
+
+  const plain = await crypto.subtle.decrypt(
+    { name: payload.algorithm || "AES-GCM", iv },
+    key,
+    ciphertext
+  );
+
+  return new Uint8Array(plain);
+}
+
+openButton.addEventListener("click", async () => {
+  setStatus(openStatus, "");
+
+  if (!loadedPayload) {
+    setStatus(openStatus, "Choose a supported protected HTML file.", "error");
+    return;
+  }
+
+  if (!openPass.value) {
+    setStatus(openStatus, "Enter the passphrase.", "error");
+    return;
+  }
+
+  openButton.disabled = true;
+  openButton.textContent = "Decrypting…";
+
+  try {
+    const plainBytes = await decryptLoadedPayload(loadedPayload, openPass.value);
+    let pkg;
+
+    try {
+      pkg = unpackPackage(plainBytes);
+    } catch {
+      // Earliest HTML protector stored raw HTML rather than packaged metadata.
+      const fallbackName =
+        loadedPayload.originalFilename ||
+        loadedProtectedName
+          .replace(/-protected\.html?$/i, ".html")
+          .replace(/\.crypt\.html?$/i, "")
+          .replace(/\.html?$/i, "-decrypted.html");
+
+      downloadBlob(
+        new Blob([plainBytes], { type: "text/html;charset=utf-8" }),
+        fallbackName || "recovered.html"
+      );
+
+      setStatus(openStatus, "Decrypted and downloaded " + fallbackName + ".", "ok");
+      return;
+    }
+
+    if (pkg.metadata.kind === "file") {
+      const entry = pkg.metadata.entries[0];
+      downloadBlob(
+        new Blob([entryBytes(pkg, entry)], {
+          type: entry.type || "application/octet-stream"
+        }),
+        entry.name || entry.path
+      );
+      setStatus(openStatus, "Decrypted and downloaded " + entry.name + ".", "ok");
+      return;
+    }
+
+    // Existing archive opened through the creator tool: provide a ZIP.
+    const oldPackage = window.__tempArchivePackage;
+    window.__tempArchivePackage = pkg;
+
+    // Inline ZIP writer for the creator-side extractor.
+    const zipBlob = makeZipForPackage(pkg);
+    const zipName = String(pkg.metadata.name || "archive") + ".zip";
+    downloadBlob(zipBlob, zipName);
+    window.__tempArchivePackage = oldPackage;
+
+    setStatus(openStatus, "Decrypted archive and downloaded " + zipName + ".", "ok");
+  } catch (error) {
+    console.error(error);
+    setStatus(
+      openStatus,
+      "Wrong passphrase, damaged file, or unsupported encrypted format.",
+      "error"
+    );
+    openPass.select();
+  } finally {
+    openButton.disabled = false;
+    openButton.textContent = "Decrypt";
+  }
+});
+
+let creatorCrcTable = null;
+
+function creatorCrc32(bytes) {
+  if (!creatorCrcTable) {
+    creatorCrcTable = new Uint32Array(256);
+    for (let n = 0; n < 256; n++) {
+      let c = n;
+      for (let k = 0; k < 8; k++) {
+        c = (c & 1) ? (0xEDB88320 ^ (c >>> 1)) : (c >>> 1);
+      }
+      creatorCrcTable[n] = c >>> 0;
+    }
+  }
+
+  let crc = 0 ^ (-1);
+  for (let i = 0; i < bytes.length; i++) {
+    crc = (crc >>> 8) ^ creatorCrcTable[(crc ^ bytes[i]) & 0xFF];
+  }
+  return (crc ^ (-1)) >>> 0;
+}
+
+function creatorDosDateTime(timestamp) {
+  const date = timestamp ? new Date(timestamp) : new Date();
+  const year = Math.max(1980, date.getFullYear());
+  return {
+    time:
+      ((date.getHours() & 31) << 11) |
+      ((date.getMinutes() & 63) << 5) |
+      (Math.floor(date.getSeconds() / 2) & 31),
+    date:
+      (((year - 1980) & 127) << 9) |
+      (((date.getMonth() + 1) & 15) << 5) |
+      (date.getDate() & 31)
+  };
+}
+
+function makeZipForPackage(pkg) {
+  const localParts = [];
+  const centralParts = [];
+  let localOffset = 0;
+
+  pkg.metadata.entries.forEach(entry => {
+    const fileBytes = entryBytes(pkg, entry);
+    const nameBytes = encoder.encode(String(entry.path));
+    const crc = creatorCrc32(fileBytes);
+    const dt = creatorDosDateTime(entry.lastModified);
+
+    const local = new Uint8Array(30 + nameBytes.length);
+    const lv = new DataView(local.buffer);
+    lv.setUint32(0, 0x04034b50, true);
+    lv.setUint16(4, 20, true);
+    lv.setUint16(6, 0x0800, true);
+    lv.setUint16(8, 0, true);
+    lv.setUint16(10, dt.time, true);
+    lv.setUint16(12, dt.date, true);
+    lv.setUint32(14, crc, true);
+    lv.setUint32(18, fileBytes.length, true);
+    lv.setUint32(22, fileBytes.length, true);
+    lv.setUint16(26, nameBytes.length, true);
+    lv.setUint16(28, 0, true);
+    local.set(nameBytes, 30);
+    localParts.push(local, fileBytes);
+
+    const central = new Uint8Array(46 + nameBytes.length);
+    const cv = new DataView(central.buffer);
+    cv.setUint32(0, 0x02014b50, true);
+    cv.setUint16(4, 20, true);
+    cv.setUint16(6, 20, true);
+    cv.setUint16(8, 0x0800, true);
+    cv.setUint16(10, 0, true);
+    cv.setUint16(12, dt.time, true);
+    cv.setUint16(14, dt.date, true);
+    cv.setUint32(16, crc, true);
+    cv.setUint32(20, fileBytes.length, true);
+    cv.setUint32(24, fileBytes.length, true);
+    cv.setUint16(28, nameBytes.length, true);
+    cv.setUint16(30, 0, true);
+    cv.setUint16(32, 0, true);
+    cv.setUint16(34, 0, true);
+    cv.setUint16(36, 0, true);
+    cv.setUint32(38, 0, true);
+    cv.setUint32(42, localOffset, true);
+    central.set(nameBytes, 46);
+    centralParts.push(central);
+
+    localOffset += local.length + fileBytes.length;
+  });
+
+  const centralSize = centralParts.reduce((sum, part) => sum + part.length, 0);
+  const end = new Uint8Array(22);
+  const ev = new DataView(end.buffer);
+  ev.setUint32(0, 0x06054b50, true);
+  ev.setUint16(8, pkg.metadata.entries.length, true);
+  ev.setUint16(10, pkg.metadata.entries.length, true);
+  ev.setUint32(12, centralSize, true);
+  ev.setUint32(16, localOffset, true);
+
+  return new Blob(localParts.concat(centralParts, [end]), {
+    type: "application/zip"
+  });
+}
+</script>
+</body>
+</html>
