@@ -1,0 +1,812 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Communication Boundaries Card Generator</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #eef2f7;
+    --panel: #ffffff;
+    --text: #172033;
+    --muted: #667085;
+    --border: #d6dde8;
+    --accent: #b91c1c;
+    --button: #2563eb;
+    --button-hover: #1d4ed8;
+    --soft: #f7f9fc;
+    --ok: #087443;
+    --error: #b42318;
+    --shadow: 0 20px 55px rgba(15, 23, 42, .12);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1420;
+      --panel: #151f2f;
+      --text: #eef3fa;
+      --muted: #9aa8ba;
+      --border: #344156;
+      --button: #4f8ff7;
+      --button-hover: #74a7fa;
+      --soft: #101827;
+      --ok: #70daa7;
+      --error: #ff9a91;
+      --shadow: 0 20px 55px rgba(0,0,0,.34);
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    padding: 22px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .app {
+    width: min(1180px, 100%);
+    margin: 0 auto;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 22px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  header {
+    padding: 26px 28px;
+    border-bottom: 1px solid var(--border);
+  }
+  h1 { margin: 0 0 7px; font-size: clamp(1.7rem, 4vw, 2.45rem); }
+  h2 { margin: 0 0 14px; font-size: 1.18rem; }
+  p { line-height: 1.5; }
+  header p, .muted { margin: 0; color: var(--muted); }
+  main {
+    display: grid;
+    grid-template-columns: minmax(330px, .8fr) minmax(420px, 1.2fr);
+    gap: 24px;
+    padding: 26px 28px 30px;
+  }
+  .panel {
+    min-width: 0;
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 18px;
+    background: color-mix(in srgb, var(--panel) 92%, var(--soft));
+  }
+  label, legend { font-weight: 750; }
+  label { display: block; margin: 15px 0 6px; }
+  label:first-child { margin-top: 0; }
+  input, select, textarea, button { font: inherit; }
+  input[type="text"], input[type="email"], input[type="url"], select, textarea {
+    width: 100%;
+    color: var(--text);
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 12px;
+  }
+  textarea { min-height: 118px; resize: vertical; line-height: 1.4; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .help { margin: 6px 0 0; font-size: .86rem; color: var(--muted); }
+  .warning {
+    margin-top: 16px;
+    padding: 12px 13px;
+    border-left: 4px solid #d97706;
+    border-radius: 9px;
+    background: color-mix(in srgb, #f59e0b 11%, transparent);
+    font-size: .88rem;
+    line-height: 1.45;
+  }
+  .preview-wrap {
+    width: 100%;
+    padding: 14px;
+    overflow: auto;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    background: repeating-conic-gradient(from 45deg, #e7ebf0 0 25%, #f7f8fa 0 50%) 0/22px 22px;
+  }
+  #cardPreview {
+    width: min(100%, 820px);
+    min-width: 520px;
+    margin: 0 auto;
+    aspect-ratio: 7 / 4;
+    background: #fff;
+    box-shadow: 0 10px 28px rgba(0,0,0,.2);
+  }
+  #cardPreview svg { display: block; width: 100%; height: 100%; }
+  .actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 16px;
+  }
+  button {
+    border: 0;
+    border-radius: 10px;
+    padding: 12px 14px;
+    cursor: pointer;
+    font-weight: 800;
+    background: var(--button);
+    color: white;
+  }
+  button:hover { background: var(--button-hover); }
+  button.secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+  button.secondary:hover { background: color-mix(in srgb, var(--text) 7%, transparent); }
+  .print-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 18px;
+    margin: 15px 0 0;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+  }
+  .print-options label { margin: 0; display: flex; gap: 7px; align-items: center; font-weight: 650; }
+  .status { min-height: 1.5em; margin: 12px 0 0; font-weight: 700; }
+  .status.ok { color: var(--ok); }
+  .status.error { color: var(--error); }
+  #printArea { display: none; }
+
+  @media (max-width: 900px) {
+    main { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 580px) {
+    body { padding: 8px; }
+    header, main { padding-left: 17px; padding-right: 17px; }
+    .row, .actions { grid-template-columns: 1fr; }
+    #cardPreview { min-width: 470px; }
+  }
+
+  @media print {
+    @page { size: letter portrait; margin: 0; }
+    body { margin: 0 !important; padding: 0 !important; background: white !important; }
+    body > *:not(#printArea) { display: none !important; }
+    #printArea { display: grid !important; background: white; }
+    #printArea.single {
+      width: 8.5in;
+      height: 11in;
+      place-items: center;
+    }
+    #printArea.sheet10 {
+      width: 7in;
+      height: 10in;
+      margin: .5in .75in;
+      grid-template-columns: repeat(2, 3.5in);
+      grid-template-rows: repeat(5, 2in);
+      gap: 0;
+    }
+    .print-card {
+      width: 3.5in;
+      height: 2in;
+      overflow: hidden;
+      outline: .25pt dashed #aaa;
+      outline-offset: -.25pt;
+      background: white;
+      break-inside: avoid;
+    }
+    .print-card svg { display: block; width: 100%; height: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Communication Boundaries Card Generator</h1>
+    <p>Create a clear written notice that declines searches, questioning, conversation, and informal contact while directing communication to a designated legal channel. Everything runs locally in this file.</p>
+  </header>
+
+  <main>
+    <section class="panel" aria-labelledby="detailsHeading">
+      <h2 id="detailsHeading">Card details</h2>
+
+      <div class="row">
+        <div>
+          <label for="displayName">Name or heading</label>
+          <input id="displayName" type="text" maxlength="70" placeholder="Your name (optional)" value="NOTICE OF NON-CONSENT">
+        </div>
+        <div>
+          <label for="email">Email address</label>
+          <input id="email" type="email" maxlength="200" autocomplete="email" placeholder="you@example.com" required>
+        </div>
+      </div>
+
+      <label for="humanUrl">Human-rights reference URL</label>
+      <input id="humanUrl" type="url" value="https://www.un.org/en/about-us/universal-declaration-of-human-rights">
+      <p class="help">The left QR code opens this reference. The default is the official U.N. declaration page.</p>
+
+      <div class="row">
+        <div>
+          <label for="wordingPreset">Wording preset</label>
+          <select id="wordingPreset">
+            <option value="formal">Non-consent and formal-channel wording (recommended)</option>
+            <option value="updated">Privacy-focused wording</option>
+            <option value="original">Original wording from photo</option>
+            <option value="custom">Custom wording</option>
+          </select>
+        </div>
+        <div>
+          <label for="headingColor">Heading color</label>
+          <input id="headingColor" type="color" value="#c1121f" style="width:100%;height:45px;padding:4px;border:1px solid var(--border);border-radius:10px;background:var(--panel)">
+        </div>
+      </div>
+
+      <label for="leftText">Left-side statement</label>
+      <textarea id="leftText"></textarea>
+
+      <label for="rightText">Right-side statement</label>
+      <textarea id="rightText"></textarea>
+
+      <div class="warning">
+        This is a personal boundary notice, not a magic legal shield or a guarantee that every sentence has legal force. It does not authorize anyone to ignore a lawful order, valid service of process, or a genuine emergency. Its purpose is to clearly withhold voluntary consent and identify the channel through which non-emergency communication will be accepted.
+      </div>
+    </section>
+
+    <section class="panel" aria-labelledby="previewHeading">
+      <h2 id="previewHeading">Preview</h2>
+      <div class="preview-wrap">
+        <div id="cardPreview" aria-label="Generated communication boundaries card preview"></div>
+      </div>
+
+      <fieldset class="print-options">
+        <legend>Print layout</legend>
+        <label><input type="radio" name="printLayout" value="single" checked> One card centered on letter paper</label>
+        <label><input type="radio" name="printLayout" value="sheet10"> Ten wallet cards on letter paper</label>
+      </fieldset>
+
+      <div class="actions">
+        <button id="printBtn" type="button">Print / Save as PDF</button>
+        <button id="pngBtn" type="button">Download PNG</button>
+        <button id="svgBtn" type="button">Download SVG</button>
+        <button id="htmlBtn" type="button">Download Digital HTML Card</button>
+        <button id="resetBtn" class="secondary" type="button">Reset</button>
+      </div>
+      <p class="help">PNG is easy to share. SVG stays razor-sharp for resizing and printing. The HTML card keeps the links clickable.</p>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+</div>
+<div id="printArea" aria-hidden="true"></div>
+
+<script>
+(() => {
+  "use strict";
+
+  const OFFICIAL_UDHR_URL = "https://www.un.org/en/about-us/universal-declaration-of-human-rights";
+  const FORMAL_LEFT = "I do not consent to any search, questioning, interview, conversation, request for information, or other voluntary interaction. I am not agreeing to discuss, explain, answer, or provide information in person, by telephone, or through informal messages. My presence, silence, receipt of a message, or refusal to respond does not constitute consent or a waiver of any right.";
+  const FORMAL_RIGHT = "All non-emergency communication must be made in writing through the email address below, through my legal representative, or by formal legal process. Do not use other channels to seek discussion, permission, information, or agreement. Nothing in this notice prevents valid service of process, compliance with a lawful court order, or necessary emergency communication; it states that I do not voluntarily consent to contact outside the designated channels.";
+  const UPDATED_LEFT = "I invoke my right to privacy under Article 12 of the Universal Declaration of Human Rights, adopted by the U.N. General Assembly in 1948. I do not consent to searches. This notice is not intended to interfere with lawful public duties; it is intended to clearly state and preserve my rights.";
+  const UPDATED_RIGHT = "If you come into possession of my personal information—including my name, address, phone number, or email address—you do not have my permission to use, release, publish, distribute, or transfer it except as authorized by law or with my written consent. Requests for permission may be sent to the email address below.";
+  const ORIGINAL_LEFT = "I invoke my right to privacy per Article 12 of the U.N. Declaration of Human Rights, ratified by the U.S.A. in 1948. Further, I do NOT consent to any searches. This is not meant to interfere with your public duties. It is meant to protect my rights.";
+  const ORIGINAL_RIGHT = "If you come into possession of my personal information, including but not limited to my name, address, phone, or e-mail address, you have no permission or authority to use, release, publish, distribute, or transfer that data or property without my written consent. If you wish to publish said information you can contact me via e-mail for my permission.";
+
+  const el = id => document.getElementById(id);
+  const displayName = el("displayName");
+  const email = el("email");
+  const humanUrl = el("humanUrl");
+  const wordingPreset = el("wordingPreset");
+  const headingColor = el("headingColor");
+  const leftText = el("leftText");
+  const rightText = el("rightText");
+  const preview = el("cardPreview");
+  const status = el("status");
+  const printArea = el("printArea");
+
+  /* ------------------------- Small self-contained QR encoder -------------------------
+     Byte mode, error correction M, versions 1-10. No network calls and no external code.
+  */
+  const RS_BLOCKS_M = {
+    1:[[26,16]],
+    2:[[44,28]],
+    3:[[70,44]],
+    4:[[50,32],[50,32]],
+    5:[[67,43],[67,43]],
+    6:[[43,27],[43,27],[43,27],[43,27]],
+    7:[[49,31],[49,31],[49,31],[49,31]],
+    8:[[60,38],[60,38],[61,39],[61,39]],
+    9:[[58,36],[58,36],[58,36],[59,37],[59,37]],
+    10:[[69,43],[69,43],[69,43],[69,43],[70,44]]
+  };
+  const ALIGNMENT = {
+    1:[], 2:[6,18], 3:[6,22], 4:[6,26], 5:[6,30],
+    6:[6,34], 7:[6,22,38], 8:[6,24,42], 9:[6,26,46], 10:[6,28,50]
+  };
+  const GF_EXP = new Array(512).fill(0);
+  const GF_LOG = new Array(256).fill(0);
+  (() => {
+    let x = 1;
+    for (let i = 0; i < 255; i++) {
+      GF_EXP[i] = x;
+      GF_LOG[x] = i;
+      x <<= 1;
+      if (x & 0x100) x ^= 0x11d;
+    }
+    for (let i = 255; i < 512; i++) GF_EXP[i] = GF_EXP[i - 255];
+  })();
+
+  function gfMul(a, b) {
+    if (a === 0 || b === 0) return 0;
+    return GF_EXP[GF_LOG[a] + GF_LOG[b]];
+  }
+  function polyMultiply(a, b) {
+    const out = new Array(a.length + b.length - 1).fill(0);
+    for (let i = 0; i < a.length; i++)
+      for (let j = 0; j < b.length; j++)
+        out[i + j] ^= gfMul(a[i], b[j]);
+    return out;
+  }
+  function generatorPolynomial(degree) {
+    let out = [1];
+    for (let i = 0; i < degree; i++) out = polyMultiply(out, [1, GF_EXP[i]]);
+    return out;
+  }
+  function reedSolomon(data, eccCount) {
+    const gen = generatorPolynomial(eccCount);
+    const work = data.concat(new Array(eccCount).fill(0));
+    for (let i = 0; i < data.length; i++) {
+      const factor = work[i];
+      if (factor === 0) continue;
+      for (let j = 0; j < gen.length; j++) work[i + j] ^= gfMul(gen[j], factor);
+    }
+    return work.slice(data.length);
+  }
+  class BitBuffer {
+    constructor() { this.bits = []; }
+    put(num, length) {
+      for (let i = length - 1; i >= 0; i--) this.bits.push(((num >>> i) & 1) === 1);
+    }
+    putBit(bit) { this.bits.push(Boolean(bit)); }
+    toBytes() {
+      const bytes = [];
+      for (let i = 0; i < this.bits.length; i += 8) {
+        let value = 0;
+        for (let j = 0; j < 8; j++) if (this.bits[i + j]) value |= 0x80 >>> j;
+        bytes.push(value);
+      }
+      return bytes;
+    }
+  }
+  function bchDigit(data) {
+    let digit = 0;
+    while (data !== 0) { digit++; data >>>= 1; }
+    return digit;
+  }
+  function bchTypeInfo(data) {
+    let d = data << 10;
+    const g = 0x537;
+    while (bchDigit(d) - bchDigit(g) >= 0) d ^= g << (bchDigit(d) - bchDigit(g));
+    return ((data << 10) | d) ^ 0x5412;
+  }
+  function bchTypeNumber(data) {
+    let d = data << 12;
+    const g = 0x1f25;
+    while (bchDigit(d) - bchDigit(g) >= 0) d ^= g << (bchDigit(d) - bchDigit(g));
+    return (data << 12) | d;
+  }
+  function totalDataCodewords(version) {
+    return RS_BLOCKS_M[version].reduce((sum, block) => sum + block[1], 0);
+  }
+  function selectVersion(byteLength) {
+    for (let version = 1; version <= 10; version++) {
+      const countBits = version < 10 ? 8 : 16;
+      if (4 + countBits + byteLength * 8 <= totalDataCodewords(version) * 8) return version;
+    }
+    throw new Error("QR content is too long. Keep the email and reference URL under about 200 characters.");
+  }
+  function makeDataCodewords(bytes, version) {
+    const capacityBytes = totalDataCodewords(version);
+    const capacityBits = capacityBytes * 8;
+    const buffer = new BitBuffer();
+    buffer.put(0b0100, 4); // byte mode
+    buffer.put(bytes.length, version < 10 ? 8 : 16);
+    bytes.forEach(byte => buffer.put(byte, 8));
+    for (let i = 0; i < Math.min(4, capacityBits - buffer.bits.length); i++) buffer.putBit(false);
+    while (buffer.bits.length % 8 !== 0) buffer.putBit(false);
+    const out = buffer.toBytes();
+    const pads = [0xec, 0x11];
+    let padIndex = 0;
+    while (out.length < capacityBytes) out.push(pads[padIndex++ % 2]);
+    return out;
+  }
+  function interleaveCodewords(dataCodewords, version) {
+    const blocks = RS_BLOCKS_M[version];
+    const dataBlocks = [];
+    const eccBlocks = [];
+    let offset = 0;
+    for (const [totalCount, dataCount] of blocks) {
+      const blockData = dataCodewords.slice(offset, offset + dataCount);
+      offset += dataCount;
+      dataBlocks.push(blockData);
+      eccBlocks.push(reedSolomon(blockData, totalCount - dataCount));
+    }
+    const result = [];
+    const maxData = Math.max(...dataBlocks.map(b => b.length));
+    const maxEcc = Math.max(...eccBlocks.map(b => b.length));
+    for (let i = 0; i < maxData; i++) for (const block of dataBlocks) if (i < block.length) result.push(block[i]);
+    for (let i = 0; i < maxEcc; i++) for (const block of eccBlocks) if (i < block.length) result.push(block[i]);
+    return result;
+  }
+  function setupFinder(modules, row, col) {
+    const n = modules.length;
+    for (let r = -1; r <= 7; r++) {
+      if (row + r < 0 || row + r >= n) continue;
+      for (let c = -1; c <= 7; c++) {
+        if (col + c < 0 || col + c >= n) continue;
+        const dark = (r >= 0 && r <= 6 && (c === 0 || c === 6)) ||
+                     (c >= 0 && c <= 6 && (r === 0 || r === 6)) ||
+                     (r >= 2 && r <= 4 && c >= 2 && c <= 4);
+        modules[row + r][col + c] = dark;
+      }
+    }
+  }
+  function setupAlignment(modules, version) {
+    const positions = ALIGNMENT[version];
+    for (const row of positions) for (const col of positions) {
+      if (modules[row][col] !== null) continue;
+      for (let r = -2; r <= 2; r++) for (let c = -2; c <= 2; c++)
+        modules[row + r][col + c] = Math.max(Math.abs(r), Math.abs(c)) !== 1;
+    }
+  }
+  function setupTiming(modules) {
+    const n = modules.length;
+    for (let r = 8; r < n - 8; r++) if (modules[r][6] === null) modules[r][6] = r % 2 === 0;
+    for (let c = 8; c < n - 8; c++) if (modules[6][c] === null) modules[6][c] = c % 2 === 0;
+  }
+  function setupTypeNumber(modules, version) {
+    if (version < 7) return;
+    const n = modules.length;
+    const bits = bchTypeNumber(version);
+    for (let i = 0; i < 18; i++) {
+      const dark = ((bits >>> i) & 1) === 1;
+      modules[Math.floor(i / 3)][i % 3 + n - 11] = dark;
+      modules[i % 3 + n - 11][Math.floor(i / 3)] = dark;
+    }
+  }
+  function setupTypeInfo(modules, maskPattern) {
+    const n = modules.length;
+    const errorCorrectionM = 0;
+    const bits = bchTypeInfo((errorCorrectionM << 3) | maskPattern);
+    for (let i = 0; i < 15; i++) {
+      const dark = ((bits >>> i) & 1) === 1;
+      if (i < 6) modules[i][8] = dark;
+      else if (i < 8) modules[i + 1][8] = dark;
+      else modules[n - 15 + i][8] = dark;
+    }
+    for (let i = 0; i < 15; i++) {
+      const dark = ((bits >>> i) & 1) === 1;
+      if (i < 8) modules[8][n - i - 1] = dark;
+      else if (i < 9) modules[8][15 - i] = dark;
+      else modules[8][14 - i] = dark;
+    }
+    modules[n - 8][8] = true;
+  }
+  function mapData(modules, codewords, maskPattern) {
+    const n = modules.length;
+    let row = n - 1;
+    let direction = -1;
+    let byteIndex = 0;
+    let bitIndex = 7;
+    const mask = (r, c) => {
+      switch (maskPattern) {
+        case 0: return (r + c) % 2 === 0;
+        case 1: return r % 2 === 0;
+        case 2: return c % 3 === 0;
+        case 3: return (r + c) % 3 === 0;
+        case 4: return (Math.floor(r / 2) + Math.floor(c / 3)) % 2 === 0;
+        case 5: return (r * c) % 2 + (r * c) % 3 === 0;
+        case 6: return ((r * c) % 2 + (r * c) % 3) % 2 === 0;
+        case 7: return ((r * c) % 3 + (r + c) % 2) % 2 === 0;
+        default: return false;
+      }
+    };
+    for (let col = n - 1; col > 0; col -= 2) {
+      if (col === 6) col--;
+      while (true) {
+        for (let offset = 0; offset < 2; offset++) {
+          const c = col - offset;
+          if (modules[row][c] !== null) continue;
+          let dark = false;
+          if (byteIndex < codewords.length) dark = ((codewords[byteIndex] >>> bitIndex) & 1) === 1;
+          if (mask(row, c)) dark = !dark;
+          modules[row][c] = dark;
+          bitIndex--;
+          if (bitIndex < 0) { byteIndex++; bitIndex = 7; }
+        }
+        row += direction;
+        if (row < 0 || row >= n) {
+          row -= direction;
+          direction = -direction;
+          break;
+        }
+      }
+    }
+  }
+  function makeQrMatrix(text) {
+    const bytes = Array.from(new TextEncoder().encode(text));
+    const version = selectVersion(bytes.length);
+    const data = makeDataCodewords(bytes, version);
+    const codewords = interleaveCodewords(data, version);
+    const n = 17 + version * 4;
+    const modules = Array.from({length:n}, () => Array(n).fill(null));
+    setupFinder(modules, 0, 0);
+    setupFinder(modules, n - 7, 0);
+    setupFinder(modules, 0, n - 7);
+    setupAlignment(modules, version);
+    setupTiming(modules);
+    setupTypeNumber(modules, version);
+    setupTypeInfo(modules, 0);
+    mapData(modules, codewords, 0);
+    return modules;
+  }
+
+  function escapeXml(value) {
+    return String(value).replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&apos;"}[char]));
+  }
+  function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[char]));
+  }
+  function safeHref(value) { return escapeXml(value); }
+  function slugify(value) {
+    return (value || "privacy-card").toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 60) || "privacy-card";
+  }
+  function setStatus(message, kind = "") {
+    status.textContent = message;
+    status.className = "status" + (kind ? " " + kind : "");
+  }
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+  }
+
+  const measureCanvas = document.createElement("canvas");
+  const measureCtx = measureCanvas.getContext("2d");
+  function wrapText(text, maxWidth, fontSize, weight = 400) {
+    measureCtx.font = `${weight} ${fontSize}px Arial, Helvetica, sans-serif`;
+    const paragraphs = String(text).split(/\n+/);
+    const lines = [];
+    paragraphs.forEach((paragraph, pIndex) => {
+      const words = paragraph.trim().split(/\s+/).filter(Boolean);
+      if (!words.length) { lines.push(""); return; }
+      let line = words.shift();
+      for (const word of words) {
+        const test = line + " " + word;
+        if (measureCtx.measureText(test).width <= maxWidth) line = test;
+        else { lines.push(line); line = word; }
+      }
+      lines.push(line);
+      if (pIndex < paragraphs.length - 1) lines.push("");
+    });
+    return lines;
+  }
+  function fitText(text, maxWidth, maxHeight, startSize, minSize, weight = 400, lineRatio = 1.16) {
+    for (let size = startSize; size >= minSize; size -= .5) {
+      const lines = wrapText(text, maxWidth, size, weight);
+      if (lines.length * size * lineRatio <= maxHeight) return {size, lines, lineHeight:size * lineRatio};
+    }
+    const lines = wrapText(text, maxWidth, minSize, weight);
+    return {size:minSize, lines, lineHeight:minSize * lineRatio};
+  }
+  function textSvg(lines, x, y, fontSize, lineHeight, options = {}) {
+    const weight = options.weight || 400;
+    const fill = options.fill || "#111111";
+    const anchor = options.anchor || "start";
+    const family = options.family || "Arial, Helvetica, sans-serif";
+    return `<text x="${x}" y="${y}" font-family="${escapeXml(family)}" font-size="${fontSize}" font-weight="${weight}" fill="${fill}" text-anchor="${anchor}">` +
+      lines.map((line, index) => `<tspan x="${x}" dy="${index === 0 ? 0 : lineHeight}">${escapeXml(line)}</tspan>`).join("") +
+      `</text>`;
+  }
+  function qrSvg(matrix, x, y, size, href, title) {
+    const quiet = 4;
+    const count = matrix.length;
+    const scale = size / (count + quiet * 2);
+    let rects = `<rect x="${x}" y="${y}" width="${size}" height="${size}" fill="#fff"/>`;
+    for (let r = 0; r < count; r++) for (let c = 0; c < count; c++) if (matrix[r][c]) {
+      const rx = x + (c + quiet) * scale;
+      const ry = y + (r + quiet) * scale;
+      rects += `<rect x="${rx.toFixed(3)}" y="${ry.toFixed(3)}" width="${(scale + .03).toFixed(3)}" height="${(scale + .03).toFixed(3)}" fill="#000"/>`;
+    }
+    return `<a href="${safeHref(href)}" target="_blank"><title>${escapeXml(title)}</title><g shape-rendering="crispEdges">${rects}</g></a>`;
+  }
+
+  function getCardValues(requireEmail = false) {
+    const name = (displayName.value.trim() || "NOTICE OF NON-CONSENT").toUpperCase();
+    const mail = email.value.trim();
+    const refUrl = humanUrl.value.trim() || OFFICIAL_UDHR_URL;
+    if (requireEmail && (!mail || !email.checkValidity())) throw new Error("Enter a valid email address first.");
+    try { new URL(refUrl); } catch { throw new Error("Enter a valid human-rights reference URL."); }
+    const shownEmail = mail || "you@example.com";
+    return {
+      name,
+      email: shownEmail,
+      mailto: `mailto:${shownEmail}`,
+      humanUrl: refUrl,
+      headingColor: headingColor.value || "#c1121f",
+      leftText: leftText.value.trim() || FORMAL_LEFT,
+      rightText: rightText.value.trim() || FORMAL_RIGHT
+    };
+  }
+
+  function createCardSvg(values) {
+    const W = 1050, H = 600;
+    const leftQr = makeQrMatrix(values.humanUrl);
+    const rightQr = makeQrMatrix(values.mailto);
+
+    const headingFit = fitText(values.name, 630, 45, 38, 24, 700, 1.05);
+    const leftFit = fitText(values.leftText, 625, 285, 27, 18, 400, 1.16);
+    const rightFit = fitText(values.rightText, 310, 330, 25, 17, 400, 1.16);
+    const leftLabelFit = fitText("Article 12 — U.N. Declaration of Human Rights", 455, 58, 24, 16, 700, 1.08);
+    const emailFit = fitText(values.mailto, 285, 48, 22, 12, 700, 1.08);
+
+    return `<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-labelledby="cardTitle cardDesc">
+  <title id="cardTitle">${escapeXml(values.name)} communication boundaries card</title>
+  <desc id="cardDesc">Notice of non-consent and designated communication channels with a human-rights reference QR code and an email QR code.</desc>
+  <rect width="${W}" height="${H}" rx="10" fill="#fff"/>
+  <rect x="2" y="2" width="${W-4}" height="${H-4}" rx="9" fill="none" stroke="#dadada" stroke-width="3"/>
+  ${textSvg(headingFit.lines, 38, 47, headingFit.size, headingFit.lineHeight, {weight:700, fill:values.headingColor})}
+  ${textSvg(leftFit.lines, 38, 88, leftFit.size, leftFit.lineHeight, {weight:400})}
+  ${textSvg(rightFit.lines, 708, 43, rightFit.size, rightFit.lineHeight, {weight:400})}
+  ${qrSvg(leftQr, 38, 404, 158, values.humanUrl, "Open the Universal Declaration of Human Rights")}
+  ${textSvg(leftLabelFit.lines, 214, 468, leftLabelFit.size, leftLabelFit.lineHeight, {weight:700})}
+  ${qrSvg(rightQr, 784, 392, 158, values.mailto, `Email ${values.email}`)}
+  ${textSvg(emailFit.lines, 863, 562, emailFit.size, emailFit.lineHeight, {weight:700, anchor:"middle"})}
+</svg>`;
+  }
+
+  function updatePreview() {
+    try {
+      const values = getCardValues(false);
+      preview.innerHTML = createCardSvg(values).replace(/^<\?xml[^>]*>\s*/, "");
+      setStatus(email.value.trim() && email.checkValidity() ? "Card updated." : "Enter an email address when you are ready to download or print.", email.value.trim() && email.checkValidity() ? "ok" : "");
+    } catch (error) {
+      setStatus(error.message, "error");
+    }
+  }
+
+  function applyPreset() {
+    if (wordingPreset.value === "formal") {
+      leftText.value = FORMAL_LEFT;
+      rightText.value = FORMAL_RIGHT;
+    } else if (wordingPreset.value === "updated") {
+      leftText.value = UPDATED_LEFT;
+      rightText.value = UPDATED_RIGHT;
+    } else if (wordingPreset.value === "original") {
+      leftText.value = ORIGINAL_LEFT;
+      rightText.value = ORIGINAL_RIGHT;
+    }
+    updatePreview();
+  }
+
+  function svgToPng(svg, width, height) {
+    return new Promise((resolve, reject) => {
+      const blob = new Blob([svg], {type:"image/svg+xml;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const image = new Image();
+      image.onload = () => {
+        try {
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          ctx.fillStyle = "#fff";
+          ctx.fillRect(0, 0, width, height);
+          ctx.drawImage(image, 0, 0, width, height);
+          canvas.toBlob(png => {
+            URL.revokeObjectURL(url);
+            if (png) resolve(png); else reject(new Error("Could not create PNG."));
+          }, "image/png");
+        } catch (error) { URL.revokeObjectURL(url); reject(error); }
+      };
+      image.onerror = () => { URL.revokeObjectURL(url); reject(new Error("Could not render card image.")); };
+      image.src = url;
+    });
+  }
+
+  function buildDigitalHtml(values, svg) {
+    const title = `${values.name} — Communication Boundaries Card`;
+    return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${escapeHtml(title)}</title>
+<style>
+  *{box-sizing:border-box} body{margin:0;min-height:100vh;padding:18px;display:grid;place-items:center;background:#eef2f7;font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#172033}
+  main{width:min(980px,100%)} .card{width:100%;aspect-ratio:7/4;background:#fff;box-shadow:0 18px 50px rgba(15,23,42,.22)} .card svg{display:block;width:100%;height:100%}
+  nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:16px} nav a{padding:10px 13px;border-radius:9px;text-decoration:none;background:#2563eb;color:white;font-weight:750}
+  p{text-align:center;color:#667085;font-size:.9rem} @media(max-width:560px){body{padding:8px} main{min-width:470px;overflow:auto}}
+</style>
+</head>
+<body>
+<main>
+  <div class="card">${svg.replace(/^<\?xml[^>]*>\s*/, "")}</div>
+  <nav>
+    <a href="${escapeHtml(values.humanUrl)}" target="_blank" rel="noopener">Open human-rights reference</a>
+    <a href="${escapeHtml(values.mailto)}">Email ${escapeHtml(values.email)}</a>
+  </nav>
+  <p>The QR codes and buttons contain the same links.</p>
+</main>
+</body>
+</html>`;
+  }
+
+  [displayName, email, humanUrl, headingColor, leftText, rightText].forEach(control => {
+    control.addEventListener("input", () => {
+      if (control === leftText || control === rightText) wordingPreset.value = "custom";
+      updatePreview();
+    });
+  });
+  wordingPreset.addEventListener("change", applyPreset);
+
+  el("printBtn").addEventListener("click", () => {
+    try {
+      const values = getCardValues(true);
+      const svg = createCardSvg(values).replace(/^<\?xml[^>]*>\s*/, "");
+      const layout = document.querySelector('input[name="printLayout"]:checked').value;
+      const count = layout === "sheet10" ? 10 : 1;
+      printArea.className = layout;
+      printArea.innerHTML = Array.from({length:count}, () => `<div class="print-card">${svg}</div>`).join("");
+      setStatus("Opening the print dialog. Choose a printer or Save as PDF.", "ok");
+      setTimeout(() => window.print(), 40);
+    } catch (error) { setStatus(error.message, "error"); }
+  });
+
+  el("svgBtn").addEventListener("click", () => {
+    try {
+      const values = getCardValues(true);
+      const svg = createCardSvg(values);
+      downloadBlob(new Blob([svg], {type:"image/svg+xml;charset=utf-8"}), `${slugify(values.name)}-privacy-card.svg`);
+      setStatus("SVG downloaded.", "ok");
+    } catch (error) { setStatus(error.message, "error"); }
+  });
+
+  el("pngBtn").addEventListener("click", async () => {
+    try {
+      const values = getCardValues(true);
+      setStatus("Creating high-resolution PNG…");
+      const png = await svgToPng(createCardSvg(values), 2100, 1200);
+      downloadBlob(png, `${slugify(values.name)}-privacy-card.png`);
+      setStatus("PNG downloaded.", "ok");
+    } catch (error) { setStatus(error.message, "error"); }
+  });
+
+  el("htmlBtn").addEventListener("click", () => {
+    try {
+      const values = getCardValues(true);
+      const svg = createCardSvg(values);
+      const html = buildDigitalHtml(values, svg);
+      downloadBlob(new Blob([html], {type:"text/html;charset=utf-8"}), `${slugify(values.name)}-privacy-card.html`);
+      setStatus("Interactive HTML card downloaded.", "ok");
+    } catch (error) { setStatus(error.message, "error"); }
+  });
+
+  el("resetBtn").addEventListener("click", () => {
+    displayName.value = "NOTICE OF NON-CONSENT";
+    email.value = "";
+    humanUrl.value = OFFICIAL_UDHR_URL;
+    headingColor.value = "#c1121f";
+    wordingPreset.value = "formal";
+    leftText.value = FORMAL_LEFT;
+    rightText.value = FORMAL_RIGHT;
+    updatePreview();
+  });
+
+  window.addEventListener("afterprint", () => { printArea.innerHTML = ""; printArea.className = ""; });
+
+  leftText.value = FORMAL_LEFT;
+  rightText.value = FORMAL_RIGHT;
+  updatePreview();
+})();
+</script>
+</body>
+</html>
